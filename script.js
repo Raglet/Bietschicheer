@@ -17,7 +17,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Bar Cipolla</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -27,7 +27,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Garage Diego Zenhäusern</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -37,7 +37,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Parkplatz Maxenhaus</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -47,7 +47,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Burgersaal</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -57,7 +57,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Stall vis-a-vis Burgersaal</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -67,7 +67,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Platz vor Jublagarage</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -77,7 +77,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Gemeinde Partylokal</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -87,7 +87,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Parking Gemeinde</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -97,7 +97,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Restaurant Rilke</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -107,7 +107,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Garage Chez Karlen</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -117,7 +117,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Letzte Festung</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -127,7 +127,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Stall des Paten</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -137,7 +137,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>LM LaserArt Eventtechnik</h2><p><a href="">www.samisbest.com</a></p>'
     ],
 
     [
@@ -147,7 +147,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        "Beschreibung zu Verein wie z.B. Website"
+        '<h2>Beck</h2><p><a href="">www.samisbest.com</a></p>'
     ],
   ]; 
 
