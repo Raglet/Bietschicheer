@@ -229,8 +229,8 @@ function initMap() {
     position: { lat: 46.311470, lng: 7.799396 },
     map: map,
     icon: {
-        url: "images/Bühne.png",
-        scaledSize: new google.maps.Size(30, 25),
+        url: "images/Band.png",
+        scaledSize: new google.maps.Size(38, 35),
         optimized: false 
     },
     
@@ -269,6 +269,14 @@ function initMap() {
       anchor: sanität,
       map,
     });
+  });
+
+  google.maps.event.addListener(map, "zoom_changed", function() {
+    if (map.getZoom() < 14) {
+        sanität.setVisible(false);
+    } else {
+        sanität.setVisible(true);
+    }
   });
 
 
