@@ -272,7 +272,7 @@ function initMap() {
   });
 
   google.maps.event.addListener(map, "zoom_changed", function() {
-    if (map.getZoom() < 14) {
+    if (map.getZoom() < 16) {
         sanität.setVisible(false);
     } else {
         sanität.setVisible(true);
