@@ -3,7 +3,7 @@ var map;
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 46.311449, lng: 7.799834 }, // Dorfplatz Raron
-    zoom: 14, // 18 für Fest
+    zoom: 18, // 18 für Fest
     mapId: 'a32a14914e374824'
   });
 
