@@ -13,7 +13,7 @@ function initMap() {
         "Bar Cipolla",
         46.311364,
         7.800744,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Bar Cipolla</h2><p><a href="">www.samisbest.com</a></p>'
@@ -23,7 +23,7 @@ function initMap() {
         "Garage Diego Zenhäusern",
         46.311370,
         7.800530,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Garage Diego Zenhäusern</h2><p><a href="">www.samisbest.com</a></p>'
@@ -33,7 +33,7 @@ function initMap() {
         "Parkplatz Maxenhaus",
         46.311759,
         7.800428,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Parkplatz Maxenhaus</h2><p><a href="">www.samisbest.com</a></p>'
@@ -43,7 +43,7 @@ function initMap() {
         "Burgersaal",
         46.311560,
         7.800238,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Burgersaal</h2><p><a href="">www.samisbest.com</a></p>'
@@ -53,7 +53,7 @@ function initMap() {
         "Stall vis-a-vis Burgersaal",
         46.311605,
         7.800008,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Stall vis-a-vis Burgersaal</h2><p><a href="">www.samisbest.com</a></p>'
@@ -63,7 +63,7 @@ function initMap() {
         "Platz vor Jublagarage",
         46.311493,
         7.800209,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Platz vor Jublagarage</h2><p><a href="">www.samisbest.com</a></p>'
@@ -73,7 +73,7 @@ function initMap() {
         "Gemeinde Partylokal",
         46.311434,
         7.800057,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Gemeinde Partylokal</h2><p><a href="">www.samisbest.com</a></p>'
@@ -83,7 +83,7 @@ function initMap() {
         "Parking Gemeinde",
         46.311473,
         7.799713,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Parking Gemeinde</h2><p><a href="">www.samisbest.com</a></p>'
@@ -93,7 +93,7 @@ function initMap() {
         "Garage Chez Karlen",
         46.311291,
         7.799512,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Garage Chez Karlen</h2><p><a href="">www.samisbest.com</a></p>'
@@ -103,7 +103,7 @@ function initMap() {
         "Letzte Festung",
         46.311278,
         7.799399,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Letzte Festung</h2><p><a href="">www.samisbest.com</a></p>'
@@ -113,7 +113,7 @@ function initMap() {
         "Stall des Paten",
         46.311035,
         7.798849,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>Stall des Paten</h2><p><a href="">www.samisbest.com</a></p>'
@@ -123,7 +123,7 @@ function initMap() {
         "LM LaserArt Eventtechnik",
         46.310865,
         7.799250,
-        "images/Gastro_2.png",
+        "images/bar.png",
         25, 
         25,
         '<h2>LM LaserArt Eventtechnik</h2><p><a href="">www.samisbest.com</a></p>'
