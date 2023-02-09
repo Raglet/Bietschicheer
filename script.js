@@ -167,7 +167,7 @@ function initMap() {
   const parking = [
     [
         "Schulhausplatz",
-        46.308343,
+        46.308303,
         7.801640,
         "images/parking.png",
         25, 
@@ -176,8 +176,8 @@ function initMap() {
 
     [
         "Kirchplatz",
-        46.310394,
-        7.802171,
+        46.310218,
+        7.802364,
         "images/parking.png",
         25, 
         25,
