@@ -323,7 +323,7 @@ function initMap() {
   });
 
   const sanität_infowindow = new google.maps.InfoWindow({
-    content: "<h3>Sanität Raron</h3><p>Kontakt: 0906 666 69 69<p>",
+    content: "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
   });
 
   sanität.addListener("click", () => {
