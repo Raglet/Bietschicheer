@@ -19,7 +19,7 @@ function initMap() {
         '<h2>Bar Cipolla</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 200.-</p>\
+        <p>Preis: CHF 300.-</p>\
         Status: Reserviert'
     ],
 
@@ -33,7 +33,7 @@ function initMap() {
         '<h2>Garage Armando</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 200.-</p>\
+        <p>Preis: CHF 300.-</p>\
         Status: Frei'
     ],
 
@@ -47,7 +47,7 @@ function initMap() {
         '<h2>Gemeinde Partylokal</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
+        <p>Preis: CHF 400.-</p>\
         Status: Frei'
     ],
 
@@ -61,7 +61,7 @@ function initMap() {
         '<h2>Parking Gemeinde</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
+        <p>Preis: CHF 400.-</p>\
         Status: Frei'
     ],
 
@@ -75,7 +75,7 @@ function initMap() {
         '<h2>Garage Chez Karlen</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 200.-</p>\
+        <p>Preis: CHF 400.-</p>\
         Status: Frei'
     ],
 
@@ -89,7 +89,7 @@ function initMap() {
         '<h2>Letzte Festung</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
+        <p>Preis: CHF 400.-</p>\
         Status: Frei'
     ],
 
@@ -103,7 +103,7 @@ function initMap() {
         '<h2>Stall des Paten</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 200.-</p>\
+        <p>Preis: CHF 300.-</p>\
         Status: Reserviert'
     ],
 
@@ -117,7 +117,7 @@ function initMap() {
         '<h2>LM LaserArt Eventtechnik</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 200.-</p>\
+        <p>Preis: CHF 300.-</p>\
         Status: Frei'
     ],
   ]; 
@@ -134,7 +134,7 @@ function initMap() {
           '<h2>Parkplatz Maxenhaus</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 200.-</p>\
+          <p>Preis: CHF 400.-</p>\
           Status: Frei'
       ],
   
@@ -148,7 +148,7 @@ function initMap() {
           '<h2>Burgersaal</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
-          <p>Preis: CHF 200.-</p>\
+          <p>Preis: CHF 400.-</p>\
           Status: Reserviert'
       ],
   
@@ -162,7 +162,7 @@ function initMap() {
           '<h2>Stall vis-a-vis Burgersaal</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 300.-</p>\
+          <p>Preis: CHF 400.-</p>\
           Status: Frei'
       ],
   
@@ -176,7 +176,7 @@ function initMap() {
           '<h2>Platz vor Jublagarage</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 200.-</p>\
+          <p>Preis: CHF 400.-</p>\
           Status: Reserviert'
       ],
     ]; 
