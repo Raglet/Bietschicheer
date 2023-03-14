@@ -11,6 +11,8 @@ function initMap() {
     mapId: 'a32a14914e374824'
   });
 
+
+  // add informations about all locations in constants
   // Bar-marker
   const drink_bars = [
     [
@@ -279,6 +281,9 @@ function initMap() {
   ];
 
 
+
+// use API to add markers
+
 // Bühne-marker ////////////////////////////////////////
   const stage = new google.maps.Marker({
     position: { lat: 46.311470, lng: 7.799396 },
@@ -507,53 +512,68 @@ function initMap() {
 
 // Place parking markers on map ////////////////////////////////////////
 
-  for (let i = 0; i < parking.length; i++){
-    const currMarker = parking[i]
+// Iterate over the `parking` array using a for loop
+for (let i = 0; i < parking.length; i++){
+  // Get the current parking marker object from the `parking` array
+  const currMarker = parking[i];
 
-    const marker = new google.maps.Marker({
-        position: { lat: currMarker[1], lng: currMarker[2] },
-        map: map,
-        title: currMarker[0],
-        icon: {
-            url: currMarker[3],
-            scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
-            optimized: false 
-        },
-      });
+  // Create a new Google Maps marker object
+  const marker = new google.maps.Marker({
+      position: { lat: currMarker[1], lng: currMarker[2] }, // Set the marker's position using latitude and longitude values
+      map: map, // Set the marker's map to be the specified `map`
+      title: currMarker[0], // Set the marker's title to the first value in the `currMarker` array
+      icon: { // Set the marker's icon using the `currMarker` array values
+          url: currMarker[3], // Set the URL of the icon image
+          scaledSize: new google.maps.Size(currMarker[4], currMarker[5]), // Set the size of the icon image
+          optimized: false // Disable icon image optimization
+      }
+  });
+
+  // Add a listener to the map's zoom_changed event
+  google.maps.event.addListener(map, "zoom_changed", function() {
+      // If the map's zoom level is less than 14, hide the marker
+      if (map.getZoom() < 14) {
+          marker.setVisible(false);
+      // Otherwise, show the marker
+      } else {
+          marker.setVisible(true);
+      }
+  });
+}
 
 
-      google.maps.event.addListener(map, "zoom_changed", function() {
-        if (map.getZoom() < 14) {
-            marker.setVisible(false);
-        } else {
-            marker.setVisible(true);
-        }
-      });
-  }
 
-// Place toilet markers on map ////////////////////////////////////////
-  for (let i = 0; i < sanitaer.length; i++){
-    const currMarker = sanitaer[i]
 
-    const marker = new google.maps.Marker({
-        position: { lat: currMarker[1], lng: currMarker[2] },
-        map: map,
-        title: currMarker[0],
-        icon: {
-            url: currMarker[3],
-            scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
-            optimized: false 
-        },
-      });
+// Places toilet markers
+// Iterate over the `sanitaer` array using a for loop
+for (let i = 0; i < sanitaer.length; i++) {
+  // Get the current toilet marker object from the `sanitaer` array
+  const currMarker = sanitaer[i];
 
-      google.maps.event.addListener(map, "zoom_changed", function() {
-        if (map.getZoom() < 17) {
-            marker.setVisible(false);
-        } else {
-            marker.setVisible(true);
-        }
-      });
-  }
+  // Create a new Google Maps marker object
+  const marker = new google.maps.Marker({
+    position: { lat: currMarker[1], lng: currMarker[2] }, // Set the marker's position using latitude and longitude values
+    map: map, // Set the marker's map to be the specified `map`
+    title: currMarker[0], // Set the marker's title to the first value in the `currMarker` array
+    icon: { // Set the marker's icon using the `currMarker` array values
+      url: currMarker[3], // Set the URL of the icon image
+      scaledSize: new google.maps.Size(currMarker[4], currMarker[5]), // Set the size of the icon image
+      optimized: false // Disable icon image optimization
+    }
+  });
+
+  // Add a listener to the map's zoom_changed event
+  google.maps.event.addListener(map, "zoom_changed", function() {
+    // If the map's zoom level is less than 17, hide the marker
+    if (map.getZoom() < 17) {
+      marker.setVisible(false);
+    // Otherwise, show the marker
+    } else {
+      marker.setVisible(true);
+    }
+  });
+}
+
 }
 
 window.initMap = initMap;
