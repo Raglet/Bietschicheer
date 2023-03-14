@@ -291,14 +291,14 @@ function initMap() {
     content: 
     '<h3>Festprogramm</h3>\
     <h3 style="margin-block-end: 3px;">Freitag</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: TripleH-B</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">18:00 Uhr - 20:00 Uhr: Riverbanks</p>\
-    <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: The Unwritten Story</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: TBA</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">18:00 Uhr - 20:00 Uhr: TBA</p>\
+    <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: TBA</p>\
     <h3 style="margin-block-end: 3px;">Samstag</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">14:00 Uhr - 16:00 Uhr: Bietschibotsche</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">14:00 Uhr - 16:00 Uhr: TBA</p>\
     <p style="margin-block-start: 3px; margin-block-end: 3px;">16:00 Uhr - 17:00 Uhr: Mini Playback Show by Jubla</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">20:00 Uhr - 21:30 Uhr: Madstone</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: TBA</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">20:00 Uhr - 21:30 Uhr: TBA</p>\
     <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: TBA</p>',
   });
 
