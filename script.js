@@ -309,6 +309,11 @@ function initMap() {
     });
   });
 
+  // Test: if click to other element, close the info window
+  stage.addListener('click', function(){
+    stage_infowindow.close(map, stage);
+});
+
 
   // Sanität-marker
   const sanität = new google.maps.Marker({
