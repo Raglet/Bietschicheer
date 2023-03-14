@@ -62,7 +62,7 @@ function initMap() {
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Frei'
+        Status: Reserviert - Verein Bietschicheer'
     ],
 
     [
