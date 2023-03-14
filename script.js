@@ -1,5 +1,9 @@
 var map;
 
+// create var for current infowindow and declare it zero
+var currentInfoWindow = null;
+
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 46.311449, lng: 7.799834 }, // Dorfplatz Raron
@@ -275,7 +279,7 @@ function initMap() {
   ];
 
 
-  // Bühne-marker
+// Bühne-marker ////////////////////////////////////////
   const stage = new google.maps.Marker({
     position: { lat: 46.311470, lng: 7.799396 },
     map: map,
@@ -287,6 +291,7 @@ function initMap() {
     
   });
 
+// Info Window
   const stage_infowindow = new google.maps.InfoWindow({
     content: 
     '<h3>Festprogramm</h3>\
@@ -302,15 +307,25 @@ function initMap() {
     <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: TBA</p>',
   });
 
+// open Info Window
   stage.addListener("click", () => {
+    if (currentInfoWindow != null) { // check if other infowindow is open
+    currentInfoWindow.close(); // if other infowindow is open, close it
+    }
     stage_infowindow.open({
       anchor: stage,
       map,
     });
+    currentInfoWindow = stage_infowindow; // declare new infowindow
   });
 
+    // close on click on map
+    google.maps.event.addListener(map, 'click', function(){
+      stage_infowindow.close(map, sanität);
+      });
 
-  // Sanität-marker
+
+  // Sanität-marker ////////////////////////////////////////
   const sanität = new google.maps.Marker({
     position: { lat: 46.311635, lng: 7.800258 },
     map: map,
@@ -326,12 +341,22 @@ function initMap() {
     content: "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
   });
 
+  // Infowindow: open by click
   sanität.addListener("click", () => {
+    if (currentInfoWindow != null) { // check if other infowindow is open
+      currentInfoWindow.close(); // if other infowindow is open, close it
+    }
     sanität_infowindow.open({
       anchor: sanität,
       map,
     });
+    currentInfoWindow = sanität_infowindow; // declare new infowindow
   });
+
+      // close on click on map
+      google.maps.event.addListener(map, 'click', function(){
+        sanität_infowindow.close(map, sanität);
+       });
 
   google.maps.event.addListener(map, "zoom_changed", function() {
     if (map.getZoom() < 16) {
@@ -342,7 +367,7 @@ function initMap() {
   });
 
 
-  // Place markers on map
+  // Place bar markers on map ////////////////////////////////////////
   for (let i = 0; i < drink_bars.length; i++){
     const currMarker = drink_bars[i]
 
@@ -361,12 +386,23 @@ function initMap() {
         content: currMarker[6],
       });
     
+      // Infowindow: open by click
       marker.addListener("click", () => {
+        if (currentInfoWindow != null) { // check if other infowindow is open
+          currentInfoWindow.close(); // if other infowindow is open, close it
+        }
         infowindow.open({
           anchor: marker,
           map,
         });
+        currentInfoWindow = infowindow; // declare new infowindow
+
       });
+
+      // close on click on map
+      google.maps.event.addListener(map, 'click', function(){
+        infowindow.close(map, marker);
+       });
 
       google.maps.event.addListener(map, "zoom_changed", function() {
         if (map.getZoom() < 17) {
@@ -376,6 +412,8 @@ function initMap() {
         }
       });
   }
+
+ // Place Food markers on map ////////////////////////////////////////
 
   for (let i = 0; i < food_bars.length; i++){
     const currMarker = food_bars[i]
@@ -394,13 +432,23 @@ function initMap() {
       const infowindow = new google.maps.InfoWindow({
         content: currMarker[6],
       });
-    
+
+    // Infowindow: open by click
       marker.addListener("click", () => {
+        if (currentInfoWindow != null) { // check if other infowindow is open
+          currentInfoWindow.close(); // if other infowindow is open, close it
+        }
         infowindow.open({
           anchor: marker,
           map,
         });
+        currentInfoWindow = infowindow; // declare new infowindow
       });
+
+      // close on click on map
+      google.maps.event.addListener(map, 'click', function(){
+        infowindow.close(map, marker);
+       });
 
       google.maps.event.addListener(map, "zoom_changed", function() {
         if (map.getZoom() < 17) {
@@ -410,6 +458,8 @@ function initMap() {
         }
       });
   }
+
+// Place restaurant markers on map ////////////////////////////////////////
 
   for (let i = 0; i < restaurants.length; i++){
     const currMarker = restaurants[i]
@@ -429,12 +479,22 @@ function initMap() {
         content: currMarker[6],
       });
     
+      // Infowindow: open by click
       marker.addListener("click", () => {
+        if (currentInfoWindow != null) { // check if other infowindow is open
+          currentInfoWindow.close(); // if other infowindow is open, close it
+        }
         infowindow.open({
           anchor: marker,
           map,
         });
+        currentInfoWindow = infowindow; // declare new infowindow
       });
+
+      // close on click on map
+      google.maps.event.addListener(map, 'click', function(){
+        infowindow.close(map, marker);
+       });
 
       google.maps.event.addListener(map, "zoom_changed", function() {
         if (map.getZoom() < 17) {
@@ -444,6 +504,8 @@ function initMap() {
         }
       });
   }
+
+// Place parking markers on map ////////////////////////////////////////
 
   for (let i = 0; i < parking.length; i++){
     const currMarker = parking[i]
@@ -459,6 +521,7 @@ function initMap() {
         },
       });
 
+
       google.maps.event.addListener(map, "zoom_changed", function() {
         if (map.getZoom() < 14) {
             marker.setVisible(false);
@@ -468,6 +531,7 @@ function initMap() {
       });
   }
 
+// Place toilet markers on map ////////////////////////////////////////
   for (let i = 0; i < sanitaer.length; i++){
     const currMarker = sanitaer[i]
 
