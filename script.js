@@ -96,7 +96,7 @@ function initMap() {
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Frei'
+        Status: Reserviert'
     ],
 
     [
@@ -126,6 +126,20 @@ function initMap() {
         <p>Preis: CHF 300.-</p>\
         Status: Reserviert'
     ],
+
+    [
+      "Piärboy Heidnisch",
+      46.311090,
+      7.799996,
+      "images/bar.png",
+      25, 
+      25,
+      '<h2>Piärboy Heidnisch</h2>\
+      <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
+      <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
+      <p>Preis: CHF 300.-</p>\
+      Status: Reserviert'
+  ],
   ]; 
 
     // Bar-marker
@@ -141,7 +155,7 @@ function initMap() {
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
-          Status: Frei'
+          Status: Reserviert'
       ],
   
       [
@@ -185,6 +199,20 @@ function initMap() {
           <p>Preis: CHF 400.-</p>\
           Status: Frei'
       ],
+
+      [
+        "Pöschtli",
+        46.309649,
+        7.800250,
+        "images/Gastro.png",
+        25, 
+        25,
+        '<h2>Platz vor Jublagarage</h2>\
+        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
+        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
+        <p>Preis: CHF 300.-</p>\
+        Status: Reserviert'
+      ],
     ]; 
 
   // Restaurant-marker
@@ -218,6 +246,16 @@ function initMap() {
         25,
         '<h2>Bäckerei Zenhäusern</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
     ],
+
+    [
+      "Kapitel 7",
+      46.309854,
+      7.800280,
+      "images/Restaurant.png",
+      25, 
+      25,
+      '<h2>Kapitel 7</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
+    ],
   ];
 
   // Parking-marker
@@ -247,15 +285,6 @@ function initMap() {
         "Kreisel Dorf",
         46.311320,
         7.799844,
-        "images/Sanitär.png",
-        25, 
-        25,
-    ],
-
-    [
-        "Dorfplatz",
-        46.311394,
-        7.799802,
         "images/Sanitär.png",
         25, 
         25,
