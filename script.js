@@ -207,7 +207,7 @@ function initMap() {
         "images/Gastro.png",
         25, 
         25,
-        '<h2>Platz vor Jublagarage</h2>\
+        '<h2>Pöschtli</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
