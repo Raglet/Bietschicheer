@@ -6,7 +6,7 @@ var currentInfoWindow = null;
 
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 46.311449, lng: 7.799834 }, // Dorfplatz Raron
+    center: { lat: 46.311049, lng: 7.799834 }, // Dorfplatz Raron
     zoom: 18, // 18 für Fest
     mapId: 'a32a14914e374824'
   });
@@ -22,11 +22,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Bar Cipolla</h2>\
+        '<h2>1</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
-        Status: Frei'
+        Status: Frei', 
     ],
 
     [
@@ -36,7 +36,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Garage Armando</h2>\
+        '<h2>2</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -50,7 +50,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Gemeinde Partylokal</h2>\
+        '<h2>3</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
@@ -64,7 +64,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Parking Gemeinde</h2>\
+        '<h2>4</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
@@ -78,11 +78,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Garage Chez Karlen</h2>\
+        '<h2>5</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Frei'
+        Status: Reserviert'
     ],
 
     [
@@ -92,7 +92,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Letzte Festung</h2>\
+        '<h2>6</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
@@ -106,11 +106,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>Stall des Paten</h2>\
+        '<h2>7</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
-        Status: Frei'
+        Status: Reserviert'
     ],
 
     [
@@ -120,7 +120,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>LM LaserArt Eventtechnik</h2>\
+        '<h2>8</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -134,7 +134,7 @@ function initMap() {
       "images/bar.png",
       25, 
       25,
-      '<h2>Piärboy Heidnisch</h2>\
+      '<h2>9</h2>\
       <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
       <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
       <p>Preis: CHF 300.-</p>\
@@ -151,7 +151,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>Parkplatz Maxenhaus</h2>\
+          '<h2>101</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
@@ -165,7 +165,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>Burgersaal</h2>\
+          '<h2>102</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
           <p>Preis: CHF 400.-</p>\
@@ -179,11 +179,11 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>Stall vis-a-vis Burgersaal</h2>\
+          '<h2>103</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
-          Status: Frei'
+          Status: Reserviert'
       ],
   
       [
@@ -193,11 +193,11 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>Platz vor Jublagarage</h2>\
+          '<h2>104</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
-          Status: Frei'
+          Status: Reserviert'
       ],
 
       [
@@ -207,7 +207,7 @@ function initMap() {
         "images/Gastro.png",
         25, 
         25,
-        '<h2>Pöschtli</h2>\
+        '<h2>105</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -224,7 +224,9 @@ function initMap() {
         "images/Restaurant.png",
         25, 
         25,
-        '<h2>Restaurant Schmitta</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>'
+        '<h2>201</h2>\
+        <h2>Restaurant Schmitta</h2>\
+        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>'
     ],
 
     [
@@ -234,7 +236,9 @@ function initMap() {
         "images/Restaurant.png",
         25, 
         25,
-        '<h2>Restaurant Rilke</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>'
+        '<h2>202</h2>\
+        <h2>Restaurant Rilke</h2>\
+        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>'
     ],
 
     [
@@ -244,7 +248,9 @@ function initMap() {
         "images/Restaurant.png",
         25, 
         25,
-        '<h2>Bäckerei Zenhäusern</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
+        '<h2>203</h2>\
+        <h2>Bäckerei Zenhäusern</h2>\
+        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
     ],
 
     [
@@ -254,7 +260,9 @@ function initMap() {
       "images/Restaurant.png",
       25, 
       25,
-      '<h2>Kapitel 7</h2><br><h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
+      '<h2>204</h2>\
+      <h2>Restaurant Kapitel 7</h2>\
+      <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>'
     ],
   ];
 
