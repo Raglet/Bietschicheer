@@ -78,7 +78,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>5</h2>\
+        '<h2>5 - EHC Raron</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
@@ -96,7 +96,7 @@ function initMap() {
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Reserviert'
+        Status: Frei'
     ],
 
     [
@@ -120,7 +120,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>8</h2>\
+        '<h2>8 - Verein Stigma Elektronmit</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -134,12 +134,27 @@ function initMap() {
       "images/bar.png",
       25, 
       25,
-      '<h2>9</h2>\
+      '<h2>9 - Heidnischbier AG</h2>\
       <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
       <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
       <p>Preis: CHF 300.-</p>\
       Status: Reserviert'
   ],
+
+  [
+    "Pöschtli",
+    46.309649,
+    7.800250,
+    "images/bar.png",
+    25, 
+    25,
+    '<h2>10 - Bregy Klaus und Salzgeber Patrick (Barname folgt)</h2>\
+    <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
+    <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
+    <p>Preis: CHF 300.-</p>\
+    Status: Reserviert'
+  ],
+
   ]; 
 
     // Bar-marker
@@ -151,7 +166,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>101</h2>\
+          '<h2>101 - Valperca (Foodtruck)</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
@@ -165,7 +180,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>102</h2>\
+          '<h2>102 - Mittagstisch für Senioren am Samstag</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
           <p>Preis: CHF 400.-</p>\
@@ -179,7 +194,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>103</h2>\
+          '<h2>103 - Subieschmiede KLG</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
@@ -193,25 +208,11 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>104</h2>\
+          '<h2>104 - Verein Kochende Frauen Raron</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
           Status: Reserviert'
-      ],
-
-      [
-        "Pöschtli",
-        46.309649,
-        7.800250,
-        "images/Gastro.png",
-        25, 
-        25,
-        '<h2>105</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
-        Status: Reserviert'
       ],
     ]; 
 
