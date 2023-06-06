@@ -351,17 +351,17 @@ function initMap() {
 // Info Window
   const stage_infowindow = new google.maps.InfoWindow({
     content: 
-    '<h3>Festprogramm</h3>\
-    <h3 style="margin-block-end: 3px;">Freitag</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: TBA</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">18:00 Uhr - 20:00 Uhr: TBA</p>\
-    <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: TBA</p>\
-    <h3 style="margin-block-end: 3px;">Samstag</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">14:00 Uhr - 16:00 Uhr: TBA</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">16:00 Uhr - 17:00 Uhr: Mini Playback Show by Jubla</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: TBA</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">20:00 Uhr - 21:30 Uhr: TBA</p>\
-    <p style="margin-block-start: 3px;">22:30 Uhr - 24:00 Uhr: TBA</p>',
+    '<h3 style="margin-block-end: 3px;">Freitag - 01.09.2023</h3>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">18:30 Uhr - 20:00 Uhr: TripleH-B </p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">21:00 Uhr - 22:00 Uhr: Riverbanks</p>\
+    <p style="margin-block-start: 3px;">23:00 Uhr - 00:00 Uhr: The Unwritten Story</p>\
+    <h3 style="margin-block-end: 3px;">Samstag - 02.09.2023</h3>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">12:00 Uhr - 15:00 Uhr: Bietschibotsche</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">15:30 Uhr - 16:00 Uhr: Jodlerklub</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</p>\
+    <p style="margin-block-start: 3px; margin-block-end: 3px;">21:00 Uhr - 22:00 Uhr: Madstone</p>\
+    <p style="margin-block-start: 3px;">23:00 Uhr - 00:30 Uhr: Whole Lotta DC</p>',
   });
 
 // open Info Window
