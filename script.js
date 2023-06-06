@@ -106,11 +106,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>7</h2>\
+        '<h2>7 - FC Raron</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
-        Status: Frei'
+        Status: Reserviert'
     ],
 
     [
@@ -406,6 +406,47 @@ function initMap() {
         sanität.setVisible(false);
     } else {
         sanität.setVisible(true);
+    }
+  });
+
+  // Nachschub-marker ////////////////////////////////////////
+  const supplies = new google.maps.Marker({
+    position: { lat: 46.310892, lng: 7.800358 },
+    map: map,
+    icon: {
+        url: "images/supplies.png",
+        scaledSize: new google.maps.Size(30, 25),
+        optimized: false 
+    },
+    
+  });
+
+  const supplies_infowindow = new google.maps.InfoWindow({
+    content: "<h3>Nachschub</h3>",
+  });
+
+  // Infowindow: open by click
+  supplies.addListener("click", () => {
+    if (currentInfoWindow != null) { // check if other infowindow is open
+      currentInfoWindow.close(); // if other infowindow is open, close it
+    }
+    supplies_infowindow.open({
+      anchor: supplies,
+      map,
+    });
+    currentInfoWindow = supplies_infowindow; // declare new infowindow
+  });
+
+      // close on click on map
+      google.maps.event.addListener(map, 'click', function(){
+        supplies_infowindow.close(map, supplies);
+       });
+
+  google.maps.event.addListener(map, "zoom_changed", function() {
+    if (map.getZoom() < 16) {
+      supplies.setVisible(false);
+    } else {
+      supplies.setVisible(true);
     }
   });
 
