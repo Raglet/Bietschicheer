@@ -292,7 +292,7 @@ function initMap() {
   const sanitaer = [
     [
         "Kreisel Dorf",
-        46.311320,
+        46.311520,
         7.799844,
         "images/Sanitär.png",
         25, 
