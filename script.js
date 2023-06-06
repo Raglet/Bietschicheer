@@ -324,7 +324,7 @@ function initMap() {
 
 // Bühne-marker ////////////////////////////////////////
   const stage = new google.maps.Marker({
-    position: { lat: 46.311470, lng: 7.799396 },
+    position: { lat: 46.311360, lng: 7.799596 },
     map: map,
     icon: {
         url: "images/Band.png",
