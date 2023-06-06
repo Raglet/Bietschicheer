@@ -59,16 +59,16 @@ function initMap() {
 
     [
         "Parking Gemeinde",
-        46.311473,
-        7.799713,
+        46.311553,
+        7.799596,
         "images/bar.png",
         25, 
         25,
-        '<h2>4</h2>\
+        '<h2>4 - Verein Bietschicheer</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Reserviert - Verein Bietschicheer'
+        Status: Reserviert'
     ],
 
     [
