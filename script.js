@@ -332,6 +332,39 @@ function initMap() {
     ],
   ];
 
+  // Nachmittagsprogramm-marker
+  const afternoon = [
+    [
+        "Air Zermatt",
+        46.311360,
+        7.799399,
+        "images/brochure.png",
+        25, 
+        25,
+        '<h3>Air Zermatt</h3>'
+    ],
+
+    [
+      "Theaterverein Raron",
+      46.311090,
+      7.799986,
+      "images/brochure.png",
+      25, 
+      25,
+      '<h3>Theaterverein Raron</h3>'
+  ],
+
+  [
+    "Samariterverein Raron-St.German",
+    46.311773,
+    7.800416,
+    "images/brochure.png",
+    25, 
+    25,
+    '<h3>Samariterverein Raron-St.German</h3>'
+  ],
+  ];
+
 
 
 // use API to add markers
@@ -665,6 +698,54 @@ for (let i = 0; i < sanitaer.length; i++) {
       marker.setVisible(true);
     }
   });
+}
+
+
+// Places Nachmittags-Programm markers
+// Iterate over the `afternoon` array using a for loop
+for (let i = 0; i < afternoon.length; i++){
+  const currMarker = afternoon[i]
+
+  const marker = new google.maps.Marker({
+      position: { lat: currMarker[1], lng: currMarker[2] },
+      map: map,
+      title: currMarker[0],
+      icon: {
+          url: currMarker[3],
+          scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
+          optimized: false 
+      },
+    });
+  
+    const infowindow = new google.maps.InfoWindow({
+      content: currMarker[6],
+    });
+  
+    // Infowindow: open by click
+    marker.addListener("click", () => {
+      if (currentInfoWindow != null) { // check if other infowindow is open
+        currentInfoWindow.close(); // if other infowindow is open, close it
+      }
+      infowindow.open({
+        anchor: marker,
+        map,
+      });
+      currentInfoWindow = infowindow; // declare new infowindow
+
+    });
+
+    // close on click on map
+    google.maps.event.addListener(map, 'click', function(){
+      infowindow.close(map, marker);
+     });
+
+    google.maps.event.addListener(map, "zoom_changed", function() {
+      if (map.getZoom() < 17) {
+          marker.setVisible(false);
+      } else {
+          marker.setVisible(true);
+      }
+    });
 }
 
 }
