@@ -50,11 +50,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>3</h2>\
+        '<h2>3 - Guggenmusik Mesireccas</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Frei'
+        Status: Reserivert'
     ],
 
     [
@@ -92,11 +92,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>6</h2>\
+        '<h2>6 - ECOUMBRA</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
-        Status: Frei'
+        Status: Reserviert'
     ],
 
     [
@@ -160,9 +160,9 @@ function initMap() {
     // Bar-marker
     const food_bars = [
       [
-          "Parkplatz Maxenhaus",
-          46.311729,
-          7.800288,
+          "Parkplatz Maxenhaus 1",
+          46.311690,
+          7.800400,
           "images/Gastro.png",
           25, 
           25,
@@ -172,6 +172,20 @@ function initMap() {
           <p>Preis: CHF 400.-</p>\
           Status: Reserviert'
       ],
+
+      [
+        "Parkplatz Maxenhaus 2",
+        46.311770,
+        7.800258,
+        "images/Gastro.png",
+        25, 
+        25,
+        '<h2>102 - Pro Raronia Historica und Kulturstiftung</h2>\
+        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
+        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
+        <p>Preis: CHF 400.-</p>\
+        Status: Reserviert'
+    ],
   
       [
           "Burgersaal",
@@ -180,7 +194,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>102 - Mittagstisch für Senioren am Samstag</h2>\
+          '<h2>103 - Mittagstisch für Senioren am Samstag</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
           <p>Preis: CHF 400.-</p>\
@@ -194,7 +208,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>103 - Subieschmiede KLG</h2>\
+          '<h2>104 - Subieschmiede KLG</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
@@ -208,7 +222,7 @@ function initMap() {
           "images/Gastro.png",
           25, 
           25,
-          '<h2>104 - Verein Kochende Frauen Raron</h2>\
+          '<h2>105 - Verein Kochende Frauen Raron</h2>\
           <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
           <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
           <p>Preis: CHF 400.-</p>\
@@ -301,8 +315,8 @@ function initMap() {
 
     [
         "Maxenhaus",
-        46.311650,
-        7.800419,
+        46.311590,
+        7.800530,
         "images/Sanitär.png",
         25, 
         25,
