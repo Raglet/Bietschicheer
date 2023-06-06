@@ -415,7 +415,7 @@ function initMap() {
     map: map,
     icon: {
         url: "images/supplies.png",
-        scaledSize: new google.maps.Size(30, 25),
+        scaledSize: new google.maps.Size(25, 25),
         optimized: false 
     },
     
@@ -443,7 +443,7 @@ function initMap() {
        });
 
   google.maps.event.addListener(map, "zoom_changed", function() {
-    if (map.getZoom() < 16) {
+    if (map.getZoom() < 17) {
       supplies.setVisible(false);
     } else {
       supplies.setVisible(true);
