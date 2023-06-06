@@ -129,8 +129,8 @@ function initMap() {
 
     [
       "Piärboy Heidnisch",
-      46.311090,
-      7.799996,
+      46.311334,
+      7.799821,
       "images/bar.png",
       25, 
       25,
