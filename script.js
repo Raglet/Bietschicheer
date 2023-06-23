@@ -63,7 +63,7 @@ function initMap() {
         25,
         '<h2>4 - Verein Bietschicheer</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
+        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - 00:00 Uhr</p>\
         <p>Preis: CHF 400.-</p>\
         Status: Reserviert'
     ],
@@ -77,7 +77,7 @@ function initMap() {
         25,
         '<h2>5 - EHC Raron</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
+        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 400.-</p>\
         Status: Reserviert'
     ],
@@ -119,7 +119,7 @@ function initMap() {
       25,
       '<h2>9 - Heidnischbier AG</h2>\
       <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-      <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
+      <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
       <p>Preis: CHF 300.-</p>\
       Status: Reserviert'
   ],
@@ -133,7 +133,7 @@ function initMap() {
     25,
     '<h2>10 - Die BAR</h2>\
     <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-    <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
+    <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 19:00 Uhr - bis fertig</p>\
     <p>Preis: CHF 300.-</p>\
     Status: Reserviert'
   ],
