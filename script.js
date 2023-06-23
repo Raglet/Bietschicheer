@@ -22,10 +22,7 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>1</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
+        '<h2>1 - Reserve</h2>\
         Status: Frei', 
     ],
 
@@ -36,11 +33,11 @@ function initMap() {
         "images/bar.png",
         25, 
         25,
-        '<h2>2</h2>\
+        '<h2>2 - Gewerbeverein Ecoumbra</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
-        Status: Frei'
+        Status: Reserivert'
     ],
 
     [
@@ -86,27 +83,13 @@ function initMap() {
     ],
 
     [
-        "Letzte Festung",
-        46.311278,
-        7.799399,
-        "images/bar.png",
-        25, 
-        25,
-        '<h2>6 - ECOUMBRA</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 400.-</p>\
-        Status: Reserviert'
-    ],
-
-    [
         "Stall des Paten",
         46.311035,
         7.798849,
         "images/bar.png",
         25, 
         25,
-        '<h2>7 - FC Raron</h2>\
+        '<h2>6 - Spielerbar</h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -148,7 +131,7 @@ function initMap() {
     "images/bar.png",
     25, 
     25,
-    '<h2>10 - Bregy Klaus und Salzgeber Patrick (Barname folgt)</h2>\
+    '<h2>10 - Die BAR</h2>\
     <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
     <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
     <p>Preis: CHF 300.-</p>\
@@ -216,9 +199,9 @@ function initMap() {
       ],
   
       [
-          "Platz vor Jublagarage",
-          46.311493,
-          7.800209,
+          "Bänkli",
+          46.311700,
+          7.800160,
           "images/Gastro.png",
           25, 
           25,
@@ -458,7 +441,7 @@ function initMap() {
 
   // Nachschub-marker ////////////////////////////////////////
   const supplies = new google.maps.Marker({
-    position: { lat: 46.310892, lng: 7.800358 },
+    position: { lat: 46.311490, lng: 7.800200 },
     map: map,
     icon: {
         url: "images/supplies.png",
