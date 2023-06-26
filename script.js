@@ -335,17 +335,37 @@ function initMap() {
       25, 
       25,
       '<h3>Theaterverein Raron</h3>'
-  ],
+    ],
 
-  [
-    "Samariterverein Raron-St.German",
-    46.311773,
-    7.800416,
-    "images/brochure.png",
-    25, 
-    25,
-    '<h3>Samariterverein Raron-St.German</h3>'
-  ],
+    [
+      "Samariterverein Raron-St.German",
+      46.311773,
+      7.800416,
+      "images/brochure.png",
+      25, 
+      25,
+      '<h3>Samariterverein Raron-St.German</h3>'
+    ],
+
+    [
+      "Jubla Raron",
+      46.311382,
+      7.800184,
+      "images/brochure.png",
+      25, 
+      25,
+      '<h3>Jubla Raron</h3>'
+    ],
+
+    [
+      "Jubla Raron",
+      46.311533,
+      7.799399,
+      "images/brochure.png",
+      25, 
+      25,
+      '<h3>Jubla Raron</h3>'
+    ],
   ];
 
 
