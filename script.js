@@ -637,24 +637,24 @@ function initMap() {
     {
       position: { lat: 46.30914985360714, lng: 7.799721723633649 },
       map: map,
-      title: "Bankomat Raiffeisen",
+      title: "Bankautomat Raiffeisen",
       icon: {
         url: "./images/atm.png",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent: "<h3>Bankomat Raiffeisen</h3>",
+      infoWindowContent: "<h3>Bankautomat Raiffeisen</h3>",
     },
     {
       position: { lat: 46.307804743765814, lng: 7.800516896599212 },
       map: map,
-      title: "Bankomat WKB",
+      title: "Bankautomat WKB",
       icon: {
         url: "./images/atm.png",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent: "<h3>Bankomat WKB</h3>",
+      infoWindowContent: "<h3>Bankautomat WKB</h3>",
     },
   ];
 
