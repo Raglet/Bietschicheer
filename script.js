@@ -330,357 +330,30 @@ function initMap() {
     ],
   ];
 
-  // use API to add markers
-
   // Bühne-marker ////////////////////////////////////////
-  const stage = new google.maps.Marker({
-    position: { lat: 46.31136, lng: 7.799596 },
-    map: map,
-    icon: {
-      url: "images/Band.png",
-      scaledSize: new google.maps.Size(38, 35),
-      optimized: false,
-    },
-  });
-
-  // Info Window
-  const stage_infowindow = new google.maps.InfoWindow({
-    content:
-      '<h3 style="margin-block-end: 3px;">Freitag - 01.09.2023</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">18:30 Uhr - 20:00 Uhr: TripleH-B </p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">21:00 Uhr - 22:00 Uhr: Riverbanks</p>\
-    <p style="margin-block-start: 3px;">23:00 Uhr - 00:00 Uhr: The Unwritten Story</p>\
-    <h3 style="margin-block-end: 3px;">Samstag - 02.09.2023</h3>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">12:00 Uhr - 15:00 Uhr: Bietschibotsche</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">15:30 Uhr - 16:00 Uhr: Jodlerklub</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</p>\
-    <p style="margin-block-start: 3px; margin-block-end: 3px;">21:00 Uhr - 22:00 Uhr: Madstone</p>\
-    <p style="margin-block-start: 3px;">23:00 Uhr - 00:30 Uhr: Whole Lotta DC</p>',
-  });
-
-  // open Info Window
-  stage.addListener("click", () => {
-    if (currentInfoWindow != null) {
-      // check if other infowindow is open
-      currentInfoWindow.close(); // if other infowindow is open, close it
-    }
-    stage_infowindow.open({
-      anchor: stage,
-      map,
-    });
-    currentInfoWindow = stage_infowindow; // declare new infowindow
-  });
-
-  // close on click on map
-  google.maps.event.addListener(map, "click", function () {
-    stage_infowindow.close(map, sanität);
-  });
-
-  // Sanität-marker ////////////////////////////////////////
-  const sanität = new google.maps.Marker({
-    position: { lat: 46.311635, lng: 7.800258 },
-    map: map,
-    icon: {
-      url: "images/Sanität.png",
-      scaledSize: new google.maps.Size(30, 25),
-      optimized: false,
-    },
-  });
-
-  const sanität_infowindow = new google.maps.InfoWindow({
-    content: "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
-  });
-
-  // Infowindow: open by click
-  sanität.addListener("click", () => {
-    if (currentInfoWindow != null) {
-      // check if other infowindow is open
-      currentInfoWindow.close(); // if other infowindow is open, close it
-    }
-    sanität_infowindow.open({
-      anchor: sanität,
-      map,
-    });
-    currentInfoWindow = sanität_infowindow; // declare new infowindow
-  });
-
-  // close on click on map
-  google.maps.event.addListener(map, "click", function () {
-    sanität_infowindow.close(map, sanität);
-  });
-
-  google.maps.event.addListener(map, "zoom_changed", function () {
-    if (map.getZoom() < 16) {
-      sanität.setVisible(false);
-    } else {
-      sanität.setVisible(true);
-    }
-  });
-
-  // Nachschub-marker ////////////////////////////////////////
-  const supplies = new google.maps.Marker({
-    position: { lat: 46.31149, lng: 7.8002 },
-    map: map,
-    icon: {
-      url: "images/supplies.png",
-      scaledSize: new google.maps.Size(25, 25),
-      optimized: false,
-    },
-  });
-
-  const supplies_infowindow = new google.maps.InfoWindow({
-    content: "<h3>Nachschub</h3>",
-  });
-
-  // Infowindow: open by click
-  supplies.addListener("click", () => {
-    if (currentInfoWindow != null) {
-      // check if other infowindow is open
-      currentInfoWindow.close(); // if other infowindow is open, close it
-    }
-    supplies_infowindow.open({
-      anchor: supplies,
-      map,
-    });
-    currentInfoWindow = supplies_infowindow; // declare new infowindow
-  });
-
-  // close on click on map
-  google.maps.event.addListener(map, "click", function () {
-    supplies_infowindow.close(map, supplies);
-  });
-
-  google.maps.event.addListener(map, "zoom_changed", function () {
-    if (map.getZoom() < 17) {
-      supplies.setVisible(false);
-    } else {
-      supplies.setVisible(true);
-    }
-  });
-
-  // Place bar markers on map ////////////////////////////////////////
-  for (let i = 0; i < drink_bars.length; i++) {
-    const currMarker = drink_bars[i];
-
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] },
-      map: map,
-      title: currMarker[0],
-      icon: {
-        url: currMarker[3],
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
-        optimized: false,
-      },
-    });
-
-    const infowindow = new google.maps.InfoWindow({
-      content: currMarker[6],
-    });
-
-    // Infowindow: open by click
-    marker.addListener("click", () => {
-      if (currentInfoWindow != null) {
-        // check if other infowindow is open
-        currentInfoWindow.close(); // if other infowindow is open, close it
-      }
-      infowindow.open({
-        anchor: marker,
-        map,
-      });
-      currentInfoWindow = infowindow; // declare new infowindow
-    });
-
-    // close on click on map
-    google.maps.event.addListener(map, "click", function () {
-      infowindow.close(map, marker);
-    });
-
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        marker.setVisible(true);
-      }
-    });
-  }
-
-  // Place Food markers on map ////////////////////////////////////////
-
-  for (let i = 0; i < food_bars.length; i++) {
-    const currMarker = food_bars[i];
-
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] },
-      map: map,
-      title: currMarker[0],
-      icon: {
-        url: currMarker[3],
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
-        optimized: false,
-      },
-    });
-
-    const infowindow = new google.maps.InfoWindow({
-      content: currMarker[6],
-    });
-
-    // Infowindow: open by click
-    marker.addListener("click", () => {
-      if (currentInfoWindow != null) {
-        // check if other infowindow is open
-        currentInfoWindow.close(); // if other infowindow is open, close it
-      }
-      infowindow.open({
-        anchor: marker,
-        map,
-      });
-      currentInfoWindow = infowindow; // declare new infowindow
-    });
-
-    // close on click on map
-    google.maps.event.addListener(map, "click", function () {
-      infowindow.close(map, marker);
-    });
-
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        marker.setVisible(true);
-      }
-    });
-  }
-
-  // Place restaurant markers on map ////////////////////////////////////////
-
-  for (let i = 0; i < restaurants.length; i++) {
-    const currMarker = restaurants[i];
-
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] },
-      map: map,
-      title: currMarker[0],
-      icon: {
-        url: currMarker[3],
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
-        optimized: false,
-      },
-    });
-
-    const infowindow = new google.maps.InfoWindow({
-      content: currMarker[6],
-    });
-
-    // Infowindow: open by click
-    marker.addListener("click", () => {
-      if (currentInfoWindow != null) {
-        // check if other infowindow is open
-        currentInfoWindow.close(); // if other infowindow is open, close it
-      }
-      infowindow.open({
-        anchor: marker,
-        map,
-      });
-      currentInfoWindow = infowindow; // declare new infowindow
-    });
-
-    // close on click on map
-    google.maps.event.addListener(map, "click", function () {
-      infowindow.close(map, marker);
-    });
-
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        marker.setVisible(true);
-      }
-    });
-  }
-
-  // Place parking markers on map ////////////////////////////////////////
-
-  // Iterate over the `parking` array using a for loop
-  for (let i = 0; i < parking.length; i++) {
-    // Get the current parking marker object from the `parking` array
-    const currMarker = parking[i];
-
-    // Create a new Google Maps marker object
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] }, // Set the marker's position using latitude and longitude values
-      map: map, // Set the marker's map to be the specified `map`
-      title: currMarker[0], // Set the marker's title to the first value in the `currMarker` array
-      icon: {
-        // Set the marker's icon using the `currMarker` array values
-        url: currMarker[3], // Set the URL of the icon image
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]), // Set the size of the icon image
-        optimized: false, // Disable icon image optimization
-      },
-    });
-
-    // Add a listener to the map's zoom_changed event
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      // If the map's zoom level is less than 14, hide the marker
-      if (map.getZoom() < 14) {
-        marker.setVisible(false);
-        // Otherwise, show the marker
-      } else {
-        marker.setVisible(true);
-      }
-    });
-  }
-
-  // Place ATM markers
-  // Create
-  const atms = [
+  const stage = [
     {
-      position: { lat: 46.30914985360714, lng: 7.799721723633649 },
+      position: { lat: 46.31136, lng: 7.799596 },
       map: map,
-      title: "Bankautomat Raiffeisen",
       icon: {
-        url: "./images/atm.png",
-        scaledSize: new google.maps.Size(25, 25),
+        url: "images/Band.png",
+        scaledSize: new google.maps.Size(38, 35),
         optimized: false,
       },
-      infoWindowContent: "<h3>Bankautomat Raiffeisen</h3>",
-    },
-    {
-      position: { lat: 46.307804743765814, lng: 7.800516896599212 },
-      map: map,
-      title: "Bankautomat WKB",
-      icon: {
-        url: "./images/atm.png",
-        scaledSize: new google.maps.Size(25, 25),
-        optimized: false,
-      },
-      infoWindowContent: "<h3>Bankautomat WKB</h3>",
+      infoWindowContent: `<h3>Freitag - 01.09.2023</h3>
+      <p>18:30 Uhr - 20:00 Uhr: TripleH-B </p>
+      <p>21:00 Uhr - 22:00 Uhr: Riverbanks</p>
+      <p>23:00 Uhr - 00:00 Uhr: The Unwritten Story</p>
+      <h3>Samstag - 02.09.2023</h3>
+      <p>12:00 Uhr - 15:00 Uhr: Bietschibotsche</p>
+      <p>15:30 Uhr - 16:00 Uhr: Jodlerklub</p>
+      <p>17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</p>
+      <p>19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</p>
+      <p>21:00 Uhr - 22:00 Uhr: Madstone</p>
+      <p>23:00 Uhr - 00:30 Uhr: Whole Lotta DC</p>`,
     },
   ];
 
-  atms.forEach((atm) => {
-    const marker = new google.maps.Marker(atm);
-    const infoWindow = new google.maps.InfoWindow({
-      content: atm.infoWindowContent,
-    });
-
-    marker.addListener("click", () => {
-      infoWindow.open(map, marker);
-    });
-
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      // If the map's zoom level is less than 17, hide the marker
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        // Otherwise, show the marker
-        marker.setVisible(true);
-      }
-    });
-  });
-
-  // Place öV-Stop markers
-  // Create Object
   const busStops = [
     {
       position: { lat: 46.30616248915186, lng: 7.801530337347227 },
@@ -709,104 +382,169 @@ function initMap() {
     },
   ];
 
-  busStops.forEach((atm) => {
-    const marker = new google.maps.Marker(atm);
-    const infoWindow = new google.maps.InfoWindow({
-      content: atm.infoWindowContent,
-    });
-
-    marker.addListener("click", () => {
-      infoWindow.open(map, marker);
-    });
-
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      // If the map's zoom level is less than 17, hide the marker
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        // Otherwise, show the marker
-        marker.setVisible(true);
-      }
-    });
-  });
-
-  // Places toilet markers
-  // Iterate over the `sanitaer` array using a for loop
-  for (let i = 0; i < sanitaer.length; i++) {
-    // Get the current toilet marker object from the `sanitaer` array
-    const currMarker = sanitaer[i];
-
-    // Create a new Google Maps marker object
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] }, // Set the marker's position using latitude and longitude values
-      map: map, // Set the marker's map to be the specified `map`
-      title: currMarker[0], // Set the marker's title to the first value in the `currMarker` array
-      icon: {
-        // Set the marker's icon using the `currMarker` array values
-        url: currMarker[3], // Set the URL of the icon image
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]), // Set the size of the icon image
-        optimized: false, // Disable icon image optimization
-      },
-    });
-
-    // Add a listener to the map's zoom_changed event
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      // If the map's zoom level is less than 17, hide the marker
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-        // Otherwise, show the marker
-      } else {
-        marker.setVisible(true);
-      }
-    });
-  }
-
-  // Places Nachmittags-Programm markers
-  // Iterate over the `afternoon` array using a for loop
-  for (let i = 0; i < afternoon.length; i++) {
-    const currMarker = afternoon[i];
-
-    const marker = new google.maps.Marker({
-      position: { lat: currMarker[1], lng: currMarker[2] },
+  const sanitaet = [
+    {
+      position: { lat: 46.311635, lng: 7.800258 },
       map: map,
-      title: currMarker[0],
       icon: {
-        url: currMarker[3],
-        scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
+        url: "images/Sanität.png",
+        scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
-    });
+      infoWindowContent:
+        "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
+    },
+  ];
 
-    const infowindow = new google.maps.InfoWindow({
-      content: currMarker[6],
-    });
+  // Nachschub-marker ////////////////////////////////////////
+  const supplies = [
+    {
+      position: { lat: 46.31149, lng: 7.8002 },
+      map: map,
+      icon: {
+        url: "images/supplies.png",
+        scaledSize: new google.maps.Size(25, 25),
+        optimized: false,
+      },
+      infoWindowContent: "<h3>Nachschub</h3>",
+    },
+  ];
+  // Place ATM markers
+  // Create
+  const atms = [
+    {
+      position: { lat: 46.30914985360714, lng: 7.799721723633649 },
+      map: map,
+      title: "Bankautomat Raiffeisen",
+      icon: {
+        url: "./images/atm.png",
+        scaledSize: new google.maps.Size(25, 25),
+        optimized: false,
+      },
+      infoWindowContent: "<h3>Bankautomat Raiffeisen</h3>",
+    },
+    {
+      position: { lat: 46.307804743765814, lng: 7.800516896599212 },
+      map: map,
+      title: "Bankautomat WKB",
+      icon: {
+        url: "./images/atm.png",
+        scaledSize: new google.maps.Size(25, 25),
+        optimized: false,
+      },
+      infoWindowContent: "<h3>Bankautomat WKB</h3>",
+    },
+  ];
 
-    // Infowindow: open by click
-    marker.addListener("click", () => {
-      if (currentInfoWindow != null) {
-        // check if other infowindow is open
-        currentInfoWindow.close(); // if other infowindow is open, close it
-      }
-      infowindow.open({
-        anchor: marker,
-        map,
+  // use API to add markers
+
+  function createMarkers(locationArray) {
+    if (!Array.isArray(locationArray)) {
+      console.error("Input is not an array.");
+      return;
+    }
+
+    if (locationArray.length === 0) {
+      console.warn("Input array is empty.");
+      return;
+    }
+
+    if (
+      typeof google === "undefined" ||
+      typeof google.maps === "undefined" ||
+      typeof google.maps.Marker === "undefined"
+    ) {
+      console.error("Google Maps API or Marker class is not available.");
+      return;
+    }
+
+    // Check if the array contains objects (for the first element)
+    const isArrayOfObjects =
+      typeof locationArray[0] === "object" &&
+      locationArray[0] !== null &&
+      !Array.isArray(locationArray[0]);
+
+    if (isArrayOfObjects) {
+      // Code to create markers from an array of objects
+      locationArray.forEach((object) => {
+        const marker = new google.maps.Marker(object);
+        const infoWindow = new google.maps.InfoWindow({
+          content: object.infoWindowContent,
+        });
+
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+
+        google.maps.event.addListener(map, "zoom_changed", function () {
+          // If the map's zoom level is less than 17, hide the marker
+          if (map.getZoom() < 17) {
+            marker.setVisible(false);
+          } else {
+            // Otherwise, show the marker
+            marker.setVisible(true);
+          }
+        });
       });
-      currentInfoWindow = infowindow; // declare new infowindow
-    });
+    } else {
+      // Code to create markers from an array of arrays (normal array)
+      for (let i = 0; i < locationArray.length; i++) {
+        const currMarker = locationArray[i];
 
-    // close on click on map
-    google.maps.event.addListener(map, "click", function () {
-      infowindow.close(map, marker);
-    });
+        const marker = new google.maps.Marker({
+          position: { lat: currMarker[1], lng: currMarker[2] },
+          map: map,
+          title: currMarker[0],
+          icon: {
+            url: currMarker[3],
+            scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
+            optimized: false,
+          },
+        });
 
-    google.maps.event.addListener(map, "zoom_changed", function () {
-      if (map.getZoom() < 17) {
-        marker.setVisible(false);
-      } else {
-        marker.setVisible(true);
+        if (currMarker[6]) {
+          const infowindow = new google.maps.InfoWindow({
+            content: currMarker[6],
+          });
+
+          marker.addListener("click", () => {
+            if (currentInfoWindow != null) {
+              currentInfoWindow.close();
+            }
+            infowindow.open({
+              anchor: marker,
+              map,
+            });
+            currentInfoWindow = infowindow;
+          });
+
+          google.maps.event.addListener(map, "click", function () {
+            infowindow.close(map, marker);
+          });
+
+          google.maps.event.addListener(map, "zoom_changed", function () {
+            if (map.getZoom() < 17) {
+              marker.setVisible(false);
+            } else {
+              marker.setVisible(true);
+            }
+          });
+        }
       }
-    });
+    }
   }
+
+  createMarkers(sanitaer);
+  createMarkers(afternoon);
+  createMarkers(stage);
+  createMarkers(sanitaet);
+  createMarkers(busStops);
+  createMarkers(supplies);
+  createMarkers(drink_bars);
+  createMarkers(food_bars);
+  createMarkers(restaurants);
+  createMarkers(parking);
+  createMarkers(atms);
 }
 
 window.initMap = initMap;
