@@ -87,7 +87,7 @@ function initMap() {
       "images/bar.png",
       25,
       25,
-      '<h2>6 - Spielerbar</h2>\
+      '<h2>6 - 12ter Man  </h2>\
         <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
         <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
         <p>Preis: CHF 300.-</p>\
@@ -129,7 +129,7 @@ function initMap() {
       "images/bar.png",
       25,
       25,
-      '<h2>10 - Die BAR</h2>\
+      '<h2>10 - DIE BAR</h2>\
     <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
     <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 19:00 Uhr - bis fertig</p>\
     <p>Preis: CHF 300.-</p>\
@@ -632,17 +632,18 @@ function initMap() {
   }
 
   // Place ATM markers
+  // Create
   const atms = [
     {
       position: { lat: 46.30914985360714, lng: 7.799721723633649 },
       map: map,
-      title: "Bankomat Raifaisen",
+      title: "Bankomat Raiffeisen",
       icon: {
         url: "./images/atm.png",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent: "<h3>Bankomat Raifaisen</h3>",
+      infoWindowContent: "<h3>Bankomat Raiffeisen</h3>",
     },
     {
       position: { lat: 46.307804743765814, lng: 7.800516896599212 },
@@ -658,6 +659,57 @@ function initMap() {
   ];
 
   atms.forEach((atm) => {
+    const marker = new google.maps.Marker(atm);
+    const infoWindow = new google.maps.InfoWindow({
+      content: atm.infoWindowContent,
+    });
+
+    marker.addListener("click", () => {
+      infoWindow.open(map, marker);
+    });
+
+    google.maps.event.addListener(map, "zoom_changed", function () {
+      // If the map's zoom level is less than 17, hide the marker
+      if (map.getZoom() < 17) {
+        marker.setVisible(false);
+      } else {
+        // Otherwise, show the marker
+        marker.setVisible(true);
+      }
+    });
+  });
+
+  // Place öV-Stop markers
+  // Create Object
+  const busStops = [
+    {
+      position: { lat: 46.30616248915186, lng: 7.801530337347227 },
+
+      map: map,
+      title: "Bahnhof Raron",
+      icon: {
+        url: "./images/trainStop.png",
+        scaledSize: new google.maps.Size(25, 25),
+        optimized: false,
+      },
+      infoWindowContent:
+        "<h3>Bahnhof Raron</h3>  <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice. </br> <a href='https://www.sbb.ch/de'>Hier geht's zum Fahrplan.</a>  </p> ",
+    },
+    {
+      position: { lat: 46.30356892349157, lng: 7.8014837184476145 },
+      map: map,
+      title: "Busstation Bergheim",
+      icon: {
+        url: "./images/busStop.png",
+        scaledSize: new google.maps.Size(25, 25),
+        optimized: false,
+      },
+      infoWindowContent:
+        "  <h3>Bussstation Bergheim</h3>        <h4>Fahrplan:</h4>        <h5>Samstag</h5>        <ul>          <li><b>Richtung Susten</b> ca. 02:00 Uhr (Bettmobil)</li>          <li><b>Richtung Susten</b> ca. 03:30 Uhr (Steiner Reisen)</li>          <li><b>Richtung Brig</b> ca. 02:30 Uhr (Steiner Reisen)</li>          <li><b>Richtung Brig</b> ca. 03:45 Uhr (Bettmobil)</li>        </ul>        <h5>Sonntag</h5>        <ul>          <li><b>Richtung Susten</b> ca. 02:00 Uhr (Bettmobil)</li>          <li><b>Richtung Susten</b> ca. 03:30 Uhr (Steiner Reisen)</li>          <li><b>Richtung Brig</b> ca. 02:30 Uhr (Steiner Reisen)</li>        <li><b>Richtung Brig</b> ca. 03:45 Uhr (Bettmobil)</li>       </ul>",
+    },
+  ];
+
+  busStops.forEach((atm) => {
     const marker = new google.maps.Marker(atm);
     const infoWindow = new google.maps.InfoWindow({
       content: atm.infoWindowContent,
