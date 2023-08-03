@@ -9,6 +9,10 @@ html {
     box-sizing: inherit;
 }
 
+.mdc-dialog {
+  z-index: 2; /* Ensure the dialog is on top of the map */
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -22,4 +26,17 @@ h1 {
 
 #map {
     height: 100vh;
+    position: relative;
+}
+
+
+
+#mapButton {
+  position: absolute;
+  top: 100px;
+  left: 10px;
+  z-index: 1;
+  background-color: #fff; /* White background */
+  border-radius: 50%; /* Round shape (circular button) */
+  padding: 12px; /* Increase padding for better visibility */
 }

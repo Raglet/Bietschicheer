@@ -5,28 +5,132 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="./images/favicon.png" />
-    <title>Gelände Bietschicheer</title>
+
+    <!-- Add Material Design -->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+    rel="stylesheet"
     />
 
     <link rel="stylesheet" href="style.css" />
+    <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+    />
+
+    <title>Gelände Bietschicheer</title>
   </head>
 
   <body>
-    <div id="map"></div>
+    <div id="map">
+
+    </div>
+<!--
+    <button id="mapButton" class="mdc-icon-button material-icons" aria-label="Settings">settings</button>
+
+  <div class="mdc-dialog" id="settingsDialog" role="alertdialog" aria-modal="true" aria-labelledby="dialog-title" aria-describedby="dialog-content">
+    <div class="mdc-dialog__container">
+      <div class="mdc-dialog__surface">
+        <h2 class="mdc-dialog__title" id="dialog-title">Marker Categories</h2>
+        <div class="mdc-dialog__content" id="dialog-content">
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="drinkBarsToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Drink Bars</span>
+        </br>
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="foodBarsToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Food Bars</span>
+        </br>
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="afternoonToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Nachmittagsprogramm</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="stageToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Bühne</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="sanitaetToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Sanität</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="busStopsToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Bus Stops</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="suppliesToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Nachschub</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="restaurantsToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Restaurants</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="parkingToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>Parking</span>
+          <br />
+          <label class="mdc-switch">
+            <input type="checkbox" class="mdc-switch__native-control" id="atmsToggle" checked />
+            <div class="mdc-switch__background">
+              <div class="mdc-switch__knob"></div>
+            </div>
+          </label>
+          <span>ATMs</span>
+          <footer class="mdc-dialog__actions">
+            <button type="button" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="close">Close</button>
+          </footer>
+        </div>
+      </div>
+      <div class="mdc-dialog__scrim"></div>
+    </div>
+  -->
 
     <script src="script.js"></script>
+
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap"></script>
   </body>
