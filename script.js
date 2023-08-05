@@ -23,43 +23,54 @@ function initMap() {
   // add informations about all locations in constants
   // Bar-marker
   const drink_bars = [
-    [
-      "Bar Cipolla",
-      46.311364,
-      7.800744,
-      "images/bar.png",
-      25,
-      25,
-      "<h2>1 - Reserve</h2>\
-        Status: Frei",
-    ],
+    // [
+    //   "Bar Cipolla",
+    //   46.311364,
+    //   7.800744,
+    //   "images/bar.png",
+    //   25,
+    //   25,
+    //   "<h2>1 - Reserve</h2>\
+    //     Status: Frei",
+    // ],
 
     [
-      "Garage Armando",
+      "Bicicletta",
       46.31137,
       7.80053,
       "images/bar.png",
       25,
       25,
-      '<h2>2 - Gewerbeverein Ecoumbra</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
-        Status: Reserivert',
+      '\
+      <img src="./images/logos/ecoumra.png" class="content-logo" alt="logo Ecoumra"   />\
+      <div class="content-title-wrapper">\
+      <h2 class="content-title"> Bicicletta</h2>\
+      <h3 class="content-subtitle">Gewerbeverein Ecoumra</h3>\
+      </div>\
+      <hr>\
+      <p ><strong>Musik:</strong> Oldies but Goodies  <p>\
+        ',
     ],
 
     [
-      "Gemeinde Partylokal",
+      "Mesireccas Chäller",
       46.311434,
       7.800057,
       "images/bar.png",
       25,
       25,
-      '<h2>3 - Guggenmusik Mesireccas</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 400.-</p>\
-        Status: Reserivert',
+      ' <img src="./images/logos/mesireccas.jpg" class="content-logo" alt="logo Ecoumra"   />\
+        <div class="content-title-wrapper">\
+        <h2 class="content-title">Mesireccas Chäller</h2>\
+        <h3 class="content-subtitle">Verein Guggenmusik Mesireccas</h3>\
+        </div>\
+        <hr>\
+        <p>\
+          <strong>Musik:</strong> Vorgschmak verd Mesireccas\
+          <br/> \
+          <strong>Essen:</strong> Hot-Dog (ab 23:00)\
+        <p>\
+        ',
     ],
 
     [
@@ -436,8 +447,7 @@ function initMap() {
         url: "./images/atm.png",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
-        fillColor: "red"
-
+        fillColor: "red",
       },
       infoWindowContent: "<h3>Bankautomat Raiffeisen</h3>",
     },

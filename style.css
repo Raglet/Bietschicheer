@@ -1,17 +1,22 @@
 html {
     box-sizing: border-box;
     font-size: 100%;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 *,
 *::before,
 *::after {
     box-sizing: inherit;
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 .mdc-dialog {
   z-index: 2; /* Ensure the dialog is on top of the map */
 }
+
 
 body {
     margin: 0;
@@ -22,6 +27,31 @@ h1 {
     font-family: 'Montserrat', sans-serif;
     font-size: 800;
     text-align: center;
+}
+
+p{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+
+}
+
+.content-logo {
+  height: 40px;
+  width: 40px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 16px;
+}
+
+.content-title{
+  margin: 0;
+}
+.content-subtitle{
+  margin: 0;
+}
+.content-title-wrapper{
+  margin-top: 32px;
 }
 
 #map {
