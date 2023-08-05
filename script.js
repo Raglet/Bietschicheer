@@ -74,17 +74,23 @@ function initMap() {
     ],
 
     [
-      "Parking Gemeinde",
+      "Bietschicheer Bar",
       46.311553,
       7.799596,
       "images/bar.png",
       25,
       25,
-      '<h2>4 - Verein Bietschicheer</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - 00:00 Uhr</p>\
-        <p>Preis: CHF 400.-</p>\
-        Status: Reserviert',
+      ' \
+       <img src="./images/favicon.png" class="content-logo" alt="logo Bietschicheer"   />\
+      <div class="content-title-wrapper">\
+      <h2 class="content-title">Bäumgärtu Bar</h2>\
+      <h3 class="content-subtitle">Verein Bietschicheer</h3>\
+      </div>\
+      <hr>\
+      <p>\
+        <strong>Essen:</strong> Curryreis\
+      <p>\
+      ',
     ],
 
     [
@@ -94,126 +100,183 @@ function initMap() {
       "images/bar.png",
       25,
       25,
-      '<h2>5 - EHC Raron</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 400.-</p>\
-        Status: Reserviert',
+       ' \
+      <img src="./images/logos/ehc.png" class="content-logo" alt="logo EHC" style="height: 30px;" />\
+     <div class="content-title-wrapper">\
+     <h2 class="content-title">EHC-Raron Bar</h2>\
+      </div>\
+     <hr>\
+     <p>\
+       <strong>Musik:</strong> Party Sound\
+     <p>\
+     ',
     ],
 
     [
-      "Stall des Paten",
+      "12er Mann Bar",
       46.311035,
       7.798849,
       "images/bar.png",
       25,
       25,
-      '<h2>6 - 12ter Man  </h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
-        Status: Reserviert',
+     ' \
+     <div class="content-title-wrapper" style="margin-top: 0;">\
+     <h2 class="content-title">12ter Mann Bar</h2>\
+     </div>\
+     <hr>\
+     <p>\
+       <strong>Musik:</strong> Chriz und Queer\
+     <p>',
     ],
 
     [
-      "LM LaserArt Eventtechnik",
+      "Stigma Bar",
       46.310865,
       7.79925,
       "images/bar.png",
       25,
       25,
-      '<h2>8 - Verein Stigma Elektronmit</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 18:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 300.-</p>\
-        Status: Reserviert',
+      ' \
+      <img src="./images/logos/stigma.jpg" class="content-logo" alt="logo EHC"  />\
+     <div class="content-title-wrapper">\
+     <h2 class="content-title">Stigma Bar</h2>\
+     <h3 class="content-subtitle">Verein Bietschicheer</h3>\
+      </div>\
+     <hr>\
+     <p>\
+     <strong>Musik:</strong> elektronische Tanzmusik \
+    </br> \
+     <strong>Essen:</strong> Hot-Dog (ab 23:00)\
+     <p>\
+     ',
     ],
 
     [
-      "Piärboy Heidnisch",
+      "Heidnischbier Bar",
       46.311334,
       7.799821,
       "images/bar.png",
       25,
       25,
-      '<h2>9 - Heidnischbier AG</h2>\
-      <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-      <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-      <p>Preis: CHF 400.-</p>\
-      Status: Reserviert',
+      ' \
+      <img src="./images/logos/heidnisch.jpg" class="content-logo" alt="logo heidnisch"   />\
+     <div class="content-title-wrapper" style="margin-top: 45px">\
+     <h2 class="content-title">Heidnischbier Bar</h2>\
+     </div>\
+     <hr>\
+     <p>\
+     <strong>Musik:</strong> Beer-Beats \
+     <p>\
+     ',
     ],
 
     [
-      "Pöschtli",
+      "DIE BAR",
       46.309649,
       7.80025,
       "images/bar.png",
       25,
       25,
-      '<h2>10 - DIE BAR</h2>\
-    <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-    <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 19:00 Uhr - bis fertig</p>\
-    <p>Preis: CHF 300.-</p>\
-    Status: Reserviert',
+      ' \
+     <div class="content-title-wrapper" style="margin-top: 0">\
+     <h2 class="content-title">DIE BAR</h2>\
+     </div>\
+     <hr>\
+     <p>\
+     <strong>Musik:</strong> Blues and more\
+     </br> \
+     <strong>Essen:</strong> Croque Monsieur (ab 23:00)\
+     <p>\
+     ',
     ],
   ];
 
   // Bar-marker
   const food_bars = [
     [
-      "Parkplatz Maxenhaus 1",
+      "Valperca Foodtruck",
       46.31169,
       7.8004,
       "images/Gastro.png",
       25,
       25,
-      '<h2>101 - Valperca (Foodtruck)</h2>\
-          <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-          <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 400.-</p>\
-          Status: Reserviert',
+      ' \
+      <img src="./images/logos/valperca.png" class="content-logo" alt="logo valperca"   />\
+      <div class="content-title-wrapper" >\
+      <h2 class="content-title">Valperca Foodtruck</h2>\
+      </div>\
+      <hr>\
+      <p>\
+      <strong>Essen:</strong> \
+      <ul> \
+       <li>Egli-Knusperli mit Süsskartoffelpommes </li> \
+       <li>Eglibratwurst mit Brot </li> \
+       </ul> \
+      <p>\
+      ',
     ],
 
     [
-      "Parkplatz Maxenhaus 2",
+      "Kulturbar",
       46.31177,
       7.800258,
       "images/Gastro.png",
       25,
       25,
-      '<h2>102 - Pro Raronia Historica und Kulturstiftung</h2>\
-        <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-        <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-        <p>Preis: CHF 400.-</p>\
-        Status: Reserviert',
+'      \
+      <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
+     <div class="content-title-wrapper">\
+     <h2 class="content-title">Kulturbar</h2>\
+     <h3 class="content-subtitle">Pro Raronia Historica & Kulturstiftung</h3>\
+      </div>\
+     <hr>\
+     <p>\
+     <strong>Musik:</strong> - \
+    </br> \
+     <strong>Essen:</strong>- \
+     <p>\
+     ',
+
     ],
 
-    [
-      "Burgersaal",
-      46.31156,
-      7.800238,
-      "images/Gastro.png",
-      25,
-      25,
-      '<h2>103 - Mittagstisch für Senioren am Samstag</h2>\
-          <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-          <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
-          <p>Preis: CHF 400.-</p>\
-          Status: Reserviert',
-    ],
+    // [
+    //   "Burgersaal",
+    //   46.31156,
+    //   7.800238,
+    //   "images/Gastro.png",
+    //   25,
+    //   25,
+    //   '<h2>103 - Mittagstisch für Senioren am Samstag</h2>\
+    //       <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
+    //       <p style="margin-block-start: 3px;">Samstag: 11:00 Uhr - 14:00 Uhr</p>\
+    //       <p>Preis: CHF 400.-</p>\
+    //       Status: Reserviert',
+    // ],
 
     [
-      "Stall vis-a-vis Burgersaal",
+      "Subieschmiede",
       46.311605,
       7.800008,
       "images/Gastro.png",
       25,
       25,
-      '<h2>104 - Subieschmiede KLG</h2>\
-          <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-          <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 400.-</p>\
-          Status: Reserviert',
+      ' \
+      <div style="width : 250px "> \
+    <img src="./images/logos/subieschmiede.jpeg" class="content-logo" alt="logo-subieschmiede" style="height: 20px;"   />\
+      <div class="content-title-wrapper" >\
+      <h2 class="content-title">Snackwerkstatt</h2>\
+      <h3 class="content-subtitle">Subieschmiede KLG</h3>\
+      </div>\
+      <hr>\
+      <p>\
+      <strong>Essen:</strong> \
+      <ul> \
+       <li>Kaffee & Kuchen</li> \
+       <li>Snacks aller Art</li> \
+       </ul> \
+      <p>\
+      </div> \
+      ',
     ],
 
     [
@@ -286,8 +349,7 @@ function initMap() {
   const parking = [
     ["Schulhausplatz", 46.308303, 7.80164, "images/parking.png", 25, 25],
 
-    ["Kirchplatz", 46.310218, 7.802364, "images/parking.png", 25, 25],
-  ];
+    ];
 
   // Sanitär-marker
   const sanitaer = [

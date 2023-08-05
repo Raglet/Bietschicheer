@@ -35,9 +35,14 @@ p{
 
 }
 
+li {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
 .content-logo {
   height: 40px;
-  width: 40px;
+  width: auto;
   position: absolute;
   top: 0;
   right: 0;
