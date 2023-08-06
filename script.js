@@ -27,7 +27,7 @@ function initMap() {
     //   "Bar Cipolla",
     //   46.311364,
     //   7.800744,
-    //   "images/bar.png",
+    //   "images/bar.svg",
     //   25,
     //   25,
     //   "<h2>1 - Reserve</h2>\
@@ -38,7 +38,7 @@ function initMap() {
       "Bicicletta",
       46.31137,
       7.80053,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       '\
@@ -56,7 +56,7 @@ function initMap() {
       "Mesireccas Chäller",
       46.311434,
       7.800057,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       ' <img src="./images/logos/mesireccas.jpg" class="content-logo" alt="logo Ecoumra"   />\
@@ -77,7 +77,7 @@ function initMap() {
       "Bietschicheer Bar",
       46.311553,
       7.799596,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       ' \
@@ -97,10 +97,10 @@ function initMap() {
       "Garage Chez Karlen",
       46.311291,
       7.799512,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
-       ' \
+      ' \
       <img src="./images/logos/ehc.png" class="content-logo" alt="logo EHC" style="height: 30px;" />\
      <div class="content-title-wrapper">\
      <h2 class="content-title">EHC-Raron Bar</h2>\
@@ -116,10 +116,10 @@ function initMap() {
       "12er Mann Bar",
       46.311035,
       7.798849,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
-     ' \
+      ' \
      <div class="content-title-wrapper" style="margin-top: 0;">\
      <h2 class="content-title">12ter Mann Bar</h2>\
      </div>\
@@ -133,7 +133,7 @@ function initMap() {
       "Stigma Bar",
       46.310865,
       7.79925,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       ' \
@@ -155,7 +155,7 @@ function initMap() {
       "Heidnischbier Bar",
       46.311334,
       7.799821,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       ' \
@@ -174,7 +174,7 @@ function initMap() {
       "DIE BAR",
       46.309649,
       7.80025,
-      "images/bar.png",
+      "images/bar.svg",
       25,
       25,
       ' \
@@ -197,7 +197,7 @@ function initMap() {
       "Valperca Foodtruck",
       46.31169,
       7.8004,
-      "images/Gastro.png",
+      "images/food.svg",
       25,
       25,
       ' \
@@ -220,10 +220,10 @@ function initMap() {
       "Kulturbar",
       46.31177,
       7.800258,
-      "images/Gastro.png",
+      "images/food.svg",
       25,
       25,
-'      \
+      '      \
       <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
      <div class="content-title-wrapper">\
      <h2 class="content-title">Kulturbar</h2>\
@@ -236,14 +236,13 @@ function initMap() {
      <strong>Essen:</strong>- \
      <p>\
      ',
-
     ],
 
     // [
     //   "Burgersaal",
     //   46.31156,
     //   7.800238,
-    //   "images/Gastro.png",
+    //   "images/food.svg",
     //   25,
     //   25,
     //   '<h2>103 - Mittagstisch für Senioren am Samstag</h2>\
@@ -257,7 +256,7 @@ function initMap() {
       "Subieschmiede",
       46.311605,
       7.800008,
-      "images/Gastro.png",
+      "images/food.svg",
       25,
       25,
       ' \
@@ -280,17 +279,21 @@ function initMap() {
     ],
 
     [
-      "Bänkli",
+      "Kochende Frauen",
       46.3117,
       7.80016,
-      "images/Gastro.png",
+      "images/food.svg",
       25,
       25,
-      '<h2>105 - Verein Kochende Frauen Raron</h2>\
-          <h3 style="margin-block-end: 3px;">Öffnungszeiten</h3>\
-          <p style="margin-block-start: 3px;">Freitag: 18:00 Uhr - bis fertig<br>Samstag: 11:00 Uhr - bis fertig</p>\
-          <p>Preis: CHF 400.-</p>\
-          Status: Reserviert',
+      ' \
+      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <h2 class="content-title">Kochende Frauen</h2>\
+      </div>\
+      <hr>\
+      <p>\
+      <strong>Essen:</strong> Bratwurst / Schübling mit Salat \
+      <p>\
+       ',
     ],
   ];
 
@@ -300,64 +303,71 @@ function initMap() {
       "Restaurant Schmitta",
       46.311236,
       7.799061,
-      "images/Restaurant.png",
+      "images/restaurant.svg",
       25,
       25,
-      "<h2>201</h2>\
-        <h2>Restaurant Schmitta</h2>\
-        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>",
+      ' \
+      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <h2 class="content-title">Restaurant Schmitta</h2>\
+      </div>\
+           ',
     ],
 
     [
       "Restaurant Rilke",
       46.310952,
       7.80012,
-      "images/Restaurant.png",
+      "images/restaurant.svg",
       25,
       25,
-      "<h2>202</h2>\
-        <h2>Restaurant Rilke</h2>\
-        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - bis fertig<br>Samstag: 12:00 Uhr - bis fertig</p>",
+      ' \
+      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <h2 class="content-title">Restaurant Rilke</h2>\
+      </div>\
+           ',
     ],
 
     [
       "Bäckerei Zenhäusern",
       46.310503,
       7.799832,
-      "images/Restaurant.png",
+      "images/restaurant.svg",
       25,
       25,
-      "<h2>203</h2>\
-        <h2>Bäckerei Zenhäusern</h2>\
-        <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>",
+      ' \
+      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <h2 class="content-title">Bäckerei Zenhäusern</h2>\
+      </div>\
+           ',
     ],
 
     [
       "Kapitel 7",
       46.309854,
       7.80028,
-      "images/Restaurant.png",
+      "images/restaurant.svg",
       25,
       25,
-      "<h2>204</h2>\
-      <h2>Restaurant Kapitel 7</h2>\
-      <h3>Öffnungszeiten</h3><p>Freitag: 18:00 Uhr - 22:00 Uhr<br>Samstag: 12:00 Uhr - 22:00 Uhr</p>",
+      ' \
+      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <h2 class="content-title">Restaurant Kapitel 7</h2>\
+      </div>\
+           ',
     ],
   ];
 
   // Parking-marker
   const parking = [
-    ["Schulhausplatz", 46.308303, 7.80164, "images/parking.png", 25, 25],
-
-    ];
+    ["Schulhausplatz", 46.308303, 7.80164, "images/parking.svg", 25, 25],
+  ];
 
   // Sanitär-marker
   const sanitaer = [
-    ["Kreisel Dorf", 46.31152, 7.799844, "images/Sanitär.png", 25, 25],
+    ["Kreisel Dorf", 46.31152, 7.799844, "images/sanitaer.svg", 25, 25],
 
-    ["Maxenhaus", 46.31159, 7.80053, "images/Sanitär.png", 25, 25],
+    ["Maxenhaus", 46.31159, 7.80053, "images/sanitaer.svg", 25, 25],
 
-    ["Parking Schmitta", 46.311034, 7.7991, "images/Sanitär.png", 25, 25],
+    ["Parking Schmitta", 46.311034, 7.7991, "images/sanitaer.svg", 25, 25],
   ];
 
   // Nachmittagsprogramm-marker
@@ -366,50 +376,84 @@ function initMap() {
       "Air Zermatt",
       46.31136,
       7.799399,
-      "images/brochure.png",
+      "images/nachmittag.svg",
       25,
       25,
-      "<h3>Air Zermatt</h3>",
+      '\
+   <div style="width : 200px "> \
+   <img src="./images/logos/airZermatt.png" class="content-logo" alt="logo Air Zermatt"   />\
+   <div class="content-title-wrapper" >\
+        <h2 class="content-title">Air Zermatt</h2>\
+        </div>\
+        <hr>\
+        ',
     ],
 
     [
       "Theaterverein Raron",
       46.31109,
       7.799986,
-      "images/brochure.png",
+      "images/nachmittag.svg",
       25,
       25,
-      "<h3>Theaterverein Raron</h3>",
+      ' \
+     <div style="width : 250px "> \
+      <img src="./images/logos/theaterverein.png" class="content-logo" alt="logo-Theaterverein" style="height: 25px;"   />\
+        <div class="content-title-wrapper" >\
+        <h2 class="content-title">Theaterverein Raron</h2>\
+        <h3 class="content-subtitle">Bühne frei!</h3>\
+        </div>\
+        <hr>\
+        <p>\
+          Zeig uns dein schauspielerisches Talent! \
+          </br> \
+          Lass dich auf der Bühne ablichten. \
+          </br> \
+          <p>\
+        </div> \
+         ',
     ],
 
-    [
-      "Samariterverein Raron-St.German",
-      46.311773,
-      7.800416,
-      "images/brochure.png",
-      25,
-      25,
-      "<h3>Samariterverein Raron-St.German</h3>",
-    ],
+    // [
+    //   "Samariterverein Raron-St.German",
+    //   46.311773,
+    //   7.800416,
+    //   "images/nachmittag.svg",
+    //   25,
+    //   25,
+    //   "<h3>Samariterverein Raron-St.German</h3>",
+    // ],
 
     [
       "Jubla Raron",
       46.311382,
       7.800184,
-      "images/brochure.png",
+      "images/nachmittag.svg",
       25,
       25,
-      "<h3>Jubla Raron</h3>",
+      '  <div style="width : 200px "> \
+      <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
+        <div class="content-title-wrapper" >\
+        <h2 class="content-title">Jubla Raron</h2>\
+        </div>\
+        <hr>\
+        </div> ',
     ],
 
     [
       "Jubla Raron",
       46.311533,
       7.799399,
-      "images/brochure.png",
+      "images/nachmittag.svg",
       25,
       25,
-      "<h3>Jubla Raron</h3>",
+      '  <div style="width : 200px "> \
+      <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
+        <div class="content-title-wrapper" >\
+        <h2 class="content-title">Jubla Raron</h2>\
+        </div>\
+        <hr>\
+        </div> ',
     ],
   ];
 
@@ -419,21 +463,33 @@ function initMap() {
       position: { lat: 46.31136, lng: 7.799596 },
       map: map,
       icon: {
-        url: "images/Band.png",
-        scaledSize: new google.maps.Size(38, 35),
+        url: "images/stage.png",
+        scaledSize: new google.maps.Size(35, 35),
         optimized: false,
       },
-      infoWindowContent: `<h3>Freitag - 01.09.2023</h3>
-      <p>18:30 Uhr - 20:00 Uhr: TripleH-B </p>
-      <p>21:00 Uhr - 22:00 Uhr: Riverbanks</p>
-      <p>23:00 Uhr - 00:00 Uhr: The Unwritten Story</p>
-      <h3>Samstag - 02.09.2023</h3>
-      <p>12:00 Uhr - 15:00 Uhr: Bietschibotsche</p>
-      <p>15:30 Uhr - 16:00 Uhr: Jodlerklub</p>
-      <p>17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</p>
-      <p>19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</p>
-      <p>21:00 Uhr - 22:00 Uhr: Madstone</p>
-      <p>23:00 Uhr - 00:30 Uhr: Whole Lotta DC</p>`,
+      infoWindowContent: `
+      ' \
+        <div class="content-title-wrapper" style="margin-top: 0" >\
+        <h2 class="content-title">Bühne</h2>\
+        <hr>\
+        </div>
+        <p>\
+        <strong>Programm:</strong> \
+        <ul style="list-style : none ">  \
+        <h3>Freitag - 01.09.2023</h3>
+        <li><strong>18:30 Uhr - 20:00 Uhr </strong>: TripleH-B </li>
+        <li>21:00 Uhr - 22:00 Uhr: Riverbanks</li>
+        <li>23:00 Uhr - 00:00 Uhr: The Unwritten Story</li>
+        <h3>Samstag - 02.09.2023</h3>
+        <li>12:00 Uhr - 15:00 Uhr: Bietschibotsche</li>
+        <li>15:30 Uhr - 16:00 Uhr: Jodlerklub</li>
+        <li>17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</li>
+        <li>19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</li>
+        <li>21:00 Uhr - 22:00 Uhr: Madstone</li>
+        <li>23:00 Uhr - 00:30 Uhr: Whole Lotta DC</li>
+         </ul> \
+        <p>\
+`,
     },
   ];
 
@@ -444,30 +500,57 @@ function initMap() {
       map: map,
       title: "Bahnhof Raron",
       icon: {
-        url: "./images/trainStop.png",
+        url: "./images/trainStop.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
       infoWindowContent:
-        "<h3>Bahnhof Raron</h3>  <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice. </br> <a href='https://www.sbb.ch/de'>Hier geht's zum Fahrplan.</a>  </p> ",
+        '      \
+        <div class="content-title-wrapper" style="margin-top: 0 ">\
+        <h2 class="content-title">Banhof Raron</h2>\
+        </div>\
+        <hr>\
+        <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice. </br> <a href="https://www.sbb.ch/de">Hier geht es zum Fahrplan.</a>  </p> \
+      <p>  <strong> Fahrplan Abreise:</strong> </p> \
+      <p> Richtung Susten  </p>\
+      <ul> \
+        <li>23:48 Uhr lezter Zug </li> \
+        <li>4:48 Uhr erster Zug </li> \
+        </ul> \
+       <p> Richtung Brig </br></p>\
+        <ul> \
+        <li>00:41 Uhr lezter Zug </li> \
+        <li>5:40 Uhr erster Zug </li> \
+        </ul> </p> \
+         \
+         \
+       ',
     },
     {
       position: { lat: 46.30356892349157, lng: 7.8014837184476145 },
       map: map,
       title: "Busstation Bergheim",
       icon: {
-        url: "./images/busStop.png",
+        url: "./images/busStop.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent: `  <h3>Bussstation Bergheim</h3>       <h4>Fahrplan:</h4>        <h5>Samstag</h5>        <ul>
-                <li><b>Richtung Susten</b> ca. 02:00 Uhr (Bettmobil)</li>
-                 <li><b>Richtung Susten</b> ca. 03:30 Uhr (Steiner Reisen)</li>          <li><b>Richtung Brig</b> ca. 02:30 Uhr (Steiner Reisen)</li>
-                  <li> <b>Richtung Brig</b> ca. 03:45 Uhr (Bettmobil)</li>        </ul>
-                      <h5>Sonntag</h5>        <ul>          <li><b>Richtung Susten</b> ca. 02:00 Uhr (Bettmobil)</li>
-                <li><b>Richtung Susten</b> ca. 03:30 Uhr (Steiner Reisen)</li>
-                  <li><b>Richtung Brig</b> ca. 02:30 Uhr (Steiner Reisen)</li>
-                    <li><b>Richtung Brig</b> ca. 03:45 Uhr (Bettmobil)</li>       </ul>`,
+      infoWindowContent: ` \
+                  <div class="content-title-wrapper" style="margin-top: 0 ">\
+      <h2 class="content-title">Bussstation Raron</h2>\
+      </div>\
+      <hr>\
+     <p><strong>Fahrplan: </strong></p>  \
+      <p>Richtung Susten</p>
+      <ul>
+        <li> ca. 02:00 Uhr (Bettmobil)</li>
+        <li> ca. 03:30 Uhr (Steiner Reisen)</li>
+          </ul>
+          <p>Richtung Brig</ul> </p>
+<ul>
+          <li> ca. 02:30 Uhr (Steiner Reisen)</li>
+                  <li> ca. 03:45 Uhr (Bettmobil)</li>
+                </ul>`,
     },
   ];
 
@@ -476,53 +559,62 @@ function initMap() {
       position: { lat: 46.311635, lng: 7.800258 },
       map: map,
       icon: {
-        url: "images/Sanität.png",
+        url: "images/sanitaet.svg",
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
-      infoWindowContent:
-        "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
+      // infoWindowContent:
+      //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
     },
   ];
 
-  // Nachschub-marker ////////////////////////////////////////
+ // Nachschub-marker ////////////////////////////////////////
   const supplies = [
-    {
-      position: { lat: 46.31149, lng: 7.8002 },
-      map: map,
-      icon: {
-        url: "images/supplies.png",
-        scaledSize: new google.maps.Size(25, 25),
-        optimized: false,
-      },
-      infoWindowContent: "<h3>Nachschub</h3>",
-    },
+    // {
+    //   position: { lat: 46.31149, lng: 7.8002 },
+    //   map: map,
+    //   icon: {
+    //     url: "images/supplies.png",
+    //     scaledSize: new google.maps.Size(25, 25),
+    //     optimized: false,
+    //   },
+    //   infoWindowContent: "<h3>Nachschub</h3>",
+    // },
   ];
   // Place ATM markers
   // Create
+
+
+
+
   const atms = [
     {
       position: { lat: 46.30914985360714, lng: 7.799721723633649 },
       map: map,
       title: "Bankautomat Raiffeisen",
       icon: {
-        url: "./images/atm.png",
+        url: "./images/atm.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
         fillColor: "red",
       },
-      infoWindowContent: "<h3>Bankautomat Raiffeisen</h3>",
+      infoWindowContent:' <div class="content-title-wrapper"> \
+      <h2 class="content-title">Bankautomat Raiffeisen</h2> \
+      <hr>   </div> \ ',
     },
     {
       position: { lat: 46.307804743765814, lng: 7.800516896599212 },
       map: map,
       title: "Bankautomat WKB",
       icon: {
-        url: "./images/atm.png",
+        url: "./images/atm.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent: "<h3>Bankautomat WKB</h3>",
+      infoWindowContent:  ' <div class="content-title-wrapper" style="margin-top : 0;"> \
+      <h2 class="content-title">Bankautomat WKB</h2> \
+      <hr>   </div> \ '
+      ,
     },
   ];
 
@@ -587,6 +679,7 @@ function initMap() {
           title: currMarker[0],
           icon: {
             url: currMarker[3],
+  glyphColor: "white",
 
             scaledSize: new google.maps.Size(currMarker[4], currMarker[5]),
             optimized: false,
