@@ -83,7 +83,7 @@ function initMap() {
       ' \
        <img src="./images/favicon.png" class="content-logo" alt="logo Bietschicheer"   />\
       <div class="content-title-wrapper">\
-      <h2 class="content-title">Bäumgärtu Bar</h2>\
+      <h2 class="content-title">Bietschicheer Bar</h2>\
       <h3 class="content-subtitle">Verein Bietschicheer</h3>\
       </div>\
       <hr>\
@@ -140,7 +140,7 @@ function initMap() {
       <img src="./images/logos/stigma.jpg" class="content-logo" alt="logo EHC"  />\
      <div class="content-title-wrapper">\
      <h2 class="content-title">Stigma Bar</h2>\
-     <h3 class="content-subtitle">Verein Bietschicheer</h3>\
+     <h3 class="content-subtitle">Stigma Crew</h3>\
       </div>\
      <hr>\
      <p>\
@@ -562,7 +562,7 @@ function initMap() {
         url: "images/sanitaet.svg",
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
-      },
+      }
       // infoWindowContent:
       //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
     },
@@ -598,9 +598,9 @@ function initMap() {
         optimized: false,
         fillColor: "red",
       },
-      infoWindowContent:' <div class="content-title-wrapper"> \
+      infoWindowContent:' <div class="content-title-wrapper" style="margin-top: 0 "> \
       <h2 class="content-title">Bankautomat Raiffeisen</h2> \
-      <hr>   </div> \ ',
+        </div> \ ',
     },
     {
       position: { lat: 46.307804743765814, lng: 7.800516896599212 },
@@ -613,7 +613,7 @@ function initMap() {
       },
       infoWindowContent:  ' <div class="content-title-wrapper" style="margin-top : 0;"> \
       <h2 class="content-title">Bankautomat WKB</h2> \
-      <hr>   </div> \ '
+         </div> \ '
       ,
     },
   ];
@@ -650,24 +650,39 @@ function initMap() {
       // Code to create markers from an array of objects
       locationArray.forEach((object) => {
         const marker = new google.maps.Marker(object);
+
+        if(object?.infoWindowContent){
         const infoWindow = new google.maps.InfoWindow({
           content: object.infoWindowContent,
         });
 
+        // marker.addListener("click", () => {
+        //   infoWindow.open(map, marker);
+        // });}
+
         marker.addListener("click", () => {
-          infoWindow.open(map, marker);
+          if (currentInfoWindow != null) {
+            currentInfoWindow.close();
+          }
+          infoWindow.open({
+            anchor: marker,
+            map,
+          });
+          currentInfoWindow = infoWindow;
+        });
+
+        google.maps.event.addListener(map, "click", function () {
+          infoWindow.close(map, marker);
         });
 
         google.maps.event.addListener(map, "zoom_changed", function () {
-          // If the map's zoom level is less than 17, hide the marker
           if (map.getZoom() < 17) {
             marker.setVisible(false);
           } else {
-            // Otherwise, show the marker
             marker.setVisible(true);
           }
         });
-      });
+      }});
     } else {
       // Code to create markers from an array of arrays (normal array)
       for (let i = 0; i < locationArray.length; i++) {
