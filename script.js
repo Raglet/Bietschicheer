@@ -189,6 +189,23 @@ function initMap() {
      <p>\
      ',
     ],
+
+    [
+      "Kulturbar",
+      46.31177,
+      7.800258,
+      "images/bar.svg",
+      25,
+      25,
+      '      \
+      <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
+     <div class="content-title-wrapper">\
+     <h2 class="content-title">Kulturbar</h2>\
+     <h3 class="content-subtitle">Pro Raronia Historica & Kulturstiftung</h3>\
+      </div>\
+     <hr>\
+     ',
+    ],
   ];
 
   // Bar-marker
@@ -216,27 +233,6 @@ function initMap() {
       ',
     ],
 
-    [
-      "Kulturbar",
-      46.31177,
-      7.800258,
-      "images/food.svg",
-      25,
-      25,
-      '      \
-      <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
-     <div class="content-title-wrapper">\
-     <h2 class="content-title">Kulturbar</h2>\
-     <h3 class="content-subtitle">Pro Raronia Historica & Kulturstiftung</h3>\
-      </div>\
-     <hr>\
-     <p>\
-     <strong>Musik:</strong> - \
-    </br> \
-     <strong>Essen:</strong>- \
-     <p>\
-     ',
-    ],
 
     // [
     //   "Burgersaal",
@@ -273,7 +269,7 @@ function initMap() {
        <li>Kaffee & Kuchen</li> \
        <li>Snacks aller Art</li> \
        </ul> \
-      <p>\
+      </p>\
       </div> \
       ',
     ],
@@ -294,7 +290,28 @@ function initMap() {
       <strong>Essen:</strong> Bratwurst / Schübling mit Salat \
       <p>\
        ',
-    ],
+
+    ], [
+      "Bäckerei Zenhäusern",
+      46.310503,
+      7.799832,
+      "images/food.svg",
+      25,
+      25,
+      ` \
+      <img src="./images/logos/zenheusern.png" class="content-logo" alt="logo-zenheusern"  style="height: 32px" />\
+      <div class="content-title-wrapper" style="margin-top: 40px"  >\
+      <h2 class="content-title">Raclettestübli bim Beck</h2>\
+      <h3 class="content-subtitle">Bäckerei Zenhäusern</h3>\
+      <hr>\
+      <p>\
+      <strong>Musik: </strong> Volkstümliche Musik
+      </br>
+      <strong>Essen: </strong>  Raclette
+      </p>\
+      </div>\
+           `,
+    ]
   ];
 
   // Restaurant-marker
@@ -327,19 +344,7 @@ function initMap() {
            ',
     ],
 
-    [
-      "Bäckerei Zenhäusern",
-      46.310503,
-      7.799832,
-      "images/restaurant.svg",
-      25,
-      25,
-      ' \
-      <div class="content-title-wrapper" style="margin-top: 0;">\
-      <h2 class="content-title">Bäckerei Zenhäusern</h2>\
-      </div>\
-           ',
-    ],
+
 
     [
       "Kapitel 7",
@@ -468,27 +473,74 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent: `
-      ' \
         <div class="content-title-wrapper" style="margin-top: 0" >\
         <h2 class="content-title">Bühne</h2>\
         <hr>\
         </div>
-        <p>\
-        <strong>Programm:</strong> \
-        <ul style="list-style : none ">  \
-        <h3>Freitag - 01.09.2023</h3>
-        <li><strong>18:30 Uhr - 20:00 Uhr </strong>: TripleH-B </li>
-        <li>21:00 Uhr - 22:00 Uhr: Riverbanks</li>
-        <li>23:00 Uhr - 00:00 Uhr: The Unwritten Story</li>
-        <h3>Samstag - 02.09.2023</h3>
-        <li>12:00 Uhr - 15:00 Uhr: Bietschibotsche</li>
-        <li>15:30 Uhr - 16:00 Uhr: Jodlerklub</li>
-        <li>17:00 Uhr - 18:00 Uhr: Mini Playback Show by Jubla</li>
-        <li>19:00 Uhr - 20:00 Uhr: Kentucky Moonshiners</li>
-        <li>21:00 Uhr - 22:00 Uhr: Madstone</li>
-        <li>23:00 Uhr - 00:30 Uhr: Whole Lotta DC</li>
-         </ul> \
-        <p>\
+        <div>
+   <p>     <strong>Programm:</strong></p>
+   <div class="lineup">
+   <div class="time-column">
+     <p style="margin-top : 0;">Freitag</p>
+     <ul style="list-style-type:none; ">
+       <li>
+         <strong>18:30-20:00 :</strong>
+       </li>
+       <li>
+         <strong>21:00-22:00 :</strong>
+       </li>
+       <li>
+         <strong>23:00-00:00 :</strong>
+       </li>
+     </ul>
+   </div>
+   <div class="artist-column">
+     <p  style="margin-top : 0;">&nbsp;</p>
+     <ul style="list-style-type:none;">
+       <li>TripleH-B</li>
+       <li>Riverbanks</li>
+       <li>The Unwritten Story</li>
+     </ul>
+   </div>
+ </div>
+ <div class="lineup">
+   <div class="time-column">
+     <p>Samstag</p>
+     <ul style="list-style-type:none;">
+       <li>
+         <strong>12:00-15:00 :</strong>
+       </li>
+       <li>
+         <strong>15:30-16:00 :</strong>
+       </li>
+       <li>
+         <strong>17:00-18:00 :</strong>
+       </li>
+       <li>
+         <strong>19:00-20:00 :</strong>
+       </li>
+       <li>
+         <strong>21:00-22:00 :</strong>
+       </li>
+       <li>
+         <strong>23:00-00:30 :</strong>
+       </li>
+     </ul>
+   </div>
+   <div class="artist-column">
+     <p>&nbsp;</p>
+     <ul style="list-style-type:none;">
+       <li>Bietschibotsche</li>
+       <li>Jodlerklub</li>
+       <li>Mini Playback Show by Jubla</li>
+       <li>Kentucky Moonshiners</li>
+       <li>Madstone</li>
+       <li>Whole Lotta DC</li>
+     </ul>
+   </div>
+ </div>
+
+
 `,
     },
   ];
