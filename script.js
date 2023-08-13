@@ -377,22 +377,7 @@ function initMap() {
 
   // Nachmittagsprogramm-marker
   const afternoon = [
-    [
-      "Air Zermatt",
-      46.31136,
-      7.799399,
-      "images/nachmittag.svg",
-      25,
-      25,
-      '\
-   <div style="width : 200px "> \
-   <img src="./images/logos/airZermatt.png" class="content-logo" alt="logo Air Zermatt"   />\
-   <div class="content-title-wrapper" >\
-        <h2 class="content-title">Air Zermatt</h2>\
-        </div>\
-        <hr>\
-        ',
-    ],
+
 
     [
       "Theaterverein Raron",
@@ -453,9 +438,9 @@ function initMap() {
       25,
       25,
       '  <div style="width : 200px "> \
-      <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
+      <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
         <div class="content-title-wrapper" >\
-        <h2 class="content-title">Jubla Raron</h2>\
+        <h2 class="content-title">Fluggruppe Oberwallis</h2>\
         </div>\
         <hr>\
         </div> ',
@@ -619,6 +604,17 @@ function initMap() {
       //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
     },
   ];
+  const info = [    {
+    position: { lat: 46.31079761450369, lng: 7.800021996320716 },
+    map: map,
+    icon: {
+      url: "images/info.svg",
+      scaledSize: new google.maps.Size(30, 25),
+      optimized: false,
+    }
+    // infoWindowContent:
+    //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
+  },]
 
  // Nachschub-marker ////////////////////////////////////////
   const supplies = [
@@ -977,6 +973,7 @@ function initMap() {
   createMarkers(restaurants);
   createMarkers(parking);
   createMarkers(atms);
+  createMarkers(info);
 }
 
 window.initMap = initMap;
