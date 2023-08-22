@@ -792,199 +792,199 @@ function initMap() {
   }
 
 
-    // Create an object to store the toggle status for each category
-  const categoryToggles = {
-    drink_bars: true,
-    food_bars: true,
-    sanitaer: true,
-    afternoon: true,
-    stage: true,
-    sanitaet: true,
-    busStops: true,
-    supplies: true,
-    restaurants: true,
-    parking: true,
-    atms: true,
-    // Add other categories here and set their initial toggle status
-  };
+  //   // Create an object to store the toggle status for each category
+  // const categoryToggles = {
+  //   drink_bars: true,
+  //   food_bars: true,
+  //   sanitaer: true,
+  //   afternoon: true,
+  //   stage: true,
+  //   sanitaet: true,
+  //   busStops: true,
+  //   supplies: true,
+  //   restaurants: true,
+  //   parking: true,
+  //   atms: true,
+  //   // Add other categories here and set their initial toggle status
+  // };
 
-  // Function to toggle markers based on category
+  // // Function to toggle markers based on category
 
-    const markers = {
-      drink_bars: [],
-      food_bars: [],
-      sanitaer: [],
-      afternoon: [],
-      stage: [],
-      sanitaet: [],
-      busStops: [],
-      supplies: [],
-      restaurants: [],
-      parking: [],
-      atms: [],
-    };
-      // Add other marker categories here
+  //   const markers = {
+  //     drink_bars: [],
+  //     food_bars: [],
+  //     sanitaer: [],
+  //     afternoon: [],
+  //     stage: [],
+  //     sanitaet: [],
+  //     busStops: [],
+  //     supplies: [],
+  //     restaurants: [],
+  //     parking: [],
+  //     atms: [],
+  //   };
+  //     // Add other marker categories here
 
-      function toggleMarkers(category, toggleStatus) {
-        if (markers[category]) {
-          markers[category].forEach((marker) => {
-            marker.setVisible(toggleStatus);
-          });
-        }
-      }
+  //     function toggleMarkers(category, toggleStatus) {
+  //       if (markers[category]) {
+  //         markers[category].forEach((marker) => {
+  //           marker.setVisible(toggleStatus);
+  //         });
+  //       }
+  //     }
 
-  // Function to handle toggle button state and show/hide markers accordingly
-  function handleToggleButtons() {
-    const drinkBarsToggle = document.getElementById('drinkBarsToggle');
-    const foodBarsToggle = document.getElementById('foodBarsToggle');
-    const sanitaerToggle = document.getElementById('sanitaerToggle');
-    const afternoonToggle = document.getElementById('afternoonToggle');
-    const stageToggle = document.getElementById('stageToggle');
-    const sanitaetToggle = document.getElementById('sanitaetToggle');
-    const busStopsToggle = document.getElementById('busStopsToggle');
-    const suppliesToggle = document.getElementById('suppliesToggle');
-    const restaurantsToggle = document.getElementById('restaurantsToggle');
-    const parkingToggle = document.getElementById('parkingToggle');
-    const atmsToggle = document.getElementById('atmsToggle');
-    // Add other toggle buttons as needed
+  // // Function to handle toggle button state and show/hide markers accordingly
+  // function handleToggleButtons() {
+  //   const drinkBarsToggle = document.getElementById('drinkBarsToggle');
+  //   const foodBarsToggle = document.getElementById('foodBarsToggle');
+  //   const sanitaerToggle = document.getElementById('sanitaerToggle');
+  //   const afternoonToggle = document.getElementById('afternoonToggle');
+  //   const stageToggle = document.getElementById('stageToggle');
+  //   const sanitaetToggle = document.getElementById('sanitaetToggle');
+  //   const busStopsToggle = document.getElementById('busStopsToggle');
+  //   const suppliesToggle = document.getElementById('suppliesToggle');
+  //   const restaurantsToggle = document.getElementById('restaurantsToggle');
+  //   const parkingToggle = document.getElementById('parkingToggle');
+  //   const atmsToggle = document.getElementById('atmsToggle');
+  //   // Add other toggle buttons as needed
 
-    // Add event listeners for each toggle button to update the toggle status
-    drinkBarsToggle.addEventListener('change', (event) => {
-      categoryToggles['drink_bars'] = event.target.checked;
-      if (event.target.checked) {
-        createMarkers(drink_bars, "drink_bars");
-      }
-    });
+  //   // Add event listeners for each toggle button to update the toggle status
+  //   drinkBarsToggle.addEventListener('change', (event) => {
+  //     categoryToggles['drink_bars'] = event.target.checked;
+  //     if (event.target.checked) {
+  //       createMarkers(drink_bars, "drink_bars");
+  //     }
+  //   });
 
-    foodBarsToggle.addEventListener('change', (event) => {
-      categoryToggles['food_bars'] = event.target.checked;
-      if (event.target.checked) {
-        createMarkers(food_bars);
-      }
+  //   foodBarsToggle.addEventListener('change', (event) => {
+  //     categoryToggles['food_bars'] = event.target.checked;
+  //     if (event.target.checked) {
+  //       createMarkers(food_bars);
+  //     }
 
-    });
+  //   });
 
-    sanitaerToggle.addEventListener('change', (event) => {
-      categoryToggles['sanitaer'] = event.target.checked;
-      toggleMarkers('sanitaer', event.target.checked);
-    });
+  //   sanitaerToggle.addEventListener('change', (event) => {
+  //     categoryToggles['sanitaer'] = event.target.checked;
+  //     toggleMarkers('sanitaer', event.target.checked);
+  //   });
 
-    afternoonToggle.addEventListener('change', (event) => {
-      categoryToggles['afternoon'] = event.target.checked;
-      toggleMarkers('afternoon', event.target.checked);
-    });
+  //   afternoonToggle.addEventListener('change', (event) => {
+  //     categoryToggles['afternoon'] = event.target.checked;
+  //     toggleMarkers('afternoon', event.target.checked);
+  //   });
 
-    stageToggle.addEventListener('change', (event) => {
-      categoryToggles['stage'] = event.target.checked;
-      toggleMarkers('stage', event.target.checked);
-    });
+  //   stageToggle.addEventListener('change', (event) => {
+  //     categoryToggles['stage'] = event.target.checked;
+  //     toggleMarkers('stage', event.target.checked);
+  //   });
 
-    sanitaetToggle.addEventListener('change', (event) => {
-      categoryToggles['sanitaet'] = event.target.checked;
-      toggleMarkers('sanitaet', event.target.checked);
-    });
+  //   sanitaetToggle.addEventListener('change', (event) => {
+  //     categoryToggles['sanitaet'] = event.target.checked;
+  //     toggleMarkers('sanitaet', event.target.checked);
+  //   });
 
-    busStopsToggle.addEventListener('change', (event) => {
-      categoryToggles['busStops'] = event.target.checked;
-      toggleMarkers('busStops', event.target.checked);
-    });
+  //   busStopsToggle.addEventListener('change', (event) => {
+  //     categoryToggles['busStops'] = event.target.checked;
+  //     toggleMarkers('busStops', event.target.checked);
+  //   });
 
-    suppliesToggle.addEventListener('change', (event) => {
-      categoryToggles['supplies'] = event.target.checked;
-      toggleMarkers('supplies', event.target.checked);
-    });
+  //   suppliesToggle.addEventListener('change', (event) => {
+  //     categoryToggles['supplies'] = event.target.checked;
+  //     toggleMarkers('supplies', event.target.checked);
+  //   });
 
-    restaurantsToggle.addEventListener('change', (event) => {
-      categoryToggles['restaurants'] = event.target.checked;
-      toggleMarkers('restaurants', event.target.checked);
-    });
+  //   restaurantsToggle.addEventListener('change', (event) => {
+  //     categoryToggles['restaurants'] = event.target.checked;
+  //     toggleMarkers('restaurants', event.target.checked);
+  //   });
 
-    parkingToggle.addEventListener('change', (event) => {
-      categoryToggles['parking'] = event.target.checked;
-      toggleMarkers('parking', event.target.checked);
-    });
+  //   parkingToggle.addEventListener('change', (event) => {
+  //     categoryToggles['parking'] = event.target.checked;
+  //     toggleMarkers('parking', event.target.checked);
+  //   });
 
-    atmsToggle.addEventListener('change', (event) => {
-      categoryToggles['atms'] = event.target.checked;
-      toggleMarkers('atms', event.target.checked);
-    })
+  //   atmsToggle.addEventListener('change', (event) => {
+  //     categoryToggles['atms'] = event.target.checked;
+  //     toggleMarkers('atms', event.target.checked);
+  //   })
 
-  }
+  // }
 
-  // Add event listener for dialog open event
-  dialog.listen('MDCDialog:opened', () => {
-    // Call the function to handle toggle buttons when the dialog is opened
-    handleToggleButtons();
-  });
+  // // Add event listener for dialog open event
+  // dialog.listen('MDCDialog:opened', () => {
+  //   // Call the function to handle toggle buttons when the dialog is opened
+  //   handleToggleButtons();
+  // });
 
-  // Function to create markers for a given category if the toggle is set to true
-  function     createMarkersForCategory(category) {
-    if (categoryToggles[category]) {
-      switch (category) {
-        case 'sanitaer':
-          markers['sanitaer'] = createMarkers(sanitaer);
-          break;
-        case 'afternoon':
-          markers['afternoon'] = createMarkers(afternoon);
-          break;
-        case 'stage':
-          markers['stage'] = createMarkers(stage);
-          break;
-        case 'sanitaet':
-          markers['sanitaet'] = createMarkers(sanitaet);
-          break;
-        case 'busStops':
-          markers['busStops'] = createMarkers(busStops);
-          break;
-        case 'supplies':
-          markers['supplies'] = createMarkers(supplies);
-          break;
-        case 'drink_bars':
-          markers['drink_bars'] = createMarkers(drink_bars);
-          break;
-        case 'food_bars':
-          markers['food_bars'] = createMarkers(food_bars);
-          break;
-        case 'restaurants':
-          markers['restaurants'] = createMarkers(restaurants);
-          break;
-        case 'parking':
-          markers['parking'] = createMarkers(parking);
-          break;
-        case 'atms':
-          markers['atms'] = createMarkers(atms);
-          break;
-        default:
-          break;
-      }
-    }
-  }
+  // // Function to create markers for a given category if the toggle is set to true
+  // function     createMarkersForCategory(category) {
+  //   if (categoryToggles[category]) {
+  //     switch (category) {
+  //       case 'sanitaer':
+  //         markers['sanitaer'] = createMarkers(sanitaer);
+  //         break;
+  //       case 'afternoon':
+  //         markers['afternoon'] = createMarkers(afternoon);
+  //         break;
+  //       case 'stage':
+  //         markers['stage'] = createMarkers(stage);
+  //         break;
+  //       case 'sanitaet':
+  //         markers['sanitaet'] = createMarkers(sanitaet);
+  //         break;
+  //       case 'busStops':
+  //         markers['busStops'] = createMarkers(busStops);
+  //         break;
+  //       case 'supplies':
+  //         markers['supplies'] = createMarkers(supplies);
+  //         break;
+  //       case 'drink_bars':
+  //         markers['drink_bars'] = createMarkers(drink_bars);
+  //         break;
+  //       case 'food_bars':
+  //         markers['food_bars'] = createMarkers(food_bars);
+  //         break;
+  //       case 'restaurants':
+  //         markers['restaurants'] = createMarkers(restaurants);
+  //         break;
+  //       case 'parking':
+  //         markers['parking'] = createMarkers(parking);
+  //         break;
+  //       case 'atms':
+  //         markers['atms'] = createMarkers(atms);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // }
 
-  // Create markers for each category if the corresponding toggle is set to true
-  createMarkersForCategory('sanitaer');
-  createMarkersForCategory('afternoon');
-  createMarkersForCategory('stage');
-  createMarkersForCategory('sanitaet');
-  createMarkersForCategory('busStops');
-  createMarkersForCategory('supplies');
-  createMarkersForCategory('drink_bars');
-  createMarkersForCategory('food_bars');
-  createMarkersForCategory('restaurants');
-  createMarkersForCategory('parking');
-  createMarkersForCategory('atms');
+  // // Create markers for each category if the corresponding toggle is set to true
+  // createMarkersForCategory('sanitaer');
+  // createMarkersForCategory('afternoon');
+  // createMarkersForCategory('stage');
+  // createMarkersForCategory('sanitaet');
+  // createMarkersForCategory('busStops');
+  // createMarkersForCategory('supplies');
+  // createMarkersForCategory('drink_bars');
+  // createMarkersForCategory('food_bars');
+  // createMarkersForCategory('restaurants');
+  // createMarkersForCategory('parking');
+  // createMarkersForCategory('atms');
 
-  // createMarkers(sanitaer);
-  // createMarkers(afternoon);
-  // createMarkers(stage);
-  //  createMarkers(sanitaet);
-  // createMarkers(busStops);
-  // createMarkers(supplies);
-  // createMarkers(drink_bars);
-  // createMarkers(food_bars);
-  // createMarkers(restaurants);
-  // createMarkers(parking);
-  // createMarkers(atms);
-  // createMarkers(info);
+  createMarkers(sanitaer);
+  createMarkers(afternoon);
+  createMarkers(stage);
+   createMarkers(sanitaet);
+  createMarkers(busStops);
+  createMarkers(supplies);
+  createMarkers(drink_bars);
+  createMarkers(food_bars);
+  createMarkers(restaurants);
+  createMarkers(parking);
+  createMarkers(atms);
+  createMarkers(info);
 }
 
 window.initMap = initMap;
