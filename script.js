@@ -232,7 +232,6 @@ function initMap() {
       ',
     ],
 
-
     // [
     //   "Burgersaal",
     //   46.31156,
@@ -289,8 +288,8 @@ function initMap() {
       <strong>Essen:</strong> Bratwurst / Schübling mit Salat \
       <p>\
        ',
-
-    ], [
+    ],
+    [
       "Bäckerei Zenhäusern",
       46.310503,
       7.799832,
@@ -310,7 +309,7 @@ function initMap() {
       </p>\
       </div>\
            `,
-    ]
+    ],
   ];
 
   // Restaurant-marker
@@ -343,8 +342,6 @@ function initMap() {
            ',
     ],
 
-
-
     [
       "Kapitel 7",
       46.309854,
@@ -376,8 +373,6 @@ function initMap() {
 
   // Nachmittagsprogramm-marker
   const afternoon = [
-
-
     [
       "Theaterverein Raron",
       46.31109,
@@ -446,7 +441,9 @@ function initMap() {
     ],
     [
       "Jubla Raron",
-      46.31189681656011, 7.800069928935517,      "images/nachmittag.svg",
+      46.31189681656011,
+      7.800069928935517,
+      "images/nachmittag.svg",
       25,
       25,
       '  <div style="width : 200px "> \
@@ -506,10 +503,7 @@ function initMap() {
      <p>Samstag</p>
      <ul style="list-style-type:none;">
        <li>
-         <strong>12:00-15:00 :</strong>
-       </li>
-       <li>
-         <strong>15:30-16:00 :</strong>
+         <strong>12:00-16:00 :</strong>
        </li>
        <li>
          <strong>17:00-18:00 :</strong>
@@ -528,8 +522,7 @@ function initMap() {
    <div class="artist-column">
      <p>&nbsp;</p>
      <ul style="list-style-type:none;">
-       <li>Bietschibotsche</li>
-       <li>Jodlerklub</li>
+       <li>Bietschibotsche & Jodlerklub Raron</li>
        <li>Mini Playback Show by Jubla</li>
        <li>Kentucky Moonshiners</li>
        <li>Madstone</li>
@@ -612,24 +605,26 @@ function initMap() {
         url: "images/sanitaet.svg",
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
-      }
+      },
       // infoWindowContent:
       //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
     },
   ];
-  const info = [    {
-    position: { lat: 46.31079761450369, lng: 7.800021996320716 },
-    map: map,
-    icon: {
-      url: "images/info.svg",
-      scaledSize: new google.maps.Size(30, 25),
-      optimized: false,
-    }
-    // infoWindowContent:
-    //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
-  },]
+  const info = [
+    {
+      position: { lat: 46.31079761450369, lng: 7.800021996320716 },
+      map: map,
+      icon: {
+        url: "images/info.svg",
+        scaledSize: new google.maps.Size(30, 25),
+        optimized: false,
+      },
+      // infoWindowContent:
+      //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
+    },
+  ];
 
- // Nachschub-marker ////////////////////////////////////////
+  // Nachschub-marker ////////////////////////////////////////
   const supplies = [
     // {
     //   position: { lat: 46.31149, lng: 7.8002 },
@@ -645,9 +640,6 @@ function initMap() {
   // Place ATM markers
   // Create
 
-
-
-
   const atms = [
     {
       position: { lat: 46.30914985360714, lng: 7.799721723633649 },
@@ -659,9 +651,10 @@ function initMap() {
         optimized: false,
         fillColor: "red",
       },
-      infoWindowContent:' <div class="content-title-wrapper" style="margin-top: 0 "> \
+      infoWindowContent:
+        ' <div class="content-title-wrapper" style="margin-top: 0 "> \
       <h2 class="content-title">Bankautomat Raiffeisen</h2> \
-        </div> \ ',
+        </div>  ',
     },
     {
       position: { lat: 46.307804743765814, lng: 7.800516896599212 },
@@ -672,10 +665,10 @@ function initMap() {
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
-      infoWindowContent:  ' <div class="content-title-wrapper" style="margin-top : 0;"> \
+      infoWindowContent:
+        ' <div class="content-title-wrapper" style="margin-top : 0;"> \
       <h2 class="content-title">Bankautomat WKB</h2> \
-         </div> \ '
-      ,
+         </div>  ',
     },
   ];
 
@@ -777,10 +770,9 @@ function initMap() {
           google.maps.event.addListener(map, "click", function () {
             infowindow.close(map, marker);
           });
-          
 
           google.maps.event.addListener(map, "zoom_changed", function () {
-            if (map.getZoom() < 17 ) {
+            if (map.getZoom() < 17) {
               marker.setVisible(false);
             } else {
               marker.setVisible(true);
@@ -790,7 +782,6 @@ function initMap() {
       }
     }
   }
-
 
   //   // Create an object to store the toggle status for each category
   // const categoryToggles = {
@@ -976,7 +967,7 @@ function initMap() {
   createMarkers(sanitaer);
   createMarkers(afternoon);
   createMarkers(stage);
-   createMarkers(sanitaet);
+  createMarkers(sanitaet);
   createMarkers(busStops);
   createMarkers(supplies);
   createMarkers(drink_bars);
