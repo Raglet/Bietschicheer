@@ -119,8 +119,10 @@ function initMap() {
       25,
       25,
       ' \
-     <div class="content-title-wrapper" style="margin-top: 0;">\
+      <img src="./images/logos/kickers.png" class="content-logo" alt="logo Kickerbar"/>\
+     <div class="content-title-wrapper" style="margin-right: 50px;">\
      <h2 class="content-title">12ter Mann Bar</h2>\
+     <h3 class="content-subtitle">by Kickers Raron</h3>\
      </div>\
      <hr>\
      <p>\
@@ -177,7 +179,8 @@ function initMap() {
       25,
       25,
       ' \
-     <div class="content-title-wrapper" style="margin-top: 0">\
+      <img src="./images/logos/diebar.png" class="content-logo" alt="logo-DieBar"   />\
+     <div class="content-title-wrapper" <<s">\
      <h2 class="content-title">DIE BAR</h2>\
      </div>\
      <hr>\
@@ -198,6 +201,7 @@ function initMap() {
       25,
       '      \
       <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
+      <img src="./images/logos/kulturStiftung.png" class="content-logo" alt="loo-kulturStiftung" style="width: 200px; height: auto  ; left: 0; " />\
      <div class="content-title-wrapper">\
      <h2 class="content-title">Kulturbar</h2>\
      <h3 class="content-subtitle">Pro Raronia Historica & Kulturstiftung</h3>\
@@ -280,7 +284,8 @@ function initMap() {
       25,
       25,
       ' \
-      <div class="content-title-wrapper" style="margin-top: 0;">\
+      <img src="./images/logos/kochendeFrauen.png" class="content-logo" alt="logo-kochendeFrauen"  style="height: 45px;" />\
+      <div class="content-title-wrapper" ">\
       <h2 class="content-title">Kochende Frauen</h2>\
       </div>\
       <hr>\
@@ -619,8 +624,10 @@ function initMap() {
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
-      // infoWindowContent:
-      //   "<h3>Sanität Raron</h3><p>Samariterverein Raron-St.German<p>",
+      infoWindowContent:
+        ` <div class="content-title-wrapper" style="margin-top: 0 "> \
+        <h2 class="content-title">Ticketkauf & Infostand</h2> \
+          </div>  `,
     },
   ];
 
