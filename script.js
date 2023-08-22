@@ -25,8 +25,7 @@ function initMap() {
   const drink_bars = [
     // [
     //   "Bar Cipolla",
-    //   46.311364,
-    //   7.800744,
+
     //   "images/bar.svg",
     //   25,
     //   25,
@@ -114,8 +113,8 @@ function initMap() {
 
     [
       "12er Mann Bar",
-      46.311035,
-      7.798849,
+      46.311364,
+      7.800744,
       "images/bar.svg",
       25,
       25,
