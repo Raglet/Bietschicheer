@@ -710,7 +710,7 @@ function initMap() {
 
   // use API to add markers
 
-  function createMarkers(locationArray, categoryName = "") {
+  function createMarkers(locationArray, ) {
     if (!Array.isArray(locationArray)) {
       console.error("Input is not an array.");
       return;
@@ -764,11 +764,11 @@ function initMap() {
           });
 
           google.maps.event.addListener(map, "zoom_changed", function () {
-            if (map.getZoom() < 17 || !categoryToggles[categoryName]) {
-              marker.setVisible(false);
-            } else {
-              marker.setVisible(true);
-            }
+            // if (map.getZoom() < 17 || !categoryToggles[categoryName]) {
+            //   marker.setVisible(false);
+            // } else {
+            //   marker.setVisible(true);
+            // }
           });
         }
       });
