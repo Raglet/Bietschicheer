@@ -18,157 +18,175 @@ function initMap() {
     center: { lat: 46.311049, lng: 7.799834 }, // Dorfplatz Raron
     zoom: 18, // 18 für Fest
     mapId: "a32a14914e374824",
+    disableDefaultUI: true
   });
 
   // add informations about all locations in constants
   // Bar-marker
   const drink_bars = [
-    // [
-    //   "Bar Cipolla",
 
-    //   "images/bar.svg",
-    //   25,
-    //   25,
-    //   "<h2>1 - Reserve</h2>\
-    //     Status: Frei",
-    // ],
 
     [
-      "Bicicletta",
+      "Ecoumra",
       46.31137,
       7.80053,
       "images/bar.svg",
       25,
       25,
-      '\
-      <img src="./images/logos/ecoumra.png" class="content-logo" alt="logo Ecoumra"   />\
+      `\
+      <div class="images">\
+      <img src="./images/logos/ecoumra.png" class="content-logo" alt="schrifft-Ecoumra"   />\
+      <img src="./images/namen/ecoumbra.png" class="content-name" alt="logo Ecoumra"   />\
+      </div>\
       <div class="content-title-wrapper">\
-      <h2 class="content-title"> Bicicletta</h2>\
-      <h3 class="content-subtitle">Gewerbeverein Ecoumra</h3>\
+      <h3 class="content-subtitle">by Ecoumra</h3>\
       </div>\
       <hr>\
-      <p ><strong>Musik:</strong> Oldies but Goodies  <p>\
-        ',
+      <p ><span class="flex-section"> <strong>Musik:</strong> Oldies but Goodies  </span> <p> \
+        `,
     ],
 
     [
-      "Mesireccas Chäller",
+      "Mesireccas",
       46.311434,
       7.800057,
       "images/bar.svg",
       25,
       25,
-      ' <img src="./images/logos/mesireccas.jpg" class="content-logo" alt="logo Ecoumra"   />\
+      ` <div class="images">\
+      <img src="./images/logos/mesi.jpg" class="content-logo" alt="logo Ecoumra"   />\
+      <img src="./images/namen/mesireccas.png" class="content-logo" alt="schrifft-Ecoumra"   />\
+      </div>\
+
         <div class="content-title-wrapper">\
-        <h2 class="content-title">Mesireccas Chäller</h2>\
-        <h3 class="content-subtitle">Verein Guggenmusik Mesireccas</h3>\
+        <h3 class="content-subtitle">by Guggenmusik </br> Mesireccas</h3>\
         </div>\
         <hr>\
-        <p>\
-          <strong>Musik:</strong> Vorgschmak verd Mesireccas\
-          <br/> \
-          <strong>Essen:</strong> Hot-Dog (ab 23:00)\
-        <p>\
-        ',
+        <p>
+        <span  class="flex-section">
+          <strong>Musik:</strong>
+          <span >Vorgschmak verd </br> Mesireccas</span>
+        </span>
+        <br/>
+        <span class="flex-section" >
+          <strong>Essen:</strong>
+          <span class="flex-section" >Hot-Dog (ab 23:00)</span>
+        </span>
+      </p>
+
+        `,
     ],
 
     [
-      "Bietschicheer Bar",
+      "Bietschicheer",
       46.311553,
       7.799596,
       "images/bar.svg",
       25,
       25,
-      ' \
-       <img src="./images/favicon.png" class="content-logo" alt="logo Bietschicheer"   />\
+      ` \
+      <div class="images" >\
+
+       <img src="./images/logos/cheer.png" class="content-logo" alt="logo Bietschicheer" style="height: 30px"  />\
+       <img src="./images/namen/bietschich.png" class="content-name" alt="logo Ecoumra" style="width: 150px"  />\
+
+       </div>\
       <div class="content-title-wrapper">\
-      <h2 class="content-title">Bietschicheer Bar</h2>\
-      <h3 class="content-subtitle">Verein Bietschicheer</h3>\
+      <h3 class="content-subtitle">by Verein </br> Bietschicheer</h3>\
       </div>\
       <hr>\
       <p>\
-        <strong>Essen:</strong> Curryreis\
+      <span class="flex-section" >   <strong>Essen:</strong> Curryreis </span>\
       <p>\
-      ',
+      `,
     ],
 
     [
-      "Garage Chez Karlen",
+      "EHC-Raron",
       46.311291,
       7.799512,
       "images/bar.svg",
       25,
       25,
-      ' \
-      <img src="./images/logos/ehc.png" class="content-logo" alt="logo EHC" style="height: 30px;" />\
+      ` \
+      <div class="images">\
+      <img src="./images/logos/ehc.png" class="content-logo" alt="logo EHC"  />\
+      <img src="./images/namen/ehc.png" class="content-name" alt="logo EHC"  />\
+      </div>\
      <div class="content-title-wrapper">\
-     <h2 class="content-title">EHC-Raron Bar</h2>\
       </div>\
      <hr>\
      <p>\
-       <strong>Musik:</strong> Party Sound\
+     <span class="flex-section" >   <strong >Musik:</strong> Party Sound </span>\
      <p>\
-     ',
+     `,
     ],
 
     [
-      "12er Mann Bar",
+      "Kickers Raron",
       46.311364,
       7.800744,
       "images/bar.svg",
       25,
       25,
-      ' \
+      ` \
+      <div class="images">\
+
       <img src="./images/logos/kickers.png" class="content-logo" alt="logo Kickerbar"/>\
-     <div class="content-title-wrapper" style="margin-right: 50px;">\
-     <h2 class="content-title">12ter Mann Bar</h2>\
-     <h3 class="content-subtitle">by Kickers Raron</h3>\
-     </div>\
-     <hr>\
-     <p>\
-       <strong>Musik:</strong> Chriz und Queer\
-     <p>',
+      <img src="./images/namen/12er.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      </div>\
+      <div class="content-title-wrapper">\
+      <h3 class="content-subtitle">by Kickers Raron</h3>\
+      </div>\
+      <hr>\
+      <p>\
+      <span class="flex-section" >  <strong>Musik:</strong> Chriz und Queer </span>\
+      <p>`,
     ],
 
     [
-      "Stigma Bar",
+      "Stigma Crew",
       46.310865,
       7.79925,
       "images/bar.svg",
       25,
       25,
-      ' \
+      ` \
+      <div class="images">\
+
       <img src="./images/logos/stigma.jpg" class="content-logo" alt="logo EHC"  />\
-     <div class="content-title-wrapper">\
-     <h2 class="content-title">Stigma Bar</h2>\
-     <h3 class="content-subtitle">Stigma Crew</h3>\
+      <img src="./images/namen/stigma.png" class="content-name" alt="schrifft-Ecoumra"   />\
       </div>\
-     <hr>\
-     <p>\
-     <strong>Musik:</strong> elektronische Tanzmusik \
-    </br> \
-     <strong>Essen:</strong> Hot-Dog (ab 23:00)\
-     <p>\
-     ',
+      <div class="content-title-wrapper">\
+      <h3 class="content-subtitle">by Stigma Crew</h3>\
+      </div>\
+      <hr>\
+      <p>\
+      <span class="flex-section" >    <strong>Musik:</strong> elektronische Tanzmusik  </span> \
+      </br> \
+      <span class="flex-section" >   <strong>Essen:</strong> Hot-Dog (ab 23:00)  </span>\
+      <p>\
+     `,
     ],
 
     [
-      "Heidnischbier Bar",
+      "Heidnischbier",
       46.311334,
       7.799821,
       "images/bar.svg",
       25,
       25,
-      ' \
+      ` \
+      <div class="images">\
       <img src="./images/logos/heidnisch.jpg" class="content-logo" alt="logo heidnisch"   />\
-     <div class="content-title-wrapper" style="margin-top: 45px">\
-     <h2 class="content-title">Heidnischbier Bar</h2>\
-     </div>\
+      <img src="./images/namen/heidnisch.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      </div>
      <hr>\
      <p>\
-     <strong>Musik:</strong> Beer-Beats \
-     <p>\
-     ',
+     <span class="flex-section">   <strong>Musik:</strong> Beer-Beats  </span> \
+     <p>\ `
+     ,
+
     ],
 
     [
@@ -179,35 +197,41 @@ function initMap() {
       25,
       25,
       ' \
-      <img src="./images/logos/diebar.png" class="content-logo" alt="logo-DieBar"   />\
-     <div class="content-title-wrapper" <<s">\
-     <h2 class="content-title">DIE BAR</h2>\
+      <div class="images">\
+      <img src="./images/logos/diebar.png" class="content-name" alt="logo-DieBar"  style="width: 150px" />\
+      </div>\
+     <div class="content-title-wrapper" ">\
      </div>\
      <hr>\
      <p>\
-     <strong>Musik:</strong> Blues and more\
+     <span class="flex-section" >   <strong>Musik:</strong> Blues and more </span>\
      </br> \
-     <strong>Essen:</strong> Croque Monsieur (ab 23:00)\
+     <span class="flex-section" >   <strong>Essen:</strong> Croque Monsieur (ab 23:00) </span>\
      <p>\
      ',
     ],
 
     [
-      "Kulturbar",
+      "Pro Raronia Historica & Kulturstiftung",
       46.31177,
       7.800258,
       "images/bar.svg",
       25,
       25,
-      '      \
-      <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
-      <img src="./images/logos/kulturStiftung.png" class="content-logo" alt="loo-kulturStiftung" style="width: 200px; height: auto  ; left: 0; " />\
-     <div class="content-title-wrapper">\
-     <h2 class="content-title">Kulturbar</h2>\
-     <h3 class="content-subtitle">Pro Raronia Historica & Kulturstiftung</h3>\
+      `     \
+      <div class="images">\
+<div style="display:flex; flex-direction: column; margin:auto 0 ;">
+<img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
+<img src="./images/logos/kulturStiftung.png" class="content-logo" alt="logo-kulturStiftung" style="width: 200px; height: auto; " />\
+</div>\
+      <img src="./images/namen/kulu.png" class="content-name" alt="logo Ecoumra" style="width: 150px;  "/>\
+      </div>\
+
+   <div class="content-title-wrapper">\
+     <h3 class="content-subtitle">by Pro Raronia Historica </br> & Kulturstiftung</h3>\
       </div>\
      <hr>\
-     ',
+     `,
     ],
   ];
 
@@ -220,20 +244,36 @@ function initMap() {
       "images/food.svg",
       25,
       25,
-      ' \
-      <img src="./images/logos/valperca.png" class="content-logo" alt="logo valperca"   />\
+      ` \
+      <div class="images">\
+
+      <img src="./images/logos/valperca.png" class="content-logo" alt="logo valperca" style="height : 50px"  />\
+      <img src="./images/namen/valp.png" class="content-name" alt="logo Ecoumra"   />\
+
+      </div>\
       <div class="content-title-wrapper" >\
-      <h2 class="content-title">Valperca Foodtruck</h2>\
+      <h2 class="content-subtitle">by Valperca </h2>\
       </div>\
       <hr>\
-      <p>\
-      <strong>Essen:</strong> \
-      <ul> \
-       <li>Egli-Knusperli mit Süsskartoffelpommes </li> \
-       <li>Eglibratwurst mit Brot </li> \
-       </ul> \
-      <p>\
-      ',
+      <p>
+      <div style="display: flex; flex-direction: column">
+      <span class="flex-section">
+        <strong>Essen:</strong>
+        <span class="food-list">
+          <ul style="list-style-type: "-" ; padding-left: 0;">
+            <li>Egli-Knusperli mit Süsskartoffelpommes</li>
+            <li>Eglibratwurst mit Brot</li>
+          </ul>
+        </span>
+      </span>
+      <div>
+    </p>
+
+
+
+
+      \
+      `,
     ],
 
     // [
@@ -257,23 +297,30 @@ function initMap() {
       "images/food.svg",
       25,
       25,
-      ' \
-      <div style="width : 250px "> \
-    <img src="./images/logos/subieschmiede.jpeg" class="content-logo" alt="logo-subieschmiede" style="height: 20px;"   />\
-      <div class="content-title-wrapper" >\
-      <h2 class="content-title">Snackwerkstatt</h2>\
-      <h3 class="content-subtitle">Subieschmiede KLG</h3>\
+      ` \
+      <div class="images">\
+    <img src="./images/logos/subieschmiede.jpeg" class="content-logo" alt="logo-subieschmiede"  style="height: 20px;"  />\
+    <img src="./images/namen/subi.png" class="content-name" alt="logo Ecoumra" style="width: 150px;"  />\
+    </div>\
+  <div class="content-title-wrapper" >\
+      <h3 class="content-subtitle">by Subieschmiede </h3>\
       </div>\
       <hr>\
-      <p>\
-      <strong>Essen:</strong> \
-      <ul> \
-       <li>Kaffee & Kuchen</li> \
-       <li>Snacks aller Art</li> \
-       </ul> \
-      </p>\
-      </div> \
-      ',
+      <p>
+      <div style="display: flex; flex-direction: column;">
+        <span class="flex-section">
+          <strong>Essen:</strong>
+          <span class="food-list">
+            <ul style="list-style-type: "-"; padding-left: 0;">
+              <li>Kaffee & Kuchen</li>
+              <li>Snacks aller Art</li>
+            </ul>
+          </span>
+        </span>
+      </div>
+    </p>
+
+    `,
     ],
 
     [
@@ -284,13 +331,16 @@ function initMap() {
       25,
       25,
       ' \
-      <img src="./images/logos/kochendeFrauen.png" class="content-logo" alt="logo-kochendeFrauen"  style="height: 45px;" />\
-      <div class="content-title-wrapper" ">\
-      <h2 class="content-title">Kochende Frauen</h2>\
+      <div class="images">\
+      <img src="./images/logos/kochendeFrauen.png" class="content-logo" alt="logo-kochendeFrauen"  style="height: 50px;" />\
+      <img src="./images/namen/kochendeFr.png" class="content-name" alt="logo Ecoumra"   style="width: 170px"/>\
+      </div>\
+      <div class="content-title-wrapper" >\
+      <h3 class="content-subtitle">by Kochende Frauen</h3>\
       </div>\
       <hr>\
       <p>\
-      <strong>Essen:</strong> Bratwurst / Schübling mit Salat \
+    <span class="flex-section">  <strong>Essen:</strong> Bratwurst / Schübling mit Salat </span> \
       <p>\
        ',
     ],
@@ -302,15 +352,18 @@ function initMap() {
       25,
       25,
       ` \
-      <img src="./images/logos/zenheusern.png" class="content-logo" alt="logo-zenheusern"  style="height: 32px" />\
-      <div class="content-title-wrapper" style="margin-top: 40px"  >\
-      <h2 class="content-title">Raclettestübli bim Beck</h2>\
-      <h3 class="content-subtitle">Bäckerei Zenhäusern</h3>\
+      <div class="images">\
+      <img src="./images/logos/zenheusern.png" class="content-logo" alt="logo-zenheusern"  />\
+      <img src="./images/namen/beck.png" class="content-name" alt="logo Ecoumra"  style="width: 150px" />\
+      </div>\
+      <div class="content-title-wrapper"   >\
+      <h3 class="content-subtitle">by Bäckerei </br>  Zenhäusern Raron</h3>\
+      </div>\
       <hr>\
       <p>\
-      <strong>Musik: </strong> Volkstümliche Musik
+      <span class="flex-section">   <strong>Musik: </strong> Volkstümliche Musik  </span>
       </br>
-      <strong>Essen: </strong>  Raclette
+      <span class="flex-section">     <strong>Essen: </strong>  Raclette  </span>
       </p>\
       </div>\
            `,
@@ -386,14 +439,15 @@ function initMap() {
       25,
       25,
       ' \
-     <div style="width : 250px "> \
-      <img src="./images/logos/theaterverein.png" class="content-logo" alt="logo-Theaterverein" style="height: 25px;"   />\
+     ` <div class="images">\
+      <img src="./images/logos/theaterverein.png" class="content-logo" alt="logo-Theaterverein" style="height: 35px;"   />\
+      <img src="./images/namen/theater.png" class="content-name" alt="schrifft-Ecoumra"  style="width: 160px;"   />\
+      </div>\
         <div class="content-title-wrapper" >\
-        <h2 class="content-title">Theaterverein Raron</h2>\
-        <h3 class="content-subtitle">Bühne frei!</h3>\
+        <h3 class="content-subtitle">by Theaterverein </br> Raron</h3>\
         </div>\
         <hr>\
-        <p>\
+        <p style="max-width: 200px">\
           Zeig uns dein schauspielerisches Talent! \
           </br> \
           Lass dich auf der Bühne ablichten. \
@@ -420,13 +474,27 @@ function initMap() {
       "images/nachmittag.svg",
       25,
       25,
-      '  <div style="width : 200px "> \
+      `  < style="width : 200px "> \
+      <div class="images">\
       <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
+      <img src="./images/namen/jubla.png" class="content-name" alt="logo Ecoumra"  style="width: 160px;"    />\
+      </div>\
         <div class="content-title-wrapper" >\
-        <h2 class="content-title">Jubla Raron</h2>\
         </div>\
         <hr>\
-        </div> ',
+        <p>
+        <div style="display: flex; flex-direction: column;">
+        <span class="flex-section">
+          <strong>Programm:</strong>
+          <span class="food-list">
+            <ul style="list-style-type: "-"; padding-left: 0;">
+              <li>Schminken / Crazy Hair Styles</li>
+              <li>Schnitzeljagd</li>
+              <li>Div. Kleine Spiele</li>
+            </ul>
+          </span>
+        </span>
+        </div></p> `,
     ],
 
     [
@@ -436,13 +504,15 @@ function initMap() {
       "images/nachmittag.svg",
       25,
       25,
-      '  <div style="width : 200px "> \
+      ` <div class="images">\
       <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
+      <img src="./images/namen/fluggr.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      </div>\
         <div class="content-title-wrapper" >\
-        <h2 class="content-title">Fluggruppe Oberwallis</h2>\
         </div>\
         <hr>\
-        </div> ',
+       <p> <span class="flex-section">     <strong>Programm: </strong>  Modelflugzeugbau  </span></p>
+      `,
     ],
     [
       "Jubla Raron",
@@ -451,14 +521,15 @@ function initMap() {
       "images/nachmittag.svg",
       25,
       25,
-      '  <div style="width : 200px "> \
+      '  <div class="images">\
       <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
+      <img src="./images/namen/hüfp.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      </div>\
         <div class="content-title-wrapper" >\
-        <h2 class="content-title">Hüpfburg</h2>\
-        <h3 class="content-subtitle">Fluggruppe Oberwallis</h3>\
+        <h3 class="content-subtitle">by Fluggruppe</br> Oberwallis</h3>\
         </div>\
         <hr>\
-        </div> ',
+         ',
     ],
   ];
 
@@ -473,67 +544,19 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent: `
-        <div class="content-title-wrapper" style="margin-top: 0" >\
-        <h2 class="content-title">Bühne</h2>\
-        <hr>\
+        <div class="images">\
+
+        <img src="./images/namen/bühne.png" class="content-name" alt="logo Ecoumra"   />\
         </div>
-        <div>
-   <p>     <strong>Programm:</strong></p>
-   <div class="lineup">
-   <div class="time-column">
-     <p style="margin-top : 0;">Freitag</p>
-     <ul style="list-style-type:none; ">
-       <li>
-         <strong>18:30-20:00 :</strong>
-       </li>
-       <li>
-         <strong>21:00-22:00 :</strong>
-       </li>
-       <li>
-         <strong>23:00-00:00 :</strong>
-       </li>
-     </ul>
-   </div>
-   <div class="artist-column">
-     <p  style="margin-top : 0;">&nbsp;</p>
-     <ul style="list-style-type:none;">
-       <li>TripleH-B</li>
-       <li>Riverbanks</li>
-       <li>The Unwritten Story</li>
-     </ul>
-   </div>
- </div>
- <div class="lineup">
-   <div class="time-column">
-     <p>Samstag</p>
-     <ul style="list-style-type:none;">
-       <li>
-         <strong>12:00-16:00 :</strong>
-       </li>
-       <li>
-         <strong>17:00-18:00 :</strong>
-       </li>
-       <li>
-         <strong>19:00-20:00 :</strong>
-       </li>
-       <li>
-         <strong>21:00-22:00 :</strong>
-       </li>
-       <li>
-         <strong>23:00-00:30 :</strong>
-       </li>
-     </ul>
-   </div>
-   <div class="artist-column">
-     <p>&nbsp;</p>
-     <ul style="list-style-type:none;">
-       <li>Bietschibotsche & Jodlerklub Raron</li>
-       <li>Mini Playback Show by Jubla</li>
-       <li>Kentucky Moonshiners</li>
-       <li>Madstone</li>
-       <li>Whole Lotta DC</li>
-     </ul>
-   </div>
+
+        <div class="content-title-wrapper">\
+        <h3 class="content-subtitle">Program</h3>\
+        </div>\
+        <div class="lineup" >
+        <p>Freitag</p>
+        <img src="./images/namen/freit.png" class="content-name" alt="logo Ecoumra"  style="width: 200px; float: left ;" />\
+        <p style="clear: left;">Samstag</p>        <img src="./images/namen/sams.png" class="content-name" alt="logo Ecoumra"   style="width: 280px ; float: left ;" />\
+
  </div>
 
 
@@ -554,18 +577,18 @@ function initMap() {
       },
       infoWindowContent:
         '      \
-        <div class="content-title-wrapper" style="margin-top: 0 ">\
-        <h2 class="content-title">Banhof Raron</h2>\
+        <div class="images">\
+        <img src="./images/namen/zug.png" class="content-name" alt="logo Ecoumra"   />\
         </div>\
         <hr>\
-        <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice. </br> <a href="https://www.sbb.ch/de">Hier geht es zum Fahrplan.</a>  </p> \
-      <p>  <strong> Fahrplan Abreise:</strong> </p> \
-      <p> Richtung Susten  </p>\
-      <ul> \
+        <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice.  </p> \
+        <p>  <strong> Fahrplan Abreise</strong> </p> \
+        <p> Richtung Susten  </p>\
+        <ul> \
         <li>23:48 Uhr lezter Zug </li> \
         <li>4:48 Uhr erster Zug </li> \
         </ul> \
-       <p> Richtung Brig </br></p>\
+        <p> Richtung Brig </br></p>\
         <ul> \
         <li>00:41 Uhr lezter Zug </li> \
         <li>5:40 Uhr erster Zug </li> \
@@ -584,11 +607,11 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent: ` \
-                  <div class="content-title-wrapper" style="margin-top: 0 ">\
-      <h2 class="content-title">Bussstation Raron</h2>\
+      <div class="images">\
+      <img src="./images/namen/bus.png" class="content-name" alt="logo Ecoumra"   />\
       </div>\
       <hr>\
-     <p><strong>Fahrplan: </strong></p>  \
+     <p><strong>Fahrplan </strong></p>  \
       <p>Richtung Susten</p>
       <ul>
         <li> ca. 02:00 Uhr (Bettmobil)</li>
@@ -625,9 +648,9 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent:
-        ` <div class="content-title-wrapper" style="margin-top: 0 "> \
-        <h2 class="content-title">Ticketkauf & Infostand</h2> \
-          </div>  `,
+        `
+        <img src="./images/namen/ticket.png" class="content-name" alt="logo Ecoumra"   style="float: center; width: 150px ;margin: auto;"/>\
+       `,
     },
   ];
 
@@ -659,8 +682,11 @@ function initMap() {
         fillColor: "red",
       },
       infoWindowContent:
-        ' <div class="content-title-wrapper" style="margin-top: 0 "> \
-      <h2 class="content-title">Bankautomat Raiffeisen</h2> \
+        '<div class="images">\
+        <img src="./images/namen/bank.png" class="content-name" alt="logo Ecoumra"   />\
+        </div>\
+         <div class="content-title-wrapper" style="margin-top: 0 "> \
+      <h3 class="content-subtitle">Raiffeisen</h3> \
         </div>  ',
     },
     {
@@ -673,8 +699,11 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent:
-        ' <div class="content-title-wrapper" style="margin-top : 0;"> \
-      <h2 class="content-title">Bankautomat WKB</h2> \
+        '<div class="images">\
+        <img src="./images/namen/bank.png" class="content-name" alt="logo Ecoumra"   />\
+        </div>\
+         <div class="content-title-wrapper" style="margin-top : 0;"> \
+      <h3 class="content-subtitle"> WKB</h3> \
          </div>  ',
     },
   ];
@@ -715,6 +744,8 @@ function initMap() {
         if (object?.infoWindowContent) {
           const infoWindow = new google.maps.InfoWindow({
             content: object.infoWindowContent,
+
+
           });
 
           marker.addListener("click", () => {
@@ -761,6 +792,8 @@ function initMap() {
         if (currMarker[6]) {
           const infowindow = new google.maps.InfoWindow({
             content: currMarker[6],
+
+
           });
 
           marker.addListener("click", () => {

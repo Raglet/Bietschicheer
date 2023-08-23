@@ -40,23 +40,37 @@ li {
   font-weight: 500;
 }
 
+
+.images{
+  display: flex;
+  flex-direction: column;
+  gap : 10px
+}
 .content-logo {
-  height: 40px;
+  height: 50px;
   width: auto;
-  position: absolute;
+  margin: 16px;
+  margin: auto;
+}
+
+.content-name {
+  width: 120px;
+  margin: auto;
+  height: auto;
   top: 0;
   right: 0;
-  margin: 16px;
+  /* margin: 16px; */
+}
+.content-subtitle{
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 1em;
 }
 
 .content-title{
   margin: 0;
-}
-.content-subtitle{
-  margin: 0;
-}
-.content-title-wrapper{
-  margin-top: 32px;
 }
 
 #map {
@@ -66,10 +80,7 @@ li {
 
 
 .lineup {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  grid-column-gap: 10px;
-  /* padding: 10px; */
+text-align: center;
 }
 
 .time-column {
@@ -91,4 +102,16 @@ li {
   background-color: #fff; /* White background */
   border-radius: 50%; /* Round shape (circular button) */
   padding: 12px; /* Increase padding for better visibility */
+}
+
+
+
+.flex-section {
+  display: flex;
+  align-items: center;
+  margin-right: 5px
+}
+
+.flex-section strong {
+  margin-right: 5px;
 }
