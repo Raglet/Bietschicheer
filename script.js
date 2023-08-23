@@ -230,7 +230,9 @@ function initMap() {
    <div class="content-title-wrapper">\
      <h3 class="content-subtitle">by Pro Raronia Historica </br> & Kulturstiftung</h3>\
       </div>\
-     <hr>\
+     <hr>\<p>
+     <span class="flex-section">   <strong>Essen:</strong> Lachsbrötchen </span> \
+</p>
      `,
     ],
   ];
