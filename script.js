@@ -42,7 +42,7 @@ function initMap() {
       <h3 class="content-subtitle">by Ecoumra</h3>\
       </div>\
       <hr>\
-      <p ><span class="flex-section"> <strong>Musik:</strong> Oldies but Goodies  </span> <p> \
+      <p ><span class="flex-section"> <strong>Musik:</strong> Lounge Musik </span> <p> \
         `,
     ],
 
@@ -158,11 +158,11 @@ function initMap() {
       <img src="./images/namen/stigma.png" class="content-name" alt="schrifft-Ecoumra"   />\
       </div>\
       <div class="content-title-wrapper">\
-      <h3 class="content-subtitle">by Stigma Crew</h3>\
+      <h3 class="content-subtitle">by Stigma  Crew</h3>\
       </div>\
       <hr>\
       <p>\
-      <span class="flex-section" >    <strong>Musik:</strong> elektronische Tanzmusik  </span> \
+      <span class="flex-section" >    <strong>Musik:</strong> elektronische </br> Tanzmusik  </span> \
       </br> \
       <span class="flex-section" >   <strong>Essen:</strong> Hot-Dog (ab 23:00)  </span>\
       <p>\
@@ -404,8 +404,7 @@ function initMap() {
 
     [
       "Kapitel 7",
-      46.309854,
-      7.80028,
+      46.309912201169375, 7.800265191478576,
       "images/restaurant.svg",
       25,
       25,
@@ -428,7 +427,8 @@ function initMap() {
 
     ["Maxenhaus", 46.31159, 7.80053, "images/sanitaer.svg", 25, 25],
 
-    ["Parking Schmitta", 46.311034, 7.7991, "images/sanitaer.svg", 25, 25],
+    ["Alte Post", 46.30978113328334, 7.800215312930417, "images/sanitaer.svg", 25, 25],
+    ["Parking Schmitta", 46.31126252625926, 7.799326719832625 , "images/sanitaer.svg", 25, 25],
   ];
 
   // Nachmittagsprogramm-marker
@@ -476,27 +476,28 @@ function initMap() {
       "images/nachmittag.svg",
       25,
       25,
-      `  < style="width : 200px "> \
+      `  <div style="width : 265px "> \
       <div class="images">\
       <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
       <img src="./images/namen/jubla.png" class="content-name" alt="logo Ecoumra"  style="width: 160px;"    />\
       </div>\
-        <div class="content-title-wrapper" >\
-        </div>\
+
         <hr>\
         <p>
-        <div style="display: flex; flex-direction: column;">
-        <span class="flex-section">
-          <strong>Programm:</strong>
-          <span class="food-list">
-            <ul style="list-style-type: "-"; padding-left: 0;">
-              <li>Schminken / Crazy Hair Styles</li>
-              <li>Schnitzeljagd</li>
-              <li>Div. Kleine Spiele</li>
-            </ul>
+        <div style=" display: flex; flex-direction: column;">
+          <span class="flex-section">
+            <strong>Programm:</strong>
+            <span class="food-list">
+              <ul style="list-style-type: disc; padding-left: 40px;">
+                <li>Schminken / Crazy Hair Styles</li>
+                <li>Schnitzeljagd</li>
+                <li>div. Kleine Spiele</li>
+              </ul>
+            </span>
           </span>
-        </span>
-        </div></p> `,
+        </div>
+      </p>
+      `,
     ],
 
     [
@@ -510,7 +511,7 @@ function initMap() {
       <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
       <img src="./images/namen/fluggr.png" class="content-name" alt="schrifft-Ecoumra"   />\
       </div>\
-        <div class="content-title-wrapper" >\
+        <div class="content-title-wrapper" style="width: 205px;" >\
         </div>\
         <hr>\
        <p> <span class="flex-section">     <strong>Programm: </strong>  Modelflugzeugbau  </span></p>
@@ -530,7 +531,6 @@ function initMap() {
         <div class="content-title-wrapper" >\
         <h3 class="content-subtitle">by Fluggruppe</br> Oberwallis</h3>\
         </div>\
-        <hr>\
          ',
     ],
   ];
@@ -552,7 +552,7 @@ function initMap() {
         </div>
 
         <div class="content-title-wrapper">\
-        <h3 class="content-subtitle">Program</h3>\
+        <h3 class="content-subtitle">Programm</h3>\
         </div>\
         <div class="lineup" >
         <p>Freitag</p>
@@ -650,27 +650,14 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent:
-        `
-        <img src="./images/namen/ticket.png" class="content-name" alt="logo Ecoumra"   style="float: center; width: 150px ;margin: auto;"/>\
-       `,
+      `
+      <img src="./images/namen/ticket.png" class="content-name" alt="logo Ecoumra"   style="float: center; width: 150px ;margin: auto;"/>\
+      `,
+      visibleDefault : true,
     },
   ];
 
-  // Nachschub-marker ////////////////////////////////////////
-  const supplies = [
-    // {
-    //   position: { lat: 46.31149, lng: 7.8002 },
-    //   map: map,
-    //   icon: {
-    //     url: "images/supplies.png",
-    //     scaledSize: new google.maps.Size(25, 25),
-    //     optimized: false,
-    //   },
-    //   infoWindowContent: "<h3>Nachschub</h3>",
-    // },
-  ];
-  // Place ATM markers
-  // Create
+
 
   const atms = [
     {
@@ -759,6 +746,10 @@ function initMap() {
               map,
             });
             currentInfoWindow = infoWindow;
+          });
+          if(object?.visibleDefault)   infoWindow.open({
+            anchor: marker,
+            map,
           });
 
           google.maps.event.addListener(map, "click", function () {
@@ -1011,7 +1002,6 @@ function initMap() {
   createMarkers(stage);
   createMarkers(sanitaet);
   createMarkers(busStops);
-  createMarkers(supplies);
   createMarkers(drink_bars);
   createMarkers(food_bars);
   createMarkers(restaurants);
