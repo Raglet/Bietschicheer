@@ -196,7 +196,7 @@ function initMap() {
       "images/bar.svg",
       25,
       25,
-      ' \
+      ` \
       <div class="images">\
       <img src="./images/logos/diebar.png" class="content-name" alt="logo-DieBar"  style="width: 150px" />\
       </div>\
@@ -204,11 +204,22 @@ function initMap() {
      </div>\
      <hr>\
      <p>\
-     <span class="flex-section" >   <strong>Musik:</strong> Blues and more </span>\
-     </br> \
-     <span class="flex-section" >   <strong>Essen:</strong> Croque Monsieur (ab 23:00) </span>\
-     <p>\
-     ',
+     <span class="flex-section">  <strong>Musik:</strong> Blues and more </span>\
+
+
+     <div style="display: flex; flex-direction: column;">
+     
+     <span class="flex-section">
+     <strong>Essen:</strong>
+     <span class="food-list">
+       <ul style="list-style-type: "-" ; padding-left: 0 !important;">
+         <li>Croque Monsieur</li>
+         <li>Veganer Gurkendip</li>
+       </ul>
+     </span>
+     </div>
+     </p>\
+     `,
     ],
 
     [
