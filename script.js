@@ -208,11 +208,19 @@ function initMap() {
 
 
      <div style="display: flex; flex-direction: column;">
+<<<<<<< HEAD
 
      <span class="flex-section">
      <strong style="font-weight: bold;">Essen:</strong>
      <span class="food-list">
        <ul style="list-style-type: "-" ; padding-left: 0 !important; 	">
+=======
+
+     <span class="flex-section">
+     <strong>Essen:</strong>
+     <span class="food-list">
+       <ul style="list-style-type: "-" ; padding-left: 0 !important;">
+>>>>>>> c483820123d76b08101a09ffec3e6bae5fdc8bc3
          <li>Croque Monsieur</li>
          <li>Veganer Gurkendip</li>
        </ul>
@@ -486,7 +494,7 @@ function initMap() {
       "images/nachmittag.svg",
       25,
       25,
-      `  <div style="width : 265px "> \
+      `  <div style="width : 200px "> \
       <div class="images">\
       <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
       <img src="./images/namen/jubla.png" class="content-name" alt="logo Ecoumra"  style="width: 160px;"    />\
@@ -494,20 +502,8 @@ function initMap() {
 
         <hr>\
         <p>
-        <div style=" display: flex; flex-direction: column;">
-          <span class="flex-section">
-            <strong>Programm:</strong>
-            <span class="food-list">
-              <ul style="list-style-type: disc; padding-left: 40px;">
-                <li>Schminken / Crazy Hair Styles</li>
-                <li>Schnitzeljagd</li>
-                <li>div. Kleine Spiele</li>
-              </ul>
-            </span>
-          </span>
-        </div>
-      </p>
-      `,
+        Spiel und spass für die ganze Familie! </br>
+        Spiele Spiele, lass dich schminken oder eine verrückte Frisur machen, nimm an einer Schatzsuche teil und noch vieles mehr. </p>      `,
     ],
 
     [
