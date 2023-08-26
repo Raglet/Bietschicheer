@@ -38,6 +38,7 @@ p{
 li {
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
+  padding-left: 0px;
 }
 
 
@@ -109,9 +110,9 @@ text-align: center;
 .flex-section {
   display: flex;
   align-items: center;
-  margin-right: 5px
+  margin-right: 2px
 }
 
 .flex-section strong {
-  margin-right: 5px;
+  margin-right: 2px;
 }

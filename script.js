@@ -65,7 +65,7 @@ function initMap() {
         <p>
         <span  class="flex-section">
           <strong>Musik:</strong>
-          <span >Vorgschmak verd </br> Mesireccas</span>
+          <span >Vorgschmack verd </br> Mesireccas</span>
         </span>
         <br/>
         <span class="flex-section" >
@@ -196,7 +196,7 @@ function initMap() {
       "images/bar.svg",
       25,
       25,
-      ' \
+      ` \
       <div class="images">\
       <img src="./images/logos/diebar.png" class="content-name" alt="logo-DieBar"  style="width: 150px" />\
       </div>\
@@ -204,11 +204,22 @@ function initMap() {
      </div>\
      <hr>\
      <p>\
-     <span class="flex-section" >   <strong>Musik:</strong> Blues and more </span>\
-     </br> \
-     <span class="flex-section" >   <strong>Essen:</strong> Croque Monsieur (ab 23:00) </span>\
-     <p>\
-     ',
+     <span class="flex-section">  <strong>Musik:</strong> Blues and more </span>\
+
+
+     <div style="display: flex; flex-direction: column;">
+
+     <span class="flex-section">
+     <strong style="font-weight: bold;">Essen:</strong>
+     <span class="food-list">
+       <ul style="list-style-type: "-" ; padding-left: 0 !important; 	">
+         <li>Croque Monsieur</li>
+         <li>Veganer Gurkendip</li>
+       </ul>
+     </span>
+     </div>
+     </p>\
+     `,
     ],
 
     [
@@ -247,7 +258,7 @@ function initMap() {
       25,
       25,
       ` \
-      <div class="images">\
+      <div class="images" >\
 
       <img src="./images/logos/valperca.png" class="content-logo" alt="logo valperca" style="height : 50px"  />\
       <img src="./images/namen/valp.png" class="content-name" alt="logo Ecoumra"   />\
@@ -262,15 +273,14 @@ function initMap() {
       <span class="flex-section">
         <strong>Essen:</strong>
         <span class="food-list">
-          <ul style="list-style-type: "-" ; padding-left: 0;">
-            <li>Egli-Knusperli mit Süsskartoffelpommes</li>
-            <li>Eglibratwurst mit Brot</li>
+          <ul style="list-style-type: "-" ; padding-left: 0 ;">
+            <li >Egli-Knusperli mit Pommes</li>
+            <li>Eglibratwurst</li>
           </ul>
         </span>
       </span>
       <div>
     </p>
-
 
 
 
@@ -514,7 +524,9 @@ function initMap() {
         <div class="content-title-wrapper" style="width: 205px;" >\
         </div>\
         <hr>\
-       <p> <span class="flex-section">     <strong>Programm: </strong>  Modelflugzeugbau  </span></p>
+        <p style="max-width: 200px">\
+        Baue dein eigenes Modellflugzeug! \
+        <p>\
       `,
     ],
     [
@@ -556,8 +568,8 @@ function initMap() {
         </div>\
         <div class="lineup" >
         <p>Freitag</p>
-        <img src="./images/namen/freit.png" class="content-name" alt="logo Ecoumra"  style="width: 200px; float: left ;" />\
-        <p style="clear: left;">Samstag</p>        <img src="./images/namen/sams.png" class="content-name" alt="logo Ecoumra"   style="width: 280px ; float: left ;" />\
+        <img src="./images/namen/freitag.png" class="content-name" alt="logo Ecoumra"  style="width: 200px; float: left ;" />\
+        <p style="clear: left;">Samstag</p>        <img src="./images/namen/samstag.png" class="content-name" alt="logo Ecoumra"   style="width: 190px ; float: left ;" />\
 
  </div>
 
