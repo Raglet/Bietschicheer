@@ -18,14 +18,12 @@ function initMap() {
     center: { lat: 46.311049, lng: 7.799834 }, // Dorfplatz Raron
     zoom: 18, // 18 für Fest
     mapId: "a32a14914e374824",
-    disableDefaultUI: true
+    disableDefaultUI: true,
   });
 
   // add informations about all locations in constants
   // Bar-marker
   const drink_bars = [
-
-
     [
       "Ecoumra",
       46.31137,
@@ -184,9 +182,7 @@ function initMap() {
      <hr>\
      <p>\
      <span class="flex-section">   <strong>Musik:</strong> Beer-Beats  </span> \
-     <p>\ `
-     ,
-
+     <p>\ `,
     ],
 
     [
@@ -205,9 +201,7 @@ function initMap() {
      <hr>\
      <p>\
      <span class="flex-section">  <strong>Musik:</strong> Blues and more </span>\
-
-
-     <div style="display: flex; flex-direction: column;">
+ <div style="display: flex; flex-direction: column;">
 
      <span class="flex-section">
      <strong style="font-weight: bold;">Essen:</strong>
@@ -414,7 +408,8 @@ function initMap() {
 
     [
       "Kapitel 7",
-      46.309912201169375, 7.800265191478576,
+      46.309912201169375,
+      7.800265191478576,
       "images/restaurant.svg",
       25,
       25,
@@ -437,8 +432,22 @@ function initMap() {
 
     ["Maxenhaus", 46.31159, 7.80053, "images/sanitaer.svg", 25, 25],
 
-    ["Alte Post", 46.30978113328334, 7.800215312930417, "images/sanitaer.svg", 25, 25],
-    ["Parking Schmitta", 46.31126252625926, 7.799326719832625 , "images/sanitaer.svg", 25, 25],
+    [
+      "Alte Post",
+      46.30978113328334,
+      7.800215312930417,
+      "images/sanitaer.svg",
+      25,
+      25,
+    ],
+    [
+      "Parking Schmitta",
+      46.31126252625926,
+      7.799326719832625,
+      "images/sanitaer.svg",
+      25,
+      25,
+    ],
   ];
 
   // Nachmittagsprogramm-marker
@@ -649,15 +658,12 @@ function initMap() {
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
-      infoWindowContent:
-      `
+      infoWindowContent: `
       <img src="./images/namen/ticket.png" class="content-name" alt="logo Ecoumra"   style="float: center; width: 150px ;margin: auto;"/>\
       `,
-      visibleDefault : true,
+      visibleDefault: true,
     },
   ];
-
-
 
   const atms = [
     {
@@ -699,7 +705,7 @@ function initMap() {
 
   // use API to add markers
 
-  function createMarkers(locationArray, ) {
+  function createMarkers(locationArray) {
     if (!Array.isArray(locationArray)) {
       console.error("Input is not an array.");
       return;
@@ -733,8 +739,6 @@ function initMap() {
         if (object?.infoWindowContent) {
           const infoWindow = new google.maps.InfoWindow({
             content: object.infoWindowContent,
-
-
           });
 
           marker.addListener("click", () => {
@@ -747,10 +751,11 @@ function initMap() {
             });
             currentInfoWindow = infoWindow;
           });
-          if(object?.visibleDefault)   infoWindow.open({
-            anchor: marker,
-            map,
-          });
+          if (object?.visibleDefault)
+            infoWindow.open({
+              anchor: marker,
+              map,
+            });
 
           google.maps.event.addListener(map, "click", function () {
             infoWindow.close(map, marker);
@@ -785,8 +790,6 @@ function initMap() {
         if (currMarker[6]) {
           const infowindow = new google.maps.InfoWindow({
             content: currMarker[6],
-
-
           });
 
           marker.addListener("click", () => {
