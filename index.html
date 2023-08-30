@@ -7,37 +7,140 @@
     <link rel="icon" type="image/png" href="./images/favicon.png" />
 
     <!-- Add Material Design -->
-    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
-    rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+      rel="stylesheet"
     />
 
     <link rel="stylesheet" href="style.css" />
     <link
-    href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
     />
 
     <title>Gelände Bietschicheer</title>
   </head>
 
   <body>
-    <div id="map">
+    <div id="map"></div>
+    <button
+      id="mapButton"
+      class="mdc-icon-button material-icons"
+      aria-label="question_mark"
+    >
+      question_mark
+    </button>
 
+    <div
+      class="mdc-dialog"
+      id="settingsDialog"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-content"
+    >
+      <div class="mdc-dialog__container">
+        <div class="mdc-dialog__surface">
+          <h2 class="mdc-dialog__title" id="dialog-title">Symbole</h2>
+          <div class="mdc-dialog__content" id="dialog-content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">local_bar</span>
+              <span style="text-align: center; margin-left: 10px;">Bar</span>
+            </p>
+          </div>  <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">lunch_dining</span>
+              <span style="margin-left: 10px;">Essensstand</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">attractions</span>
+              <span style="margin-left: 10px;">Nachmittagsprogramm</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">restaurant</span>
+              <span style="margin-left: 10px;">Restaurant</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">wc</span>
+              <span style="margin-left: 10px;">WC</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">local_atm</span>
+              <span style="margin-left: 10px;">Bankautomat</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">info</span>
+              <span style="margin-left: 10px;">Infostand </br>& Ticketverkauf</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">local_parking</span>
+              <span style="margin-left: 10px;">Parkplatz</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span class="mdc-icon-button material-icons">medical_services</span>
+              <span style="margin-left: 10px;">Sanität</span>
+            </p>
+          </div>
+
+          <div class="mdc-dialog__content">
+            <p style="display: flex; align-items: center;">
+              <span >
+              <span class="material-icons" style="margin-left: 10px;" >train</span>
+              <span style="margin-right: 10px;"class=" material-icons">directions_bus</span>
+            </span>
+              <span style="margin-left: 10px;">ÖV Stop</span>
+            </p>
+          </div>
+
+          <footer class="mdc-dialog__actions">
+            <button
+              type="button"
+              class="mdc-button mdc-dialog__button"
+              data-mdc-dialog-action="close"
+            >
+              Schliessen
+            </button>
+          </footer>
+        </div>
+      </div>
+      <div class="mdc-dialog__scrim"></div>
     </div>
 
-
-
     <script src="script.js"></script>
-
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap"></script>
   </body>

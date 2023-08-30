@@ -116,3 +116,14 @@ text-align: center;
 .flex-section strong {
   margin-right: 2px;
 }
+.mdc-dialog__content {
+  margin: 0;
+  padding: 0px;
+}
+.mdc-dialog .mdc-dialog__content{
+  padding : 0
+}
+
+.mdc-icon-button {
+  margin-right: 10px;
+}

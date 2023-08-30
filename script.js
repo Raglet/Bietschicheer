@@ -206,7 +206,7 @@ function initMap() {
      <span class="flex-section">
      <strong style="font-weight: bold;">Essen:</strong>
      <span class="food-list">
-       <ul style="list-style-type: "-" ; padding-left: 0 !important; 	">
+       <ul style="list-style-type: "-" ; padding-left: wre !important; 	">
          <li>Croque Monsieur</li>
          <li>Veganer Gurkendip</li>
        </ul>
