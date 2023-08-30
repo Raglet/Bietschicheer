@@ -208,19 +208,11 @@ function initMap() {
 
 
      <div style="display: flex; flex-direction: column;">
-<<<<<<< HEAD
 
      <span class="flex-section">
      <strong style="font-weight: bold;">Essen:</strong>
      <span class="food-list">
        <ul style="list-style-type: "-" ; padding-left: 0 !important; 	">
-=======
-
-     <span class="flex-section">
-     <strong>Essen:</strong>
-     <span class="food-list">
-       <ul style="list-style-type: "-" ; padding-left: 0 !important;">
->>>>>>> c483820123d76b08101a09ffec3e6bae5fdc8bc3
          <li>Croque Monsieur</li>
          <li>Veganer Gurkendip</li>
        </ul>
