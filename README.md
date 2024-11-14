@@ -23,7 +23,7 @@ The application was built using the following technologies:
 
 ## Credits
 
-This application was created by Samuel Zurbriggen and Lukas Zurbriggen for the Bietschicheer event.
+This application was created by Samuel Zurbriggen, Jakob Löhrer and Lukas Zurbriggen for the Bietschicheer event.
 
 We would like to thank the following resources for helping us create this project:
 
