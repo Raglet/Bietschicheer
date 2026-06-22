@@ -1,7 +1,15 @@
 var map;
-
-// create var for current infowindow and declare it zero
 var currentInfoWindow = null;
+
+const C = {
+  primärHell:         "#996f91",
+  primärDunkel:       "#663f5e",
+  hintergrundDunkel:  "#404040",
+  hintergrundHell:    "#a5a5a5",
+  hintergrundNeutral: "#e1e1e1",
+  sekundärHell:       "#4384a2",
+  sekundärDunkel:     "#364954",
+};
 
 const button = document.getElementById("mapButton");
 const dialog = new mdc.dialog.MDCDialog(
@@ -17,8 +25,30 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 46.311049, lng: 7.799834 }, // Dorfplatz Raron
     zoom: 18, // 18 für Fest
-    mapId: "a32a14914e374824",
     disableDefaultUI: true,
+    styles: [
+      { featureType: "poi",     stylers: [{ visibility: "off" }] },
+      { featureType: "transit", stylers: [{ visibility: "off" }] },
+
+      // Land & buildings
+      { featureType: "landscape",           elementType: "geometry.fill",   stylers: [{ color: C.hintergrundNeutral }] },
+      { featureType: "landscape.man_made",  elementType: "geometry.fill",   stylers: [{ color: C.hintergrundNeutral }] },
+      { featureType: "landscape.man_made",  elementType: "geometry.stroke", stylers: [{ color: C.primärDunkel }] },
+
+      // Water
+      { featureType: "water", elementType: "geometry.fill",    stylers: [{ color: C.sekundärHell }] },
+      { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: C.sekundärDunkel }] },
+
+      // Roads
+      { featureType: "road",         elementType: "geometry.fill",    stylers: [{ color: C.primärHell}] },
+      { featureType: "road",         elementType: "geometry.stroke",  stylers: [{ color: C.hintergrundHell }] },
+      { featureType: "road.highway", elementType: "geometry.fill",    stylers: [{ color: C.hintergrundNeutral }] },
+      { featureType: "road", elementType: "labels", stylers: [{ visibility: "off" }] },
+
+      // Administrative labels
+      { featureType: "administrative", elementType: "labels.text.fill",   stylers: [{ color: C.primärDunkel }] },
+      { featureType: "administrative", elementType: "labels.text.stroke", stylers: [{ color: "#ffffff" }] },
+    ]
   });
 
   // add informations about all locations in constants
@@ -28,13 +58,13 @@ function initMap() {
       "Ecoumra",
       46.31137,
       7.80053,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       `\
       <div class="images">\
       <img src="./images/logos/ecoumra.png" class="content-logo" alt="schrifft-Ecoumra"   />\
-      <img src="./images/namen/ecoumbra.png" class="content-name" alt="logo Ecoumra"   />\
+      <span class="name-badge">ecoumbra</span>\
       </div>\
       <div class="content-title-wrapper">\
       <h3 class="content-subtitle">by Ecoumra</h3>\
@@ -48,12 +78,12 @@ function initMap() {
       "Mesireccas",
       46.311434,
       7.800057,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` <div class="images">\
       <img src="./images/logos/mesi.jpg" class="content-logo" alt="logo Ecoumra"   />\
-      <img src="./images/namen/mesireccas.png" class="content-logo" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">mesireccas</span>\
       </div>\
 
         <div class="content-title-wrapper">\
@@ -79,14 +109,14 @@ function initMap() {
       "Bietschicheer",
       46.311553,
       7.799596,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images" >\
 
        <img src="./images/logos/cheer.png" class="content-logo" alt="logo Bietschicheer" style="height: 30px"  />\
-       <img src="./images/namen/bietschich.png" class="content-name" alt="logo Ecoumra" style="width: 150px"  />\
+       <span class="name-badge">bietschich</span>\
 
        </div>\
       <div class="content-title-wrapper">\
@@ -103,13 +133,13 @@ function initMap() {
       "EHC-Raron",
       46.311291,
       7.799512,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images">\
       <img src="./images/logos/ehc.png" class="content-logo" alt="logo EHC"  />\
-      <img src="./images/namen/ehc.png" class="content-name" alt="logo EHC"  />\
+      <span class="name-badge">ehc</span>\
       </div>\
      <div class="content-title-wrapper">\
       </div>\
@@ -124,14 +154,14 @@ function initMap() {
       "Kickers Raron",
       46.311364,
       7.800744,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images">\
 
       <img src="./images/logos/kickers.png" class="content-logo" alt="logo Kickerbar"/>\
-      <img src="./images/namen/12er.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">12er</span>\
       </div>\
       <div class="content-title-wrapper">\
       <h3 class="content-subtitle">by Kickers Raron</h3>\
@@ -146,14 +176,14 @@ function initMap() {
       "Stigma Crew",
       46.310865,
       7.79925,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images">\
 
       <img src="./images/logos/stigma.jpg" class="content-logo" alt="logo EHC"  />\
-      <img src="./images/namen/stigma.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">stigma</span>\
       </div>\
       <div class="content-title-wrapper">\
       <h3 class="content-subtitle">by Stigma  Crew</h3>\
@@ -171,13 +201,13 @@ function initMap() {
       "Heidnischbier",
       46.311334,
       7.799821,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images">\
       <img src="./images/logos/heidnisch.jpg" class="content-logo" alt="logo heidnisch"   />\
-      <img src="./images/namen/heidnisch.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">heidnisch</span>\
       </div>
      <hr>\
      <p>\
@@ -189,12 +219,12 @@ function initMap() {
       "DIE BAR",
       46.309649,
       7.80025,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       ` \
       <div class="images">\
-      <img src="./images/logos/diebar.png" class="content-name" alt="logo-DieBar"  style="width: 150px" />\
+      <span class="name-badge">diebar</span>\
       </div>\
      <div class="content-title-wrapper" ">\
      </div>\
@@ -220,7 +250,7 @@ function initMap() {
       "Pro Raronia Historica & Kulturstiftung",
       46.31177,
       7.800258,
-      "images/bar.svg",
+      "icons/bar.svg",
       25,
       25,
       `     \
@@ -229,7 +259,7 @@ function initMap() {
 <img src="./images/logos/proRaronia.jpg" class="content-logo" alt="Pro Raronia Historica"  />\
 <img src="./images/logos/kulturStiftung.png" class="content-logo" alt="logo-kulturStiftung" style="width: 200px; height: auto; " />\
 </div>\
-      <img src="./images/namen/kulu.png" class="content-name" alt="logo Ecoumra" style="width: 150px;  "/>\
+      <span class="name-badge">kulu</span>\
       </div>\
 
    <div class="content-title-wrapper">\
@@ -248,14 +278,14 @@ function initMap() {
       "Valperca Foodtruck",
       46.31169,
       7.8004,
-      "images/food.svg",
+      "icons/food.svg",
       25,
       25,
       ` \
       <div class="images" >\
 
       <img src="./images/logos/valperca.png" class="content-logo" alt="logo valperca" style="height : 50px"  />\
-      <img src="./images/namen/valp.png" class="content-name" alt="logo Ecoumra"   />\
+      <span class="name-badge">valp</span>\
 
       </div>\
       <div class="content-title-wrapper" >\
@@ -286,7 +316,7 @@ function initMap() {
     //   "Burgersaal",
     //   46.31156,
     //   7.800238,
-    //   "images/food.svg",
+    //   "icons/food.svg",
     //   25,
     //   25,
     //   '<h2>103 - Mittagstisch für Senioren am Samstag</h2>\
@@ -300,13 +330,13 @@ function initMap() {
       "Subieschmiede",
       46.311605,
       7.800008,
-      "images/food.svg",
+      "icons/food.svg",
       25,
       25,
       ` \
       <div class="images">\
     <img src="./images/logos/subieschmiede.jpeg" class="content-logo" alt="logo-subieschmiede"  style="height: 20px;"  />\
-    <img src="./images/namen/subi.png" class="content-name" alt="logo Ecoumra" style="width: 150px;"  />\
+    <span class="name-badge">subi</span>\
     </div>\
   <div class="content-title-wrapper" >\
       <h3 class="content-subtitle">by Subieschmiede </h3>\
@@ -333,13 +363,13 @@ function initMap() {
       "Kochende Frauen",
       46.3117,
       7.80016,
-      "images/food.svg",
+      "icons/food.svg",
       25,
       25,
       ' \
       <div class="images">\
       <img src="./images/logos/kochendeFrauen.png" class="content-logo" alt="logo-kochendeFrauen"  style="height: 50px;" />\
-      <img src="./images/namen/kochendeFr.png" class="content-name" alt="logo Ecoumra"   style="width: 170px"/>\
+      <span class="name-badge">kochendeFr</span>\
       </div>\
       <div class="content-title-wrapper" >\
       <h3 class="content-subtitle">by Kochende Frauen</h3>\
@@ -354,13 +384,13 @@ function initMap() {
       "Bäckerei Zenhäusern",
       46.310503,
       7.799832,
-      "images/food.svg",
+      "icons/food.svg",
       25,
       25,
       ` \
       <div class="images">\
       <img src="./images/logos/zenheusern.png" class="content-logo" alt="logo-zenheusern"  />\
-      <img src="./images/namen/beck.png" class="content-name" alt="logo Ecoumra"  style="width: 150px" />\
+      <span class="name-badge">beck</span>\
       </div>\
       <div class="content-title-wrapper"   >\
       <h3 class="content-subtitle">by Bäckerei </br>  Zenhäusern Raron</h3>\
@@ -382,7 +412,7 @@ function initMap() {
       "Restaurant Schmitta",
       46.311236,
       7.799061,
-      "images/restaurant.svg",
+      "icons/restaurant.svg",
       25,
       25,
       ' \
@@ -396,7 +426,7 @@ function initMap() {
       "Restaurant Rilke",
       46.310952,
       7.80012,
-      "images/restaurant.svg",
+      "icons/restaurant.svg",
       25,
       25,
       ' \
@@ -410,7 +440,7 @@ function initMap() {
       "Kapitel 7",
       46.309912201169375,
       7.800265191478576,
-      "images/restaurant.svg",
+      "icons/restaurant.svg",
       25,
       25,
       ' \
@@ -423,20 +453,20 @@ function initMap() {
 
   // Parking-marker
   const parking = [
-    ["Schulhausplatz", 46.308303, 7.80164, "images/parking.svg", 25, 25],
+    ["Schulhausplatz", 46.308303, 7.80164, "icons/parking.svg", 25, 25],
   ];
 
   // Sanitär-marker
   const sanitaer = [
-    ["Kreisel Dorf", 46.31152, 7.799844, "images/sanitaer.svg", 25, 25],
+    ["Kreisel Dorf", 46.31152, 7.799844, "icons/sanitaer.svg", 25, 25],
 
-    ["Maxenhaus", 46.31159, 7.80053, "images/sanitaer.svg", 25, 25],
+    ["Maxenhaus", 46.31159, 7.80053, "icons/sanitaer.svg", 25, 25],
 
     [
       "Alte Post",
       46.30978113328334,
       7.800215312930417,
-      "images/sanitaer.svg",
+      "icons/sanitaer.svg",
       25,
       25,
     ],
@@ -444,7 +474,7 @@ function initMap() {
       "Parking Schmitta",
       46.31126252625926,
       7.799326719832625,
-      "images/sanitaer.svg",
+      "icons/sanitaer.svg",
       25,
       25,
     ],
@@ -456,13 +486,13 @@ function initMap() {
       "Theaterverein Raron",
       46.31109,
       7.799986,
-      "images/nachmittag.svg",
+      "icons/nachmittag.svg",
       25,
       25,
       ' \
      ` <div class="images">\
       <img src="./images/logos/theaterverein.png" class="content-logo" alt="logo-Theaterverein" style="height: 35px;"   />\
-      <img src="./images/namen/theater.png" class="content-name" alt="schrifft-Ecoumra"  style="width: 160px;"   />\
+      <span class="name-badge">theater</span>\
       </div>\
         <div class="content-title-wrapper" >\
         <h3 class="content-subtitle">by Theaterverein </br> Raron</h3>\
@@ -482,7 +512,7 @@ function initMap() {
     //   "Samariterverein Raron-St.German",
     //   46.311773,
     //   7.800416,
-    //   "images/nachmittag.svg",
+    //   "icons/nachmittag.svg",
     //   25,
     //   25,
     //   "<h3>Samariterverein Raron-St.German</h3>",
@@ -492,13 +522,13 @@ function initMap() {
       "Jubla Raron",
       46.311382,
       7.800184,
-      "images/nachmittag.svg",
+      "icons/nachmittag.svg",
       25,
       25,
       `  <div style="width : 200px "> \
       <div class="images">\
       <img src="./images/logos/jubla.png" class="content-logo" alt="logo-Theaterverein"   />\
-      <img src="./images/namen/jubla.png" class="content-name" alt="logo Ecoumra"  style="width: 160px;"    />\
+      <span class="name-badge">jubla</span>\
       </div>\
 
         <hr>\
@@ -511,12 +541,12 @@ function initMap() {
       "Fluggruppe Oberwallis",
       46.31167210179692,
       7.8005441587539766,
-      "images/nachmittag.svg",
+      "icons/nachmittag.svg",
       25,
       25,
       ` <div class="images">\
       <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
-      <img src="./images/namen/fluggr.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">fluggr</span>\
       </div>\
         <div class="content-title-wrapper" style="width: 205px;" >\
         </div>\
@@ -530,12 +560,12 @@ function initMap() {
       "Jubla Raron",
       46.31189681656011,
       7.800069928935517,
-      "images/nachmittag.svg",
+      "icons/nachmittag.svg",
       25,
       25,
       '  <div class="images">\
       <img src="./images/logos/fluggruppe.jpg" class="content-logo" alt="logo-Theaterverein"   />\
-      <img src="./images/namen/hüfp.png" class="content-name" alt="schrifft-Ecoumra"   />\
+      <span class="name-badge">hüfp</span>\
       </div>\
         <div class="content-title-wrapper" >\
         <h3 class="content-subtitle">by Fluggruppe</br> Oberwallis</h3>\
@@ -550,14 +580,14 @@ function initMap() {
       position: { lat: 46.31136, lng: 7.799596 },
       map: map,
       icon: {
-        url: "images/stage.png",
+        url: "icons/stage.png",
         scaledSize: new google.maps.Size(35, 35),
         optimized: false,
       },
       infoWindowContent: `
         <div class="images">\
 
-        <img src="./images/namen/bühne.png" class="content-name" alt="logo Ecoumra"   />\
+        <span class="name-badge">bühne</span>\
         </div>
 
         <div class="content-title-wrapper">\
@@ -565,8 +595,8 @@ function initMap() {
         </div>\
         <div class="lineup" >
         <p>Freitag</p>
-        <img src="./images/namen/freitag.png" class="content-name" alt="logo Ecoumra"  style="width: 200px; float: left ;" />\
-        <p style="clear: left;">Samstag</p>        <img src="./images/namen/samstag.png" class="content-name" alt="logo Ecoumra"   style="width: 190px ; float: left ;" />\
+        <span class="name-badge">freitag</span>\
+        <p style="clear: left;">Samstag</p>        <span class="name-badge">samstag</span>\
 
  </div>
 
@@ -582,14 +612,14 @@ function initMap() {
       map: map,
       title: "Bahnhof Raron",
       icon: {
-        url: "./images/trainStop.svg",
+        url: "icons/trainStop.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
       infoWindowContent:
         '      \
         <div class="images">\
-        <img src="./images/namen/zug.png" class="content-name" alt="logo Ecoumra"   />\
+        <span class="name-badge">zug</span>\
         </div>\
         <hr>\
         <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice.  </p> \
@@ -613,13 +643,13 @@ function initMap() {
       map: map,
       title: "Busstation Bergheim",
       icon: {
-        url: "./images/busStop.svg",
+        url: "icons/busStop.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
       infoWindowContent: ` \
       <div class="images">\
-      <img src="./images/namen/bus.png" class="content-name" alt="logo Ecoumra"   />\
+      <span class="name-badge">bus</span>\
       </div>\
       <hr>\
      <p><strong>Fahrplan </strong></p>  \
@@ -641,7 +671,7 @@ function initMap() {
       position: { lat: 46.311635, lng: 7.800258 },
       map: map,
       icon: {
-        url: "images/sanitaet.svg",
+        url: "icons/sanitaet.svg",
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
@@ -654,12 +684,12 @@ function initMap() {
       position: { lat: 46.31079761450369, lng: 7.800021996320716 },
       map: map,
       icon: {
-        url: "images/info.svg",
+        url: "icons/info.svg",
         scaledSize: new google.maps.Size(30, 25),
         optimized: false,
       },
       infoWindowContent: `
-      <img src="./images/namen/ticket.png" class="content-name" alt="logo Ecoumra"   style="float: center; width: 150px ;margin: auto;"/>\
+      <span class="name-badge">ticket</span>\
       `,
       visibleDefault: true,
     },
@@ -671,14 +701,14 @@ function initMap() {
       map: map,
       title: "Bankautomat Raiffeisen",
       icon: {
-        url: "./images/atm.svg",
+        url: "icons/atm.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
         fillColor: "red",
       },
       infoWindowContent:
         '<div class="images">\
-        <img src="./images/namen/bank.png" class="content-name" alt="logo Ecoumra"   />\
+        <span class="name-badge">bank</span>\
         </div>\
          <div class="content-title-wrapper" style="margin-top: 0 "> \
       <h3 class="content-subtitle">Raiffeisen</h3> \
@@ -689,13 +719,13 @@ function initMap() {
       map: map,
       title: "Bankautomat WKB",
       icon: {
-        url: "./images/atm.svg",
+        url: "icons/atm.svg",
         scaledSize: new google.maps.Size(25, 25),
         optimized: false,
       },
       infoWindowContent:
         '<div class="images">\
-        <img src="./images/namen/bank.png" class="content-name" alt="logo Ecoumra"   />\
+        <span class="name-badge">bank</span>\
         </div>\
          <div class="content-title-wrapper" style="margin-top : 0;"> \
       <h3 class="content-subtitle"> WKB</h3> \

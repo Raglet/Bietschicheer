@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./images/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Bietschimeile</title>
+
+    <style>
+      body {
+        background-color: var(--hintergrund-neutral);
+        min-height: 100vh;
+      }
+
+      .page-header {
+        background-color: var(--primär-dunkel);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .back-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 50%;
+        color: white;
+        transition: background-color 0.2s;
+      }
+
+      .back-button:hover {
+        background-color: var(--primär-hell);
+      }
+
+      .page-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        margin: 0;
+        color: white;
+      }
+
+      .content {
+        max-width: 600px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+
+      .card {
+        background-color: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin: 0 0 12px 0;
+        color: var(--hintergrund-dunkel);
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--hintergrund-dunkel);
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <a href="index.html" class="back-button" aria-label="Zurück">
+        <span class="material-icons">arrow_back</span>
+      </a>
+      <h1 class="page-title">Bietschimeile</h1>
+    </header>
+
+    <div class="content">
+      <div class="card">
+        <h2>Willkommen zur Bietschimeile</h2>
+        <p>Hier findest du alle Informationen zur Bietschimeile.</p>
+      </div>
+    </div>
+  </body>
+</html>

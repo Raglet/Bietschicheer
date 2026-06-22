@@ -1,3 +1,13 @@
+:root {
+  --primär-hell:        #996f91;
+  --primär-dunkel:      #663f5e;
+  --hintergrund-dunkel: #404040;
+  --hintergrund-hell:   #a5a5a5;
+  --hintergrund-neutral:#e1e1e1;
+  --sekundär-hell:      #4384a2;
+  --sekundär-dunkel:    #364954;
+}
+
 html {
     box-sizing: border-box;
     font-size: 100%;
@@ -54,13 +64,18 @@ li {
   margin: auto;
 }
 
-.content-name {
-  width: 120px;
+.name-badge {
+  background-color: var(--primär-dunkel);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block;
   margin: auto;
-  height: auto;
-  top: 0;
-  right: 0;
-  /* margin: 16px; */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-style: italic;
 }
 .content-subtitle{
   margin: 0;
@@ -95,14 +110,37 @@ text-align: center;
 
 
 
+#bietschimeileButton,
 #mapButton {
   position: absolute;
-  top: 100px;
-  left: 10px;
+  right: 10px;
   z-index: 1;
-  background-color: #fff; /* White background */
-  border-radius: 50%; /* Round shape (circular button) */
-  padding: 12px; /* Increase padding for better visibility */
+  background-color: var(--primär-hell);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  text-decoration: none;
+  border: 2px solid var(--primär-dunkel);
+  cursor: pointer;
+  padding: 0;
+  color: var(--primär-dunkel);
+}
+
+#bietschimeileButton img,
+#mapButton .material-icons {
+  filter: brightness(0) invert(1);
+}
+
+#bietschimeileButton {
+  top: 10px;
+}
+
+#mapButton {
+  top: 68px;
 }
 
 
