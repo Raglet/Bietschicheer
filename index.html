@@ -35,6 +35,11 @@
   </head>
 
   <body>
+    <a href="lineup.html" id="liveBanner" class="live-banner" hidden>
+      <span class="live-banner__dot"></span>
+      <span class="live-banner__text"></span>
+    </a>
+
     <div id="map"></div>
     <button
       id="mapButton"
@@ -46,6 +51,10 @@
     <a href="bietschimeile.html" id="bietschimeileButton" aria-label="Bietschimeile">
       <img src="icons/path.svg" alt="Bietschimeile" width="24" height="24" />
     </a>
+
+    <button id="locateButton" aria-label="Standort anzeigen">
+      <span class="material-icons" style="font-size:24px;">my_location</span>
+    </button>
 
     <div
       class="mdc-dialog"
@@ -142,6 +151,7 @@
       <div class="mdc-dialog__scrim"></div>
     </div>
 
+    <script src="lineup-data.js"></script>
     <script src="script.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap"></script>

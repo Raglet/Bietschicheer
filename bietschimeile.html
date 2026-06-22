@@ -35,6 +35,9 @@
         align-items: center;
         gap: 12px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 10;
       }
 
       .back-button {
@@ -54,7 +57,7 @@
       }
 
       .page-title {
-        font-family: 'Montserrat', sans-serif;
+        font-family: "Montserrat", sans-serif;
         font-weight: 800;
         font-size: 1.4rem;
         margin: 0;
@@ -63,30 +66,254 @@
 
       .content {
         max-width: 600px;
-        margin: 24px auto;
+        margin: 20px auto;
         padding: 0 16px;
       }
 
-      .card {
+      .intro {
+        color: var(--hintergrund-dunkel);
+        line-height: 1.5;
+        margin: 0 0 18px 0;
+      }
+
+      /* Progress */
+      .progress {
         background-color: white;
         border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 16px;
+        padding: 16px 18px;
+        margin-bottom: 18px;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       }
 
-      .card h2 {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        font-size: 1.1rem;
-        margin: 0 0 12px 0;
+      .progress__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 10px;
+      }
+
+      .progress__label {
+        font-weight: 600;
         color: var(--hintergrund-dunkel);
       }
 
-      .card p {
-        margin: 0;
+      .progress__count {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: var(--primär-dunkel);
+      }
+
+      .progress__track {
+        height: 10px;
+        border-radius: 6px;
+        background-color: var(--hintergrund-neutral);
+        overflow: hidden;
+      }
+
+      .progress__fill {
+        height: 100%;
+        width: 0;
+        background-color: var(--sekundär-hell);
+        border-radius: 6px;
+        transition: width 0.5s ease;
+      }
+
+      .done-banner {
+        margin-top: 14px;
+        background-color: var(--primär-dunkel);
+        color: white;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      /* Stamp grid */
+      .stamp-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+
+      .stamp {
+        position: relative;
+        background-color: white;
+        border: 2px dashed var(--hintergrund-hell);
+        border-radius: 14px;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px;
+        text-align: center;
+        opacity: 0.75;
+      }
+
+      .stamp--collected {
+        border: 2px solid var(--primär-dunkel);
+        opacity: 1;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      }
+
+      .stamp__order {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background-color: var(--hintergrund-hell);
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stamp--collected .stamp__order {
+        background-color: var(--primär-dunkel);
+      }
+
+      .stamp__check {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        color: var(--sekundär-hell);
+        font-size: 24px;
+      }
+
+      .stamp__lock {
+        color: var(--hintergrund-hell);
+        font-size: 36px;
+      }
+
+      .stamp__logo {
+        max-width: 70%;
+        max-height: 55%;
+        object-fit: contain;
+      }
+
+      .stamp__placeholder {
+        font-size: 44px;
+        color: var(--primär-dunkel);
+      }
+
+      .stamp__name {
+        font-weight: 600;
+        font-size: 0.85rem;
         color: var(--hintergrund-dunkel);
-        line-height: 1.6;
+        line-height: 1.2;
+      }
+
+      .stamp--collected .stamp__name {
+        color: var(--primär-dunkel);
+      }
+
+      /* "Just collected" pop animation */
+      @keyframes stampPop {
+        0% { transform: scale(0.8); }
+        50% { transform: scale(1.08); }
+        100% { transform: scale(1); }
+      }
+      .stamp--just {
+        animation: stampPop 0.6s ease;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 120%);
+        opacity: 0;
+        visibility: hidden;
+        background-color: var(--hintergrund-dunkel);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: transform 0.35s ease, opacity 0.35s ease,
+          visibility 0s linear 0.35s;
+        z-index: 50;
+        max-width: 90%;
+        text-align: center;
+      }
+      .toast--visible {
+        transform: translate(-50%, 0);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+      }
+      .toast--success { background-color: var(--primär-dunkel); }
+      .toast--info { background-color: var(--sekundär-dunkel); }
+      .toast--error { background-color: var(--hintergrund-dunkel); }
+
+      /* Celebration overlay */
+      .celebration {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(64, 64, 64, 0.85);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        padding: 24px;
+      }
+      .celebration--visible { display: flex; }
+
+      .celebration__card {
+        background-color: white;
+        border-radius: 18px;
+        padding: 32px 24px;
+        max-width: 360px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        animation: stampPop 0.5s ease;
+      }
+
+      .celebration__icon {
+        font-size: 64px;
+        line-height: 1;
+      }
+
+      .celebration__title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.6rem;
+        color: var(--primär-dunkel);
+        margin: 12px 0 6px;
+      }
+
+      .celebration__text {
+        color: var(--hintergrund-dunkel);
+        line-height: 1.5;
+        margin: 0 0 22px;
+      }
+
+      .celebration__close {
+        background-color: var(--primär-dunkel);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -100,10 +327,43 @@
     </header>
 
     <div class="content">
-      <div class="card">
-        <h2>Willkommen zur Bietschimeile</h2>
-        <p>Hier findest du alle Informationen zur Bietschimeile.</p>
+      <p class="intro">
+        Besuche alle Bars der Bietschimeile und sammle bei jeder einen digitalen
+        Stempel! Scanne dazu den QR-Code an der Bar. Die Nummern sind nur eine
+        empfohlene Reihenfolge – du kannst sie in beliebiger Reihenfolge besuchen.
+      </p>
+
+      <section class="progress">
+        <div class="progress__head">
+          <span class="progress__label">Gesammelte Stempel</span>
+          <span class="progress__count" id="progressCount">0 / 0</span>
+        </div>
+        <div class="progress__track">
+          <div class="progress__fill" id="progressFill"></div>
+        </div>
+        <button class="done-banner" id="doneBanner" hidden>
+          <span class="material-icons">emoji_events</span>
+          Alle Stempel gesammelt – Abschluss anzeigen
+        </button>
+      </section>
+
+      <div class="stamp-grid" id="stampGrid"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="celebration" id="celebration">
+      <div class="celebration__card">
+        <div class="celebration__icon">🏆</div>
+        <h2 class="celebration__title">Geschafft!</h2>
+        <p class="celebration__text">
+          Du hast alle Bars der Bietschimeile besucht und jeden Stempel
+          gesammelt. Stark!
+        </p>
+        <button class="celebration__close" id="celebrationClose">Schliessen</button>
       </div>
     </div>
+
+    <script src="bietschimeile.js"></script>
   </body>
 </html>

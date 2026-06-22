@@ -1,33 +1,60 @@
 # Bietschicheer Interactive Map
 
-This is a web application built using the Google Maps API, which displays the terrain and location of various bars, stages, and food stands at the Bietschicheer event.
+A web application built with the Google Maps JavaScript API that shows the terrain and locations of the various bars, stages, food stands and services at the Bietschicheer event. It also includes a digital stamp card ("Bietschimeile") and a stage lineup with a live "now playing" indicator.
 
 ## Website
 
-The website for this project can be found at [https://raglet.github.io/Bietschicheer/](https://raglet.github.io/Bietschicheer/). You can interact with the map by zooming in/out, dragging the map to navigate, and clicking on the markers to see more information about each location.
+The website for this project can be found at [https://raglet.github.io/Bietschicheer/](https://raglet.github.io/Bietschicheer/). You can interact with the map by zooming in/out, dragging to navigate, and clicking markers to see more information about each location.
+
+## Pages
+
+- **`index.html`** — the interactive map with markers for bars, food, stage, restaurants, parking, WC, ATMs, ÖV stops, etc. Includes the live lineup banner and the floating action buttons.
+- **`bietschimeile.html`** — the "Bietschimeile" digital stamp card. Reached via the path-icon bubble in the top-right of the map.
+- **`lineup.html`** — the stage lineup with a live "Jetzt live" / "als Nächstes" highlight. Reached from the stage marker on the map.
 
 ## Features
 
-The application utilizes the following features:
-
-- Markers: Markers are placed on the map to represent the various locations at the Bietschicheer event. Each marker is unique to the location it represents and contains information such as the name, type, and description of the location.
-- InfoWindows: When a user clicks on a marker, an InfoWindow pops up displaying additional information about the location. The InfoWindow contains information such as the location's name, type, description, and a photo of the location.
+- **Map markers & InfoWindows** — each location has a marker; clicking it opens an InfoWindow with the name, logo and details (music, food, etc.).
+- **"Du bist hier" location** — a button (bottom of the top-right stack) shows the visitor's live GPS position on the map. Requires HTTPS and location permission.
+- **Bietschimeile stamp card** — a digital pub-crawl stamp card. Each bar has a printed QR code linking to `bietschimeile.html?b=<id>`; scanning it with the phone's camera collects that stamp. Progress is stored per-device in `localStorage` (no backend), the order is only a recommendation, and collecting every stamp triggers a celebration screen.
+- **Live lineup** — `lineup.html` lists the full Friday/Saturday programme and highlights the act currently on stage. A matching floating banner appears on the map while a band is playing. The live state is matched by weekday + time, so it works regardless of the year.
+- **Brand styling** — a custom Google Maps style and a shared colour palette (CSS variables) keep the look consistent across pages.
 
 ## Technology
 
-The application was built using the following technologies:
+- **Vanilla HTML / CSS / JavaScript** — no framework or build step; the site is served as static files (GitHub Pages).
+- **Google Maps JavaScript API** — map, markers, InfoWindows and custom map styling (`script.js`).
+- **Material Components Web (MDC)** — dialogs and Material Icons.
+- **Montserrat** (Google Fonts) — typography.
 
-- Google Maps API: The Google Maps API was used to display the map and add markers and InfoWindows to the map.
-- React: The application was built using the React JavaScript library, which helped with the development of the user interface.
-- Bootstrap: The Bootstrap CSS framework was used to help with the styling of the application.
+## Project structure
+
+| File | Purpose |
+|------|---------|
+| `index.html` / `script.js` | Map page and all marker/InfoWindow logic, the live banner and locate button |
+| `bietschimeile.html` / `bietschimeile.js` | Stamp card page and logic |
+| `lineup.html` / `lineup.js` | Lineup page rendering |
+| `lineup-data.js` | Shared lineup data + "now playing" logic (used by the lineup page and the map banner) |
+| `style.css` | Shared styles and the colour-palette CSS variables |
+| `icons/`, `images/` | Marker icons and logos |
+
+## Editing content
+
+Most updates are done by editing one of these data lists — no HTML required:
+
+- **Bars / food / Programm on the map** → the `LOCATIONS` array at the top of `script.js`. Each entry has `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`) and optional `image`, `badge`, `by`, `musik`, `essen`, `description`. The InfoWindow popup is generated automatically. Logo `image` is just the filename (from `images/mitwirkende_logos_26/`).
+- **Stamp-card bars** → the `BARS` array in `bietschimeile.js`.
+- **Stage lineup** → the `LINEUP` array in `lineup-data.js`.
+- **Map start position / zoom** → the `center` and `zoom` options in `initMap` (`script.js`).
+- **Colours** → the `:root` CSS variables in `style.css`.
+
+> Before going live, set `TEST_NOW` in `lineup-data.js` back to `null` (it's a testing override for the live-lineup highlight).
 
 ## Credits
 
 This application was created by Samuel Zurbriggen, Jakob Löhrer and Lukas Zurbriggen for the Bietschicheer event.
 
-We would like to thank the following resources for helping us create this project:
+Thanks to the following resources:
 
 - [Google Maps JavaScript API documentation](https://developers.google.com/maps/documentation/javascript/overview)
-- [React documentation](https://reactjs.org/docs/getting-started.html)
-- [Bootstrap documentation](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
-
+- [Material Components Web](https://github.com/material-components/material-components-web)

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./images/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Lineup</title>
+
+    <style>
+      body {
+        background-color: var(--hintergrund-neutral);
+        min-height: 100vh;
+      }
+
+      .page-header {
+        background-color: var(--primär-dunkel);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .back-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 50%;
+        color: white;
+        transition: background-color 0.2s;
+      }
+
+      .back-button:hover {
+        background-color: var(--primär-hell);
+      }
+
+      .page-title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        margin: 0;
+        color: white;
+      }
+
+      .content {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 0 16px;
+      }
+
+      .day-heading {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: var(--primär-dunkel);
+        margin: 22px 0 10px;
+      }
+      .day-heading:first-child {
+        margin-top: 0;
+      }
+
+      .act {
+        background-color: white;
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        border-left: 5px solid transparent;
+      }
+
+      .act__time {
+        font-weight: 700;
+        color: var(--sekundär-dunkel);
+        font-size: 0.95rem;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.25;
+      }
+      .act__time span {
+        color: var(--hintergrund-hell);
+        font-weight: 500;
+      }
+
+      .act__main {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .act__name {
+        font-weight: 600;
+        color: var(--hintergrund-dunkel);
+        font-size: 1.05rem;
+      }
+
+      .act__badge {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 3px 9px;
+        border-radius: 12px;
+        white-space: nowrap;
+      }
+      .act__badge--live {
+        background-color: var(--primär-dunkel);
+        color: white;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+      .act__badge--next {
+        background-color: var(--sekundär-hell);
+        color: white;
+      }
+
+      /* Live act emphasis */
+      .act--live {
+        border-left-color: var(--primär-dunkel);
+        background-color: #fff;
+        box-shadow: 0 4px 14px rgba(102, 63, 94, 0.35);
+      }
+      .act--live .act__name {
+        color: var(--primär-dunkel);
+      }
+      .act--next {
+        border-left-color: var(--sekundär-hell);
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.55; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <a href="index.html" class="back-button" aria-label="Zurück">
+        <span class="material-icons">arrow_back</span>
+      </a>
+      <h1 class="page-title">Lineup</h1>
+    </header>
+
+    <div class="content">
+      <div id="lineup"></div>
+    </div>
+
+    <script src="lineup-data.js"></script>
+    <script src="lineup.js"></script>
+  </body>
+</html>

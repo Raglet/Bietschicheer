@@ -26,7 +26,58 @@ Never hardcode these hex values — always reference the CSS variable.
 ## Pages
 
 - `index.html` — interactive Google Maps page with markers for bars, food, stage, parking, etc.
-- `bietschimeile.html` — standalone "Bietschimeile" page, accessible via the path-icon bubble (top-right of map)
+- `bietschimeile.html` — "Bietschimeile" digital stamp card, accessible via the path-icon bubble (top-right of map). Logic in `bietschimeile.js`.
+- `lineup.html` — stage lineup with a live "Jetzt live" / "als Nächstes" highlight, accessible from the stage marker popup on the map. Page rendering in `lineup.js`.
+- `lineup-data.js` — shared lineup data (`LINEUP` array) + "now playing" logic (`getLiveAct`, `isLive`, `getNow`, `nextIndex`). Loaded by both `lineup.html` and `index.html`. Live state is matched by weekday (Fr=5/Sa=6) + time, so it works regardless of year. Contains a `TEST_NOW` override for off-festival testing (set to `null` for production).
+- `index.html` shows a fixed "Jetzt live" banner at the top while a band plays (driven by `lineup-data.js`); when visible it pushes the right-side floating buttons down by `--banner-h`.
+
+## Bietschimeile stamp card
+
+- A digital stamp card for visiting every bar. State lives in `localStorage` (key `bietschimeile.stamps`) — per-device, no backend, intentionally cheatable (festival fun feature).
+- Bars + recommended order are defined in the `BARS` array in `bietschimeile.js`.
+- Collecting a stamp: a printed QR code at each bar links to `bietschimeile.html?b=<id>`; the phone's native camera opens it, the `b` param is consumed, the stamp is saved, and the query string is stripped. Order is **not** enforced — the numbers are only a suggested route.
+- Collecting all bars shows a celebration overlay (placeholder for a future reward).
+- The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected. The marker name → stamp id link is `BAR_NAME_TO_STAMP` in `script.js`. NOTE: the map's `LOCATIONS` list is still the old bar lineup, so only bars present in both (Bietschicheer, EHC, Stigma, Heidnischbier, DIE BAR, Pro Raronia) can show the badge until `LOCATIONS` is updated to the new `BARS` list.
+
+## Map markers (LOCATIONS)
+
+- Participant markers (bars, food, Programm) are data-driven from the `LOCATIONS` array at the top of `script.js`. Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `musik`, `essen`, `description`, `logoStyle`. `buildInfoContent()` turns an entry into the InfoWindow HTML — never hand-write marker HTML.
+- `image`: a plain filename resolves from `images/mitwirkende_logos_26/` (`LOGO_DIR`); a value with a `/` (e.g. `logos/foo.png`) resolves from `images/` directly; can be an array for multiple logos. `musik`/`essen` accept a string or an array (array → dash bullet list).
+- Infrastructure markers (restaurants, WC, parking, ATM, bus/train, stage, info) are still defined as inline arrays/objects inside `initMap` — not part of `LOCATIONS`.
+- Map start position + zoom: the `center` / `zoom` options in `initMap` (`script.js`).
+
+## Where to edit content
+
+- Bars/food/Programm on the map → `LOCATIONS` in `script.js`.
+- Stamp-card bars + order → `BARS` in `bietschimeile.js`.
+- Stage lineup + set times → `LINEUP` in `lineup-data.js`.
+- Brand colours → `:root` variables in `style.css` (and the `C` object in `script.js` for the Google Maps style).
+- `TEST_NOW` in `lineup-data.js` must be `null` in production.
+
+## Assets & folders
+
+- `icons/` — marker icons and UI SVGs (`bar.svg`, `food.svg`, `nachmittag.svg`, `restaurant.svg`, `parking.svg`, `sanitaer.svg`, `sanitaet.svg`, `atm.svg`, `info.svg`, `busStop.svg`, `trainStop.svg`, `stage.png`, `path.svg`).
+- `images/mitwirkende_logos_26/` — current participant logos (2026). Default folder for `LOCATIONS` / `BARS` `image` filenames. Files are prefixed by their id, e.g. `02_diebar.png`, `22_Bietschicheer.png` (note: some filenames contain spaces / umlauts, which is why paths are run through `encodeURI`).
+- `images/logos/` — older logo set; referenced from `LOCATIONS` with a leading `logos/` (e.g. `logos/ehc.png`).
+- `images/` — other imagery (`favicon.svg`, etc.).
+
+## Example LOCATIONS entry
+
+```js
+{
+  name: "DIE BAR", lat: 46.309649, lng: 7.80025, type: "bar",
+  image: "02_diebar.png",                 // from images/mitwirkende_logos_26/
+  badge: "diebar",                        // purple name badge
+  musik: "Blues and more",
+  essen: ["Croque Monsieur", "Veganer Gurkendip"], // array -> bullet list
+}
+```
+
+## Running & deployment
+
+- No build step. Open `index.html` directly, or serve the folder (e.g. `python -m http.server`) for local testing.
+- Deployed as static files on GitHub Pages. Geolocation ("Du bist hier") and QR scanning need HTTPS, which Pages provides; they won't prompt on `file://`.
+- The Google Maps API key is inline in `index.html` (`maps.googleapis.com/...&key=`).
 
 ## UI Conventions
 

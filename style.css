@@ -6,6 +6,7 @@
   --hintergrund-neutral:#e1e1e1;
   --sekundär-hell:      #4384a2;
   --sekundär-dunkel:    #364954;
+  --banner-h:           44px;
 }
 
 html {
@@ -95,8 +96,34 @@ li {
 }
 
 
+.stamp-collected-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--primär-dunkel);
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
 .lineup {
 text-align: center;
+}
+
+.lineup-link {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 8px 16px;
+  background-color: var(--primär-dunkel);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .time-column {
@@ -111,7 +138,8 @@ text-align: center;
 
 
 #bietschimeileButton,
-#mapButton {
+#mapButton,
+#locateButton {
   position: absolute;
   right: 10px;
   z-index: 1;
@@ -131,7 +159,8 @@ text-align: center;
 }
 
 #bietschimeileButton img,
-#mapButton .material-icons {
+#mapButton .material-icons,
+#locateButton .material-icons {
   filter: brightness(0) invert(1);
 }
 
@@ -143,7 +172,171 @@ text-align: center;
   top: 68px;
 }
 
+#locateButton {
+  top: 126px;
+}
 
+/* Live banner – floating bar with sharp edges; pushes the right-side buttons down */
+.live-banner {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: var(--banner-h);
+  z-index: 5;
+  background-color: var(--primär-dunkel);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 0;
+  font-style: italic;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: bannerShake 3s ease-in-out infinite;
+}
+
+.live-banner[hidden] {
+  display: none;
+}
+
+/* Italic-slanted box: keep the skew in every frame so the shake doesn't reset it */
+@keyframes bannerShake {
+  0%, 12%, 100% { transform: skewX(-8deg) translateX(0); }
+  2% { transform: skewX(-8deg) translateX(-3px); }
+  4% { transform: skewX(-8deg) translateX(3px); }
+  6% { transform: skewX(-8deg) translateX(-3px); }
+  8% { transform: skewX(-8deg) translateX(3px); }
+  10% { transform: skewX(-8deg) translateX(-2px); }
+}
+
+/* Counter-skew the content so the text/dot stay upright inside the slanted box */
+.live-banner__text,
+.live-banner__dot {
+  transform: skewX(8deg);
+}
+
+.live-banner__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--sekundär-hell);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+body.banner-visible #bietschimeileButton {
+  top: calc(20px + var(--banner-h));
+}
+body.banner-visible #mapButton {
+  top: calc(78px + var(--banner-h));
+}
+body.banner-visible #locateButton {
+  top: calc(136px + var(--banner-h));
+}
+
+
+
+/* ============================================================
+   Map InfoWindow popups
+   ============================================================ */
+
+/* The bubble container */
+.gm-style .gm-style-iw-c {
+  padding: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+  max-width: 290px !important;
+}
+
+/* Inner content wrapper */
+.gm-style .gm-style-iw-d {
+  overflow: hidden auto !important;
+  padding: 20px 20px 18px !important;
+}
+
+/* Remove the empty header strip some versions add */
+.gm-style .gm-style-iw-ch {
+  padding-top: 0 !important;
+}
+
+/* Close (X) button */
+.gm-style .gm-ui-hover-effect {
+  top: 8px !important;
+  right: 8px !important;
+}
+.gm-style .gm-ui-hover-effect > span {
+  background-color: var(--primär-dunkel) !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* ---- Content typography inside the popup ---- */
+.gm-style-iw .content-logo {
+  display: block;
+  height: 48px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.gm-style-iw .content-title {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primär-dunkel);
+}
+
+.gm-style-iw .content-subtitle {
+  color: var(--hintergrund-dunkel);
+  opacity: 0.7;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.gm-style-iw hr {
+  border: none;
+  border-top: 1px solid var(--hintergrund-neutral);
+  margin: 14px 0;
+}
+
+.gm-style-iw p {
+  margin: 6px 0;
+  color: var(--hintergrund-dunkel);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.gm-style-iw .flex-section strong {
+  color: var(--primär-dunkel);
+}
+
+/* Dash bullet lists (food etc.) */
+.gm-style-iw .food-list ul {
+  margin: 4px 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+.gm-style-iw .food-list li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.gm-style-iw .food-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--primär-dunkel);
+  font-weight: 700;
+}
 
 .flex-section {
   display: flex;
