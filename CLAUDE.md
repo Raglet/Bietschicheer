@@ -1,20 +1,56 @@
 # Bietschicheer – Project Context for Claude
 
-## Color Schema
+## Corporate Design (CI/CD)
 
-Always use these CSS variables (defined in `style.css`) when adding colors:
+Follow this design system for anything user-facing. The tokens live in `:root` in `style.css`.
+
+### Colours
+
+Always use these CSS variables (defined in `style.css`) — never hardcode the hex:
 
 | Variable                | Hex       | Role              |
 |-------------------------|-----------|-------------------|
-| `--primär-hell`         | `#996f91` | Primary light     |
-| `--primär-dunkel`       | `#663f5e` | Primary dark      |
+| `--primär-hell`         | `#996f91` | Hellviolett (primary light) |
+| `--primär-dunkel`       | `#663f5e` | Dunkelviolett (primary dark) |
 | `--hintergrund-dunkel`  | `#404040` | Background dark   |
 | `--hintergrund-hell`    | `#a5a5a5` | Background light  |
 | `--hintergrund-neutral` | `#e1e1e1` | Background neutral|
 | `--sekundär-hell`       | `#4384a2` | Secondary light   |
-| `--sekundär-dunkel`     | `#364954`  | Secondary dark    |
+| `--sekundär-dunkel`     | `#364954` | Secondary dark    |
 
-Never hardcode these hex values — always reference the CSS variable.
+Colour usage:
+- **Titel & Übertitel/Headings** → Dunkelviolett (`--primär-dunkel`).
+- **Fliesstext (body)** → black (`#000`).
+- **Highlights** → Hellviolett (`--primär-hell`).
+- **Digital screens** (anything not printed) use a grey background (`--hintergrund-neutral`); the brand header bar uses `--primär-dunkel` with white text.
+- In JS (Google Maps styling) use the `C` object / `MAP_STYLE` in `locations-data.js` (CSS vars can't be used there).
+
+### Typography — Montserrat (weights loaded: 300;400;500;600;800)
+
+| Role        | Font                    | Weight |
+|-------------|-------------------------|--------|
+| Titel       | Montserrat ExtraBold    | 800    |
+| Heading 1   | Montserrat SemiBold     | 600    |
+| Heading 2   | Montserrat Medium       | 500    |
+| Fliesstext  | Montserrat (Regular)    | 400    |
+| Subtext     | Montserrat Light        | 300    |
+
+Base element styles in `style.css` apply this: `h1`/`.titel`=800, `h2`=600, `h3`=500, `body`/`p`=400, `.subtext`=300, `.highlight`=Hellviolett. When the Google Fonts link is changed, keep weights `300;400;500;600;800`.
+
+### Buttons
+
+Only a very small rounding, almost square — use `border-radius: var(--btn-radius)` (`3px`). (The circular map control bubbles and icon buttons are the exception.)
+
+### Logo (`images/bietschicheer/`)
+
+- `Bietschicheer_26_logo_sekundär.png` — **the logo to use in this app** (a graphic, no text). Purple mountains on transparent bg → only place it on light/grey backgrounds (it's invisible on the dark purple header). Currently top-left on the map (`.brand-logo`).
+- `Bietschicheer_26_logo_pimär.png` — primary logo (not used in the app).
+- `Bietschicheer26_slogan.png` — slogan graphic, add where a slogan fits.
+
+### Language & wording
+
+- All UI text is **German**, addressing the user informally (**per Du**).
+- **Gendern with a colon**: e.g. `Präsident:in`, `Mitarbeiter:in`, `Besucher:in`.
 
 ## Stack
 

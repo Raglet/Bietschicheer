@@ -32,17 +32,18 @@ The website for this project can be found at [https://raglet.github.io/Bietschic
 | File | Purpose |
 |------|---------|
 | `index.html` / `script.js` | Map page and all marker/InfoWindow logic, the live banner and locate button |
-| `bietschimeile.html` / `bietschimeile.js` | Stamp card page and logic |
+| `bietschimeile.html` / `bietschimeile.js` | Stamp card page, logic and the first-visit route tutorial |
 | `lineup.html` / `lineup.js` | Lineup page rendering |
+| `locations-data.js` | Shared location data (`LOCATIONS`), brand colours (`C`) and the Google Maps style (`MAP_STYLE`); used by the map and the stamp-card tutorial |
 | `lineup-data.js` | Shared lineup data + "now playing" logic (used by the lineup page and the map banner) |
-| `style.css` | Shared styles and the colour-palette CSS variables |
+| `style.css` | Shared styles, the colour palette and typography (Corporate Design) CSS variables |
 | `icons/`, `images/` | Marker icons and logos |
 
 ## Editing content
 
 Most updates are done by editing one of these data lists — no HTML required:
 
-- **Bars / food / Programm on the map** → the `LOCATIONS` array at the top of `script.js`. Each entry has `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`) and optional `image`, `badge`, `by`, `musik`, `essen`, `description`. The InfoWindow popup is generated automatically. Logo `image` is just the filename (from `images/mitwirkende_logos_26/`).
+- **Bars / food / Programm on the map** → the `LOCATIONS` array in `locations-data.js`. Each entry has `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant`) and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `nachmittag`, `description`. The InfoWindow popup is generated automatically. Logo `image` is just the filename (from `images/mitwirkende_logos_26/`).
 - **Stamp-card bars** → the `BARS` array in `bietschimeile.js`.
 - **Stage lineup** → the `LINEUP` array in `lineup-data.js`.
 - **Map start position / zoom** → the `center` and `zoom` options in `initMap` (`script.js`).

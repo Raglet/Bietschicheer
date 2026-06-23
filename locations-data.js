@@ -109,6 +109,7 @@ const LOCATIONS = [
   {
     name: "Hope Factory", lat: 46.31114053115375, lng: 7.799983521264717, type: "food",
     image: "8_Hope_weiss.png", badge: "Hope Factory",
+    logoStyle: "background-color: var(--sekundär-dunkel); padding: 8px; border-radius: var(--btn-radius);",
     essen: ["Popcorn", "Kleine Lust (Glace)"],
   },
   {

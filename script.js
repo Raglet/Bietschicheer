@@ -195,14 +195,8 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent: `
-        <div class="images">\
-        <span class="name-badge">bühne</span>\
-        </div>
-        <div class="content-title-wrapper">\
-        <h3 class="content-subtitle">Programm</h3>\
-        </div>\
         <div class="lineup">\
-          <a href="lineup.html" class="lineup-link">Ganzes Lineup ansehen →</a>\
+          <a href="lineup.html" class="lineup-link">Lineup ansehen →</a>\
         </div>\
 `,
     },
@@ -288,7 +282,7 @@ function initMap() {
         optimized: false,
       },
       infoWindowContent: `
-      <span class="name-badge">ticket</span>\
+      <span class="name-badge">Tickets und Info</span>\
       `,
     },
   ];
@@ -562,6 +556,18 @@ function updateLiveBanner() {
 document.addEventListener("DOMContentLoaded", () => {
   updateLiveBanner();
   setInterval(updateLiveBanner, 30000);
+
+  // After 5s on the map, slide in a hint about the Bietschimeile (stays until tapped).
+  const meileHint = document.getElementById("meileHint");
+  if (meileHint) {
+    meileHint.textContent = getCollectedStamps().length
+      ? "Hier gehts zur Bietschimeile"
+      : "Kennst du schon die Bietschimeile?";
+    setTimeout(() => meileHint.classList.add("meile-hint--visible"), 5000);
+    meileHint.addEventListener("click", () =>
+      meileHint.classList.remove("meile-hint--visible")
+    );
+  }
 });
 
 window.initMap = initMap;

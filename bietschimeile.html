@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&display=swap"
       rel="stylesheet"
     />
 
@@ -49,7 +49,18 @@
         padding: 8px;
         border-radius: 50%;
         color: white;
+        text-decoration: none;
         transition: background-color 0.2s;
+      }
+
+      .header-logo {
+        height: 50px;
+        width: 50px;
+        box-sizing: border-box;
+        padding: 5px;
+        background-color: white;
+        border-radius: 50%;
+        object-fit: contain;
       }
 
       .back-button:hover {
@@ -71,7 +82,7 @@
       }
 
       .intro {
-        color: var(--hintergrund-dunkel);
+        color: #000;
         line-height: 1.5;
         margin: 0 0 18px 0;
       }
@@ -94,7 +105,7 @@
 
       .progress__label {
         font-weight: 600;
-        color: var(--hintergrund-dunkel);
+        color: #000;
       }
 
       .progress__count {
@@ -125,7 +136,7 @@
         border: none;
         width: 100%;
         padding: 12px;
-        border-radius: 8px;
+        border-radius: var(--btn-radius);
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
         font-size: 1rem;
@@ -221,7 +232,7 @@
       .stamp__name {
         font-weight: 600;
         font-size: 0.85rem;
-        color: var(--hintergrund-dunkel);
+        color: #000;
         line-height: 1.2;
       }
 
@@ -308,7 +319,7 @@
       }
 
       .celebration__text {
-        color: var(--hintergrund-dunkel);
+        color: #000;
         line-height: 1.5;
         margin: 0 0 22px;
       }
@@ -318,7 +329,7 @@
         color: white;
         border: none;
         padding: 12px 24px;
-        border-radius: 8px;
+        border-radius: var(--btn-radius);
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
         font-size: 1rem;
@@ -365,15 +376,28 @@
         text-align: center;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       }
+      .tutorial__head {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .tutorial__logo {
+        height: 56px;
+        width: auto;
+      }
+
       .tutorial__title {
         font-family: "Montserrat", sans-serif;
         font-weight: 800;
         font-size: 1.4rem;
         color: var(--primär-dunkel);
-        margin: 0 0 8px;
+        margin: 0;
       }
       .tutorial__text {
-        color: var(--hintergrund-dunkel);
+        color: #000;
         line-height: 1.5;
         font-size: 0.95rem;
         margin: 0 0 14px;
@@ -391,7 +415,7 @@
         color: white;
         border: none;
         padding: 12px 24px;
-        border-radius: 8px;
+        border-radius: var(--btn-radius);
         font-family: "Montserrat", sans-serif;
         font-weight: 700;
         font-size: 1rem;
@@ -405,6 +429,7 @@
       <a href="index.html" class="back-button" aria-label="Zurück">
         <span class="material-icons">arrow_back</span>
       </a>
+      <img class="header-logo" src="icons/bietschimeile.png" alt="Bietschimeile" />
       <h1 class="page-title">Bietschimeile</h1>
       <button class="help-button" id="tutorialOpen" aria-label="Anleitung anzeigen">
         <span class="material-icons">help_outline</span>
@@ -413,7 +438,7 @@
 
     <div class="content">
       <p class="intro">
-        Besuche alle Bars der Bietschimeile und sammle bei jeder einen digitalen
+        Besuche alle Bars am Bietschicheer und sammle bei jeder einen digitalen
         Stempel! Scanne dazu den QR-Code an der Bar. Die Nummern sind nur eine
         empfohlene Reihenfolge – du kannst sie in beliebiger Reihenfolge besuchen.
       </p>
@@ -451,7 +476,10 @@
 
     <div class="tutorial" id="tutorial">
       <div class="tutorial__card">
-        <h2 class="tutorial__title">So funktioniert's</h2>
+        <div class="tutorial__head">
+          <img class="tutorial__logo" src="icons/bietschimeile.png" alt="Bietschimeile" />
+          <h2 class="tutorial__title">— Bietschimeile</h2>
+        </div>
         <p class="tutorial__text">
           Besuche jede Bar und sammle einen digitalen Stempel – scanne dazu den
           QR-Code vor Ort. Der Pfeil zeigt die empfohlene Route, aber du kannst
