@@ -196,7 +196,7 @@ function initMap() {
       },
       infoWindowContent: `
         <div class="lineup">\
-          <a href="lineup.html" class="lineup-link">Lineup ansehen →</a>\
+          <a href="lineup.html" class="lineup-link">z ganz Line Up alüägu →</a>\
         </div>\
 `,
     },
@@ -477,7 +477,7 @@ function initMap() {
 // "Du bist hier" – live GPS position of the visitor (triggered by the button).
 function trackUserLocation() {
   if (!navigator.geolocation) {
-    alert("Standortbestimmung wird von diesem Gerät nicht unterstützt.");
+    alert("Standortbestimmung wird von diesem Gerät nicht unterstützt."); 
     return;
   }
 
@@ -496,7 +496,7 @@ function trackUserLocation() {
         userMarker = new google.maps.Marker({
           position: latLng,
           map,
-          title: "Du bist hier",
+          title: "Du bischt genau hie",
           zIndex: 9999,
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
@@ -529,8 +529,7 @@ function trackUserLocation() {
     },
     (err) => {
       console.warn("Geolocation error:", err.message);
-      alert("Standort konnte nicht ermittelt werden. Bitte Standortfreigabe erlauben.");
-      locationWatchId = null;
+      alert("Standort konnte nicht ermittelt werden. Bitte Standortfreigabe erlauben."); 
     },
     { enableHighAccuracy: true, maximumAge: 5000, timeout: 10000 }
   );
@@ -544,7 +543,7 @@ function updateLiveBanner() {
   const live = getLiveAct(getNow());
   if (live) {
     banner.querySelector(".live-banner__text").textContent =
-      "Jetzt live: " + live.act;
+      "Gat am live am spilu:: " + live.act; 
     banner.hidden = false;
     document.body.classList.add("banner-visible");
   } else {
@@ -561,8 +560,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const meileHint = document.getElementById("meileHint");
   if (meileHint) {
     meileHint.textContent = getCollectedStamps().length
-      ? "Hier gehts zur Bietschimeile"
-      : "Kennst du schon die Bietschimeile?";
+      ? "Hie geits zer Bietschimeile!"
+      : "Kännsch scho die Bietschimeile?";
     setTimeout(() => meileHint.classList.add("meile-hint--visible"), 5000);
     meileHint.addEventListener("click", () =>
       meileHint.classList.remove("meile-hint--visible")

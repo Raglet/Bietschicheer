@@ -28,7 +28,7 @@ function render() {
       <div class="act__main">
         <span class="act__name">${item.act}</span>
         ${i === liveIdx ? `<span class="act__badge act__badge--live">● Jetzt live</span>` : ""}
-        ${i === upNext ? `<span class="act__badge act__badge--next">als Nächstes</span>` : ""}
+        ${i === upNext ? `<span class="act__badge act__badge--next">Next</span>` : ""}
       </div>
     `;
     container.appendChild(row);
