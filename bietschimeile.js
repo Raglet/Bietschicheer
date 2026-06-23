@@ -47,15 +47,15 @@ function handleScan(stamps) {
   history.replaceState(null, "", window.location.pathname);
 
   const bar = BARS.find((b) => b.id === scanned);
-  if (!bar) return { type: "error", text: "Unbekannter Code." };
+  if (!bar) return { type: "error", text: "?? was das für 1 code?" };
 
   if (stamps.includes(bar.id)) {
-    return { type: "info", text: `${bar.name} hast du schon gesammelt.` };
+    return { type: "info", text: `${bar.name} hesch scho gsammlut` };
   }
 
   stamps.push(bar.id);
   saveStamps(stamps);
-  return { type: "success", text: `Stempel von ${bar.name} gesammelt!`, justId: bar.id };
+  return { type: "success", text: `Stämpl fa ${bar.name} gsammlut!`, justId: bar.id }; 
 }
 
 function showToast(feedback) {

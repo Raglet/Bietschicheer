@@ -10,9 +10,9 @@
 const TEST_NOW = null;
 
 const LINEUP = [
-  { weekday: 5, day: "Freitag", start: "19:00", end: "20:00", act: "OrzBuzz" },
-  { weekday: 5, day: "Freitag", start: "21:00", end: "22:00", act: "MAYA" },
-  { weekday: 5, day: "Freitag", start: "23:00", end: "00:00", act: "WE2" },
+  { weekday: 5, day: "Fritag", start: "19:00", end: "20:00", act: "OrzBuzz" },
+  { weekday: 5, day: "Fritag", start: "21:00", end: "22:00", act: "MAYA" },
+  { weekday: 5, day: "Fritag", start: "23:00", end: "00:00", act: "WE2" },
   { weekday: 6, day: "Samstag", start: "12:00", end: "15:00", act: "Bietschibotsche" },
   { weekday: 6, day: "Samstag", start: "17:00", end: "18:00", act: "Mainstreet 47" },
   { weekday: 6, day: "Samstag", start: "19:00", end: "20:00", act: "The Kentucky Moonshiner" },
