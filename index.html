@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="./images/favicon.png" />
+    <link rel="icon" type="image/png" href="./images/favicon.svg" />
 
     <!-- Add Material Design -->
     <link
@@ -21,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&display=swap"
       rel="stylesheet"
     />
 
@@ -35,13 +35,34 @@
   </head>
 
   <body>
+    <a href="lineup.html" id="liveBanner" class="live-banner" hidden>
+      <span class="live-banner__dot"></span>
+      <span class="live-banner__text"></span>
+    </a>
+
     <div id="map"></div>
+    <img
+      class="brand-logo"
+      src="images/bietschicheer/Bietschicheer_26_logo_sekundär.png"
+      alt="Bietschicheer"
+    />
     <button
       id="mapButton"
-      class="mdc-icon-button material-icons"
       aria-label="question_mark"
     >
-      question_mark
+      <span class="material-icons" style="font-size:24px;">question_mark</span>
+    </button>
+
+    <a href="bietschimeile.html" id="bietschimeileButton" aria-label="Bietschimeile">
+      <img src="icons/bietschimeile.png" alt="Bietschimeile" />
+    </a>
+
+    <a href="bietschimeile.html" class="meile-hint" id="meileHint"
+      >Kennst du schon die Bietschimeile?</a
+    >
+
+    <button id="locateButton" aria-label="Standort anzeigen">
+      <span class="material-icons" style="font-size:24px;">my_location</span>
     </button>
 
     <div
@@ -139,6 +160,8 @@
       <div class="mdc-dialog__scrim"></div>
     </div>
 
+    <script src="locations-data.js"></script>
+    <script src="lineup-data.js"></script>
     <script src="script.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap"></script>

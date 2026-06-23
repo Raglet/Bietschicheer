@@ -1,3 +1,15 @@
+:root {
+  --primär-hell:        #996f91;
+  --primär-dunkel:      #663f5e;
+  --hintergrund-dunkel: #404040;
+  --hintergrund-hell:   #a5a5a5;
+  --hintergrund-neutral:#e1e1e1;
+  --sekundär-hell:      #4384a2;
+  --sekundär-dunkel:    #364954;
+  --banner-h:           44px;
+  --btn-radius:         3px; /* buttons: only a tiny rounding, almost square */
+}
+
 html {
     box-sizing: border-box;
     font-size: 100%;
@@ -23,22 +35,51 @@ body {
     padding: 0;
 }
 
-h1 {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 800;
-    text-align: center;
+/* ===== Typography (Corporate Design) =====
+   Titel       = Montserrat ExtraBold (800)
+   Heading 1   = Montserrat SemiBold  (600)
+   Heading 2   = Montserrat Medium    (500)
+   Fliesstext  = Montserrat Regular   (400)
+   Subtext     = Montserrat Light     (300)
+   Titel & Übertitel in Dunkelviolett (--primär-dunkel), Fliesstext in Schwarz,
+   Highlights in Hellviolett (--primär-hell). */
+body {
+  font-weight: 400;          /* Fliesstext */
+  color: #000;               /* Schwarz */
 }
 
-p{
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
+h1,
+.titel {                     /* Titel */
+  font-weight: 800;
+  color: var(--primär-dunkel);
+  text-align: center;
+}
 
+h2 {                         /* Heading 1 */
+  font-weight: 600;
+  color: var(--primär-dunkel);
+}
+
+h3 {                         /* Heading 2 */
+  font-weight: 500;
+  color: var(--primär-dunkel);
+}
+
+p {
+  font-weight: 400;          /* Fliesstext */
+}
+
+.subtext {
+  font-weight: 300;          /* Subtext (Light) */
+}
+
+.highlight {
+  color: var(--primär-hell); /* Hellviolett */
 }
 
 li {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  padding-left: 0px;
+  font-weight: 400;
+  padding-left: 0;
 }
 
 
@@ -54,13 +95,18 @@ li {
   margin: auto;
 }
 
-.content-name {
-  width: 120px;
+.name-badge {
+  background-color: var(--primär-dunkel);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 0;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block;
   margin: auto;
-  height: auto;
-  top: 0;
-  right: 0;
-  /* margin: 16px; */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-style: italic;
 }
 .content-subtitle{
   margin: 0;
@@ -80,8 +126,48 @@ li {
 }
 
 
+.stamp-collected-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: var(--sekundär-hell);
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
 .lineup {
 text-align: center;
+}
+
+.lineup-link {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 8px 16px;
+  background-color: var(--sekundär-hell);
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Secondary brand logo (graphic only) on the map */
+.brand-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  height: 42px;
+  width: auto;
+  z-index: 1;
+}
+body.banner-visible .brand-logo {
+  top: calc(20px + var(--banner-h));
 }
 
 .time-column {
@@ -95,17 +181,266 @@ text-align: center;
 
 
 
-#mapButton {
+#bietschimeileButton,
+#mapButton,
+#locateButton {
   position: absolute;
-  top: 100px;
-  left: 10px;
+  right: 10px;
   z-index: 1;
-  background-color: #fff; /* White background */
-  border-radius: 50%; /* Round shape (circular button) */
-  padding: 12px; /* Increase padding for better visibility */
+  background-color: var(--primär-hell);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  text-decoration: none;
+  border: 2px solid var(--primär-dunkel);
+  cursor: pointer;
+  padding: 0;
+  color: var(--primär-dunkel);
+}
+
+#mapButton .material-icons,
+#locateButton .material-icons {
+  filter: brightness(0) invert(1);
+}
+
+#bietschimeileButton {
+  top: 10px;
+  background-color: #fff; /* white so the colored BM logo shows */
+}
+
+#bietschimeileButton img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+#mapButton {
+  top: 68px;
+}
+
+#locateButton {
+  top: 126px;
+}
+
+/* Hint bubble next to the Bietschimeile button (appears after a few seconds) */
+.meile-hint {
+  position: absolute;
+  top: 12px;
+  right: 66px; /* 10px (button right) + 48px (button) + 8px gap */
+  z-index: 6;
+  max-width: 190px;
+  background-color: var(--sekundär-hell);
+  color: white;
+  padding: 10px 14px;
+  border-radius: var(--btn-radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateX(12px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.meile-hint::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: -6px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid var(--sekundär-hell);
+}
+
+.meile-hint--visible {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+body.banner-visible .meile-hint {
+  top: calc(22px + var(--banner-h));
+}
+
+/* Live banner – floating bar with sharp edges; pushes the right-side buttons down */
+.live-banner {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  height: var(--banner-h);
+  z-index: 5;
+  background-color: var(--primär-dunkel);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border-radius: 0;
+  font-style: italic;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  animation: bannerShake 3s ease-in-out infinite;
+}
+
+.live-banner[hidden] {
+  display: none;
+}
+
+/* Italic-slanted box: keep the skew in every frame so the shake doesn't reset it */
+@keyframes bannerShake {
+  0%, 12%, 100% { transform: skewX(-8deg) translateX(0); }
+  2% { transform: skewX(-8deg) translateX(-3px); }
+  4% { transform: skewX(-8deg) translateX(3px); }
+  6% { transform: skewX(-8deg) translateX(-3px); }
+  8% { transform: skewX(-8deg) translateX(3px); }
+  10% { transform: skewX(-8deg) translateX(-2px); }
+}
+
+/* Counter-skew the content so the text/dot stay upright inside the slanted box */
+.live-banner__text,
+.live-banner__dot {
+  transform: skewX(8deg);
+}
+
+.live-banner__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--sekundär-hell);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+body.banner-visible #bietschimeileButton {
+  top: calc(20px + var(--banner-h));
+}
+body.banner-visible #mapButton {
+  top: calc(78px + var(--banner-h));
+}
+body.banner-visible #locateButton {
+  top: calc(136px + var(--banner-h));
 }
 
 
+
+/* ============================================================
+   Map InfoWindow popups
+   ============================================================ */
+
+/* The bubble container */
+.gm-style .gm-style-iw-c {
+  padding: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28) !important;
+  max-width: 290px !important;
+}
+
+/* Inner content wrapper */
+.gm-style .gm-style-iw-d {
+  overflow: hidden auto !important;
+  padding: 10px 18px 16px !important;
+}
+
+/* Collapse the empty header strip that reserves space for the close button */
+.gm-style .gm-style-iw-ch {
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: 0 !important;
+}
+
+/* Close (X) button */
+.gm-style .gm-ui-hover-effect {
+  top: 6px !important;
+  right: 6px !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.gm-style .gm-ui-hover-effect:focus {
+  outline: none !important;
+}
+.gm-style .gm-ui-hover-effect > span {
+  background-color: var(--primär-dunkel) !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 6px !important;
+}
+
+/* ---- Content typography inside the popup ---- */
+.gm-style-iw .content-logo {
+  display: block;
+  height: 64px;
+  width: auto;
+  margin: 0 auto;
+}
+
+.gm-style-iw .content-title {
+  margin: 0;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primär-dunkel);
+}
+
+.gm-style-iw .content-subtitle {
+  color: var(--hintergrund-dunkel);
+  opacity: 0.7;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.gm-style-iw hr {
+  border: none;
+  border-top: 1px solid var(--hintergrund-neutral);
+  margin: 14px 0;
+}
+
+.gm-style-iw p {
+  margin: 6px 0;
+  color: #000;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.gm-style-iw .flex-section strong {
+  color: var(--primär-dunkel);
+}
+
+/* Dash bullet lists (food etc.) */
+.gm-style-iw .food-list ul {
+  margin: 4px 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+.gm-style-iw .food-list li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.gm-style-iw .food-list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--primär-dunkel);
+  font-weight: 700;
+}
 
 .flex-section {
   display: flex;
@@ -126,4 +461,9 @@ text-align: center;
 
 .mdc-icon-button {
   margin-right: 10px;
+}
+
+/* Buttons: only a tiny rounding, almost square */
+.mdc-button {
+  border-radius: var(--btn-radius);
 }
