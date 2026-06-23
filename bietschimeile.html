@@ -165,6 +165,15 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
       }
 
+      .stamp--clickable {
+        cursor: pointer;
+        transition: opacity 0.15s, transform 0.15s;
+      }
+      .stamp--clickable:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+
       .stamp__order {
         position: absolute;
         top: 8px;

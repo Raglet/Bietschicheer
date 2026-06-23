@@ -259,23 +259,35 @@ body.banner-visible #locateButton {
 /* Inner content wrapper */
 .gm-style .gm-style-iw-d {
   overflow: hidden auto !important;
-  padding: 20px 20px 18px !important;
+  padding: 10px 18px 16px !important;
 }
 
-/* Remove the empty header strip some versions add */
+/* Collapse the empty header strip that reserves space for the close button */
 .gm-style .gm-style-iw-ch {
-  padding-top: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: 0 !important;
 }
 
 /* Close (X) button */
 .gm-style .gm-ui-hover-effect {
-  top: 8px !important;
-  right: 8px !important;
+  top: 6px !important;
+  right: 6px !important;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.gm-style .gm-ui-hover-effect:focus {
+  outline: none !important;
 }
 .gm-style .gm-ui-hover-effect > span {
   background-color: var(--primär-dunkel) !important;
-  width: 18px !important;
-  height: 18px !important;
+  width: 16px !important;
+  height: 16px !important;
+  margin: 6px !important;
 }
 
 /* ---- Content typography inside the popup ---- */

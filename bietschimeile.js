@@ -6,20 +6,20 @@
 // logo is optional – bars without a logo file fall back to a bar icon.
 const LOGO_DIR = "images/mitwirkende_logos_26/";
 const BARS = [
-  { id: "bietschichlepfer", name: "Bietschichlepfer",       logo: LOGO_DIR + "01_Bietschichlepfer.jpg" },
   { id: "diebar",           name: "DIE BAR",                logo: LOGO_DIR + "02_diebar.png" },
-  { id: "ehc",              name: "EHC Raron",              logo: LOGO_DIR + "03_ehc_raron.png" },
   { id: "fc-raron",         name: "FC Raron",               logo: LOGO_DIR + "04_fc_raron.png" },
-  { id: "heidnisch",        name: "Heidnischbier",          logo: LOGO_DIR + "06_heidnisch.png" },
-  { id: "hockeyladies",     name: "Hockeyladies",           logo: LOGO_DIR + "07_Hockeyladies.jpeg" },
-  { id: "jodlerverein",     name: "Jodlerverein Raron",     logo: LOGO_DIR + "09_Jodlerverein Raron.jpg" },
-  { id: "jugendverein",     name: "Jugendverein Raron",     logo: LOGO_DIR + "11_JV_raro.png" },
-  { id: "echo-raronia",     name: "Musikgesellschaft ECHO Raronia", logo: LOGO_DIR + "14_Musikgesellschaft ECHO Raronia.png" },
-  { id: "proraronia",       name: "Pro Raronia Historica und Kulturstiftung", logo: LOGO_DIR + "16_Pro Raronia Historica und Kulturstiftung.jpg" },
   { id: "rilke",            name: "Rilke",                  logo: LOGO_DIR + "17_restaurant_rilke.jpg" },
-  { id: "stigma",           name: "Stigma",                 logo: LOGO_DIR + "19_stigma.jpg" },
+  { id: "heidnisch",        name: "Heidnischbier",          logo: LOGO_DIR + "06_heidnisch.png" },
+  { id: "ehc",              name: "EHC Raron",              logo: LOGO_DIR + "03_ehc_raron.png" },
+  { id: "bietschicheer",    name: "Verein Bietschicheer",   logo: LOGO_DIR + "22_Bietschicheer.png" },
+  { id: "bietschichlepfer", name: "Bietschichlepfer",       logo: LOGO_DIR + "01_Bietschichlepfer.jpg" },
+  { id: "jugendverein",     name: "Jugendverein Raron",     logo: LOGO_DIR + "11_JV_raro.png" },
+  { id: "proraronia",       name: "Pro Raronia Historica und Kulturstiftung", logo: LOGO_DIR + "16_Pro Raronia Historica und Kulturstiftung.jpg" },
+  { id: "hockeyladies",     name: "Hockeyladies",           logo: LOGO_DIR + "07_Hockeyladies.jpeg" },
+  { id: "echo-raronia",     name: "Musikgesellschaft ECHO Raronia", logo: LOGO_DIR + "14_Musikgesellschaft ECHO Raronia.png" },
   { id: "vbc-raron",        name: "VBC Raron",              logo: LOGO_DIR + "21_vbc_raron.jpg" },
-  { id: "bietschicheer",    name: "Verein Bietschicheer",   logo: LOGO_DIR + "22_Bietschicheer_26_logo_pimär_ohne_datum.png" },
+  { id: "jodlerverein",     name: "Jodlerverein Raron",     logo: LOGO_DIR + "09_Jodlerverein Raron.jpg" },
+  { id: "stigma",           name: "Stigma",                 logo: LOGO_DIR + "19_stigma.jpg" },
 ];
 
 const STORAGE_KEY = "bietschimeile.stamps";
@@ -78,6 +78,14 @@ function render(stamps, justId) {
     const card = document.createElement("div");
     card.className = "stamp" + (collected ? " stamp--collected" : "");
     if (bar.id === justId) card.classList.add("stamp--just");
+
+    // Not collected yet → tapping the stamp jumps to the bar on the map.
+    if (!collected) {
+      card.classList.add("stamp--clickable");
+      card.addEventListener("click", () => {
+        window.location.href = "index.html?bar=" + encodeURIComponent(bar.id);
+      });
+    }
 
     card.innerHTML = `
       <span class="stamp__order">${index + 1}</span>
