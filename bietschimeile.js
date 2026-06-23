@@ -3,8 +3,7 @@
 
 // Recommended order = array order. Order is only a suggestion; any bar can be
 // collected at any time.
-// logo is optional – bars without a logo file fall back to a bar icon.
-const LOGO_DIR = "images/mitwirkende_logos_26/";
+// LOGO_DIR comes from locations-data.js (loaded first); don't redeclare it here.
 const BARS = [
   { id: "diebar",           name: "DIE BAR",                logo: LOGO_DIR + "02_diebar.png" },
   { id: "fc-raron",         name: "FC Raron",               logo: LOGO_DIR + "04_fc_raron.png" },
@@ -123,6 +122,154 @@ function closeCelebration() {
   document.getElementById("celebration").classList.remove("celebration--visible");
 }
 
+// ---------------------------------------------------------------------------
+// First-visit tutorial: a mini map that animates the recommended route.
+// ---------------------------------------------------------------------------
+const TUTORIAL_KEY = "bietschimeile.tutorialSeen";
+const GOOGLE_MAPS_KEY = "AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ";
+
+let mapsPromise = null;
+
+function loadGoogleMaps() {
+  if (window.google && window.google.maps && window.google.maps.geometry) {
+    return Promise.resolve();
+  }
+  if (mapsPromise) return mapsPromise;
+  mapsPromise = new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src =
+      "https://maps.googleapis.com/maps/api/js?key=" +
+      GOOGLE_MAPS_KEY +
+      "&libraries=geometry";
+    s.async = true;
+    s.onload = resolve;
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return mapsPromise;
+}
+
+// Route points in the recommended (BARS) order, coords from LOCATIONS.
+function routeLatLngs() {
+  return BARS.map((bar) => {
+    const loc = LOCATIONS.find((l) => l.name === bar.name);
+    return loc ? new google.maps.LatLng(loc.lat, loc.lng) : null;
+  }).filter(Boolean);
+}
+
+function buildTutorialMap() {
+  const latLngs = routeLatLngs();
+  if (!latLngs.length) return;
+
+  const map = new google.maps.Map(document.getElementById("tutorialMap"), {
+    disableDefaultUI: true,
+    gestureHandling: "none",
+    keyboardShortcuts: false,
+    clickableIcons: false,
+    styles: MAP_STYLE,
+  });
+
+  const bounds = new google.maps.LatLngBounds();
+  latLngs.forEach((ll) => bounds.extend(ll));
+  map.fitBounds(bounds, 44);
+
+  latLngs.forEach((ll, i) => {
+    new google.maps.Marker({
+      position: ll,
+      map,
+      label: { text: String(i + 1), color: "#fff", fontSize: "12px", fontWeight: "700" },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 12,
+        fillColor: "#663f5e",
+        fillOpacity: 1,
+        strokeColor: "#ffffff",
+        strokeWeight: 2,
+      },
+      zIndex: 2,
+    });
+  });
+
+  // 1) show the full overview, 2) zoom in to the first bar, 3) run the arrows.
+  google.maps.event.addListenerOnce(map, "idle", () => {
+    setTimeout(() => {
+      map.setZoom(18);
+      map.setCenter(latLngs[0]);
+      // Wait until the zoomed-in view has rendered, then start the arrows.
+      google.maps.event.addListenerOnce(map, "idle", () => {
+        animateRoute(map, latLngs, true);
+      });
+    }, 1000);
+  });
+}
+
+function animateRoute(map, latLngs, follow) {
+  const line = new google.maps.Polyline({
+    map,
+    path: [latLngs[0]],
+    strokeColor: "#4384a2",
+    strokeOpacity: 0.9,
+    strokeWeight: 4,
+    zIndex: 1,
+    icons: [
+      {
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          scale: 3.5,
+          fillColor: "#4384a2",
+          fillOpacity: 1,
+          strokeColor: "#ffffff",
+          strokeWeight: 1,
+        },
+        offset: "100%",
+      },
+    ],
+  });
+
+  // Constant speed: spread a total duration across segments by their distance,
+  // so the arrow moves at the same visual pace over short and long hops.
+  const TOTAL_MS = 9000; // total travel time for the whole route
+  const dist = google.maps.geometry.spherical;
+  const segDist = latLngs
+    .slice(0, -1)
+    .map((ll, i) => dist.computeDistanceBetween(ll, latLngs[i + 1]));
+  const totalDist = segDist.reduce((a, b) => a + b, 0) || 1;
+  const segDurations = segDist.map((d) => (d / totalDist) * TOTAL_MS);
+
+  let seg = 0;
+  let segStart = null;
+
+  function frame(ts) {
+    if (seg >= latLngs.length - 1) return;
+    if (segStart === null) segStart = ts;
+    const t = Math.min(1, (ts - segStart) / segDurations[seg]);
+    const head = google.maps.geometry.spherical.interpolate(
+      latLngs[seg],
+      latLngs[seg + 1],
+      t
+    );
+    line.setPath(latLngs.slice(0, seg + 1).concat([head]));
+    if (follow) map.setCenter(head); // camera follows the arrow head
+    if (t >= 1) {
+      seg++;
+      segStart = null;
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function openTutorial() {
+  document.getElementById("tutorial").classList.add("tutorial--visible");
+  // Build fresh each time so the route re-animates (also on replay).
+  loadGoogleMaps().then(buildTutorialMap).catch(() => {});
+}
+
+function closeTutorial() {
+  document.getElementById("tutorial").classList.remove("tutorial--visible");
+  localStorage.setItem(TUTORIAL_KEY, "1");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const stamps = loadStamps();
   const feedback = handleScan(stamps);
@@ -140,4 +287,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById("celebrationClose")
     .addEventListener("click", closeCelebration);
+
+  // Tutorial: replay button + auto-show on first visit.
+  document.getElementById("tutorialOpen").addEventListener("click", openTutorial);
+  document.getElementById("tutorialClose").addEventListener("click", closeTutorial);
+  // Auto-show on first visit, but not when the user just scanned a bar QR.
+  if (!feedback && !localStorage.getItem(TUTORIAL_KEY)) {
+    openTutorial();
+  }
 });
