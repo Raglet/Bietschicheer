@@ -232,10 +232,13 @@ body.banner-visible .brand-logo {
   top: 12px;
   right: 66px; /* 10px (button right) + 48px (button) + 8px gap */
   z-index: 6;
-  max-width: 190px;
+  max-width: 210px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
   background-color: var(--sekundär-hell);
   color: white;
-  padding: 10px 14px;
+  padding: 10px 12px 10px 14px;
   border-radius: var(--btn-radius);
   font-size: 0.9rem;
   font-weight: 600;
@@ -246,6 +249,20 @@ body.banner-visible .brand-logo {
   transform: translateX(12px);
   pointer-events: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.meile-hint__close {
+  flex: none;
+  margin-top: -2px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.85;
+  cursor: pointer;
+}
+
+.meile-hint__close:hover {
+  opacity: 1;
 }
 
 .meile-hint::after {

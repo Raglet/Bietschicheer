@@ -64,10 +64,10 @@ function makeBubbleIcon(pathData, bgColor) {
 }
 
 const BUBBLE_ICONS = {
-  bar:        makeBubbleIcon(ICON_PATH_DATA.bar,        C.primärDunkel),
+  bar:        makeBubbleIcon(ICON_PATH_DATA.bar,        C.sekundärHell),
   food:       makeBubbleIcon(ICON_PATH_DATA.food,       C.primärDunkel),
-  programm:   makeBubbleIcon(ICON_PATH_DATA.nachmittag, C.primärDunkel),
-  restaurant: makeBubbleIcon(ICON_PATH_DATA.restaurant, C.primärDunkel),
+  programm:   makeBubbleIcon(ICON_PATH_DATA.nachmittag, C.primärHell),
+  restaurant: makeBubbleIcon(ICON_PATH_DATA.restaurant, C.primärHell),
   parking:    makeBubbleIcon(ICON_PATH_DATA.parking,    C.sekundärDunkel),
   sanitaer:   makeBubbleIcon(ICON_PATH_DATA.sanitaer,   C.sekundärDunkel),
   sanitaet:   makeBubbleIcon(ICON_PATH_DATA.sanitaet,   C.sekundärDunkel),
@@ -594,13 +594,22 @@ document.addEventListener("DOMContentLoaded", () => {
   // After 5s on the map, slide in a hint about the Bietschimeile (stays until tapped).
   const meileHint = document.getElementById("meileHint");
   if (meileHint) {
-    meileHint.textContent = getCollectedStamps().length
-      ? "Hie geits zer Bietschimeile!"
-      : "Kännsch scho die Bietschimeile?";
+    const meileHintText = meileHint.querySelector(".meile-hint__text");
+    if (meileHintText) {
+      meileHintText.textContent = getCollectedStamps().length
+        ? "Hie geits zer Bietschimeile!"
+        : "Kännsch scho die Bietschimeile?";
+    }
     setTimeout(() => meileHint.classList.add("meile-hint--visible"), 5000);
-    meileHint.addEventListener("click", () =>
-      meileHint.classList.remove("meile-hint--visible")
-    );
+    // The "×" dismisses the hint without following the link to the Bietschimeile.
+    const meileHintClose = document.getElementById("meileHintClose");
+    if (meileHintClose) {
+      meileHintClose.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        meileHint.classList.remove("meile-hint--visible");
+      });
+    }
   }
 });
 
