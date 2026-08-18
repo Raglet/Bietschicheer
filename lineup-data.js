@@ -11,10 +11,10 @@ const TEST_NOW = null;
 
 const LINEUP = [
   { weekday: 5, day: "Fritag", start: "19:00", end: "20:00", act: "OrzBuzz" },
-  { weekday: 5, day: "Fritag", start: "21:00", end: "22:00", act: "MAYA" },
+  { weekday: 5, day: "Fritag", start: "21:00", end: "22:00", act: "MÄYÄ" },
   { weekday: 5, day: "Fritag", start: "23:00", end: "00:00", act: "WE2" },
-  { weekday: 6, day: "Samstag", start: "12:00", end: "15:00", act: "Bietschibotsche" },
-  { weekday: 6, day: "Samstag", start: "17:00", end: "18:00", act: "Mainstreet 47" },
+  { weekday: 6, day: "Samstag", start: "11:00", end: "14:00", act: "Bietschibotsche" },
+  { weekday: 6, day: "Samstag", start: "15:00", end: "16:00", act: "Mainstreet 47" },
   { weekday: 6, day: "Samstag", start: "19:00", end: "20:00", act: "The Kentucky Moonshiner" },
   { weekday: 6, day: "Samstag", start: "21:00", end: "22:00", act: "Jah on Holiday" },
   { weekday: 6, day: "Samstag", start: "23:00", end: "00:30", act: "Chrigu Blaser Guitar Explosion" },

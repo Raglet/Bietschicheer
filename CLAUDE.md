@@ -70,22 +70,24 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 ## Bietschimeile stamp card
 
 - A digital stamp card for visiting every bar. State lives in `localStorage` (key `bietschimeile.stamps`) — per-device, no backend, intentionally cheatable (festival fun feature).
-- Bars + recommended order are defined in the `BARS` array in `bietschimeile.js`.
+- Bars + recommended order are defined in the `BARS` array in `bietschimeile.js` (`id` + `name` only). Each `name` must match a `LOCATIONS` entry — the stamp logo (`barLogo()`) and the tutorial-route coordinates are taken from there, so logos are edited only in `locations-data.js`.
 - Collecting a stamp: a printed QR code at each bar links to `bietschimeile.html?b=<id>`; the phone's native camera opens it, the `b` param is consumed, the stamp is saved, and the query string is stripped. Order is **not** enforced — the numbers are only a suggested route.
 - Collecting all bars shows a celebration overlay (placeholder for a future reward).
 - First visit shows a tutorial overlay: a mini Google Map that animates an arrow along the recommended route (the `BARS` order), using coordinates from `LOCATIONS` (matched by `name`). Shown once (localStorage key `bietschimeile.tutorialSeen`); the header "?" button replays it. The Maps API is lazy-loaded only when the tutorial opens (`loadGoogleMaps()` in `bietschimeile.js`).
-- The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected. The marker name → stamp id link is `BAR_NAME_TO_STAMP` in `script.js`. NOTE: the map's `LOCATIONS` list is still the old bar lineup, so only bars present in both (Bietschicheer, EHC, Stigma, Heidnischbier, DIE BAR, Pro Raronia) can show the badge until `LOCATIONS` is updated to the new `BARS` list.
+- The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected. The marker name → stamp id link is `BAR_NAME_TO_STAMP` in `script.js` — keep it in sync with `BARS` (bietschimeile.js) and the bar `name`s in `LOCATIONS`.
 
 ## Map markers (LOCATIONS)
 
 - Participant markers (bars, food, Programm) are data-driven from the `LOCATIONS` array in **`locations-data.js`** (shared: loaded by both `index.html` and `bietschimeile.html`). Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `nachmittag`, `description`, `logoStyle`. `buildInfoContent()` (in `script.js`) turns an entry into the InfoWindow HTML — never hand-write marker HTML.
 - `image`: a plain filename resolves from `images/mitwirkende_logos_26/` (`LOGO_DIR`); a value with a `/` (e.g. `logos/foo.png`) resolves from `images/` directly; can be an array for multiple logos. `musik`/`essen` accept a string or an array (array → dash bullet list).
-- Infrastructure markers (restaurants, WC, parking, ATM, bus/train, stage, info) are still defined as inline arrays/objects inside `initMap` — not part of `LOCATIONS`.
+- Restaurants (e.g. Rilke) are `LOCATIONS` entries with `type: "restaurant"`.
+- Infrastructure markers (stage, WC, Sanität, parking, info, ATM, bus/train) are data-driven from the `INFRASTRUCTURE` array in `locations-data.js`. Each entry: `name`, `lat`, `lng`, `type` (`stage`/`wc`/`sanitaet`/`parking`/`info`/`atm`/`bus`/`train` → icon via `INFRA_ICONS` in `script.js`), and optional `badge`, `subtitle`, `link: {text, href}`, `html` (free HTML, e.g. a timetable). Entries with none of the optional fields are icon-only (no popup). `buildInfraContent()` / `infraToMarker()` in `script.js` render them; they stay visible at every zoom level and are not part of the stamp card.
 - Map start position + zoom: the `center` / `zoom` options in `initMap` (`script.js`).
 
 ## Where to edit content
 
 - Bars/food/Programm on the map → `LOCATIONS` in `locations-data.js` (shared by the map and the stamp-card tutorial).
+- Stage, WC, Sanität, parking, info stand, ATMs, bus/train (incl. timetables) → `INFRASTRUCTURE` in `locations-data.js`.
 - Stamp-card bars + order → `BARS` in `bietschimeile.js`.
 - Stage lineup + set times → `LINEUP` in `lineup-data.js`.
 - Brand colours → `:root` variables in `style.css` (and the `C` object in `script.js` for the Google Maps style).

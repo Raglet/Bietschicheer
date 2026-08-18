@@ -3,23 +3,31 @@
 
 // Recommended order = array order. Order is only a suggestion; any bar can be
 // collected at any time.
-// LOGO_DIR comes from locations-data.js (loaded first); don't redeclare it here.
+// `name` must match the bar's `name` in LOCATIONS (locations-data.js) – the
+// logo and the tutorial-route coordinates are taken from there.
 const BARS = [
-  { id: "diebar",           name: "DIE BAR",                logo: LOGO_DIR + "02_diebar.png" },
-  { id: "fc-raron",         name: "FC Raron",               logo: LOGO_DIR + "04_fc_raron.png" },
-  { id: "rilke",            name: "Rilke",                  logo: LOGO_DIR + "17_restaurant_rilke.jpg" },
-  { id: "heidnisch",        name: "Heidnischbier",          logo: LOGO_DIR + "06_heidnisch.png" },
-  { id: "ehc",              name: "EHC Raron",              logo: LOGO_DIR + "03_ehc_raron.png" },
-  { id: "bietschicheer",    name: "Verein Bietschicheer",   logo: LOGO_DIR + "22_Bietschicheer.png" },
-  { id: "bietschichlepfer", name: "Bietschichlepfer",       logo: LOGO_DIR + "01_Bietschichlepfer.jpg" },
-  { id: "jugendverein",     name: "Jugendverein Raron",     logo: LOGO_DIR + "11_JV_raro.png" },
-  { id: "proraronia",       name: "Pro Raronia Historica und Kulturstiftung", logo: LOGO_DIR + "16_Pro Raronia Historica und Kulturstiftung.jpg" },
-  { id: "hockeyladies",     name: "Hockeyladies",           logo: LOGO_DIR + "07_Hockeyladies.jpeg" },
-  { id: "echo-raronia",     name: "Musikgesellschaft ECHO Raronia", logo: LOGO_DIR + "14_Musikgesellschaft ECHO Raronia.png" },
-  { id: "vbc-raron",        name: "VBC Raron",              logo: LOGO_DIR + "21_vbc_raron.jpg" },
-  { id: "jodlerverein",     name: "Jodlerverein Raron",     logo: LOGO_DIR + "09_Jodlerverein Raron.jpg" },
-  { id: "stigma",           name: "Stigma",                 logo: LOGO_DIR + "19_stigma.jpg" },
+  { id: "diebar",           name: "DIE BAR" },
+  { id: "fc-raron",         name: "FC Raron" },
+  { id: "ehc",              name: "EHC Raron" },
+  { id: "bietschicheer",    name: "Verein Bietschicheer" },
+  { id: "bietschichlepfer", name: "Bietschichlepfer" },
+  { id: "jugendverein",     name: "Jugendverein Raron" },
+  { id: "proraronia",       name: "Pro Raronia Historica und Kulturstiftung" },
+  { id: "hockeyladies",     name: "Hockeyladies" },
+  { id: "echo-raronia",     name: "Musikgesellschaft ECHO Raronia" },
+  { id: "vbc-raron",        name: "VBC Raron" },
+  { id: "jodlerverein",     name: "Jodlerverein Raron" },
+  { id: "stigma",           name: "Stigma" },
 ];
+
+// Logo for a stamp = the (first) `image` of the matching LOCATIONS entry.
+// Same resolution rule as the map: plain filename -> LOGO_DIR, "a/b.png" -> images/.
+function barLogo(bar) {
+  const loc = LOCATIONS.find((l) => l.name === bar.name);
+  const image = [].concat(loc?.image || [])[0];
+  if (!image) return null;
+  return image.includes("/") ? "images/" + image : LOGO_DIR + image;
+}
 
 const STORAGE_KEY = "bietschimeile.stamps";
 
@@ -92,8 +100,8 @@ function render(stamps, justId) {
         collected
           ? `<span class="stamp__check material-icons">check_circle</span>
              ${
-               bar.logo
-                 ? `<img class="stamp__logo" src="${encodeURI(bar.logo)}" alt="${bar.name}" />`
+               barLogo(bar)
+                 ? `<img class="stamp__logo" src="${encodeURI(barLogo(bar))}" alt="${bar.name}" />`
                  : `<span class="stamp__placeholder material-icons">sports_bar</span>`
              }`
           : `<span class="stamp__lock material-icons">lock</span>`

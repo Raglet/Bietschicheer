@@ -49,13 +49,8 @@ const LOCATIONS = [
   },
   {
     name: "FC Raron", lat: 46.31049280712476, lng: 7.79987723781509, type: "bar",
-    image: "04_fc_raron.png", badge: "FC Raron",
+    image: "fc-stuebli-badge.svg", badge: "FC Raron",
     getraenke: "Getränke, Bier, Wein, Spirituosen",
-  },
-  {
-    name: "Heidnischbier", lat: 46.311346178911926, lng: 7.799897813783402, type: "bar",
-    image: "06_heidnisch.png", badge: "Heidnischbier",
-    getraenke: "Rarner Piär",
   },
   {
     name: "Hockeyladies", lat: 46.31146302389808, lng: 7.800450401491779, type: "bar",
@@ -63,7 +58,7 @@ const LOCATIONS = [
     getraenke: "Getränke, Bier, Wein, Spirituosen",
   },
   {
-    name: "Jodlerverein Raron", lat: 46.31120407629646, lng: 7.80084840023755, type: "bar",
+    name: "Jodlerverein Raron", lat: 46.311346178911926, lng: 7.799897813783402, type: "bar",
     image: "09_Jodlerverein Raron.jpg", badge: "Jodlerverein Raron",
     getraenke: "Getränke, Bier, Wein",
     essen: "Jodler Hot Dog",
@@ -135,6 +130,92 @@ const LOCATIONS = [
     name: "Fluggruppe Oberwallis", lat: 46.31062249847992, lng: 7.8000676746626585, type: "programm",
     image: "5_flugruppe_OVS.jpg", badge: "Fluggruppe Oberwallis",
     description: "Basteln Modellflugzeuge + Hüpfburg",
+  },
+];
+
+// ============================================================================
+//  INFRASTRUCTURE – Bühne, WC, Sanität, Parkplatz, Info, Bankomat, Bus/Zug.
+//  Rendered by script.js (infraToMarker); not part of the stamp card.
+// ----------------------------------------------------------------------------
+//  Fields per entry:
+//    name        marker title (hover text)
+//    lat, lng    coordinates
+//    type        "stage" | "wc" | "sanitaet" | "parking" | "info" | "atm"
+//                | "bus" | "train"  -> marker icon
+//    badge       text in the purple name badge. Optional.
+//    subtitle    small heading under the badge. Optional.
+//    link        { text, href } button in the popup. Optional.
+//    html        free HTML (e.g. a timetable) shown under a divider. Optional.
+//  An entry without badge/subtitle/link/html has no popup (icon only).
+// ============================================================================
+const INFRASTRUCTURE = [
+  // ---- Bühne ----
+  {
+    name: "Bühne", lat: 46.31154857855296, lng: 7.799623317488572, type: "stage",
+    link: { text: "z ganz Line Up alüägu →", href: "lineup.html" },
+  },
+
+  // ---- Info ----
+  {
+    name: "Tickets und Info", lat: 46.30956299819405, lng: 7.800245046467818, type: "info",
+    badge: "Tickets und Info",
+  },
+
+  // ---- Sanität ----
+  { name: "Sanität", lat: 46.311635, lng: 7.800258, type: "sanitaet" },
+
+  // ---- WC ----
+  { name: "Kreisel Dorf",     lat: 46.31152,           lng: 7.799844,          type: "wc" },
+  { name: "Maxenhaus",        lat: 46.31159,           lng: 7.80053,           type: "wc" },
+  { name: "Alte Post",        lat: 46.30978113328334,  lng: 7.800215312930417, type: "wc" },
+  { name: "Parking Schmitta", lat: 46.31126252625926,  lng: 7.799326719832625, type: "wc" },
+
+  // ---- Parkplatz ----
+  { name: "Schulhausplatz", lat: 46.308303, lng: 7.80164, type: "parking" },
+
+  // ---- Bankomat ----
+  {
+    name: "Bankautomat Raiffeisen", lat: 46.30914985360714, lng: 7.799721723633649, type: "atm",
+    badge: "bank", subtitle: "Raiffeisen",
+  },
+  {
+    name: "Bankautomat WKB", lat: 46.307804743765814, lng: 7.800516896599212, type: "atm",
+    badge: "bank", subtitle: "WKB",
+  },
+
+  // ---- Zug / Bus ----
+  {
+    name: "Bahnhof Raron", lat: 46.30616248915186, lng: 7.801530337347227, type: "train",
+    badge: "zug",
+    html: `
+      <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice.</p>
+      <p><strong>Fahrplan Abreise</strong></p>
+      <p>Richtung Susten</p>
+      <ul>
+        <li>23:48 Uhr letzter Zug</li>
+        <li>4:48 Uhr erster Zug</li>
+      </ul>
+      <p>Richtung Brig</p>
+      <ul>
+        <li>00:41 Uhr letzter Zug</li>
+        <li>5:40 Uhr erster Zug</li>
+      </ul>`,
+  },
+  {
+    name: "Busstation Bergheim", lat: 46.30356892349157, lng: 7.8014837184476145, type: "bus",
+    badge: "bus",
+    html: `
+      <p><strong>Fahrplan</strong></p>
+      <p>Richtung Susten</p>
+      <ul>
+        <li>ca. 02:00 Uhr (Bettmobil)</li>
+        <li>ca. 03:30 Uhr (Steiner Reisen)</li>
+      </ul>
+      <p>Richtung Brig</p>
+      <ul>
+        <li>ca. 02:30 Uhr (Steiner Reisen)</li>
+        <li>ca. 03:45 Uhr (Bettmobil)</li>
+      </ul>`,
   },
 ];
 

@@ -13,13 +13,11 @@ const BAR_NAME_TO_STAMP = {
   "DIE BAR": "diebar",
   "EHC Raron": "ehc",
   "FC Raron": "fc-raron",
-  "Heidnischbier": "heidnisch",
   "Hockeyladies": "hockeyladies",
   "Jodlerverein Raron": "jodlerverein",
   "Jugendverein Raron": "jugendverein",
   "Musikgesellschaft ECHO Raronia": "echo-raronia",
   "Pro Raronia Historica und Kulturstiftung": "proraronia",
-  "Rilke": "rilke",
   "Stigma": "stigma",
   "VBC Raron": "vbc-raron",
   "Verein Bietschicheer": "bietschicheer",
@@ -133,6 +131,51 @@ function locationToMarker(loc) {
   ];
 }
 
+// Icon + size per INFRASTRUCTURE type (see locations-data.js).
+const INFRA_ICONS = {
+  stage:    { url: "icons/stage.png",     size: 35 },
+  info:     { url: BUBBLE_ICONS.info,     size: 20 },
+  sanitaet: { url: BUBBLE_ICONS.sanitaet, size: 20 },
+  wc:       { url: BUBBLE_ICONS.sanitaer, size: 20 },
+  parking:  { url: BUBBLE_ICONS.parking,  size: 20 },
+  atm:      { url: BUBBLE_ICONS.atm,      size: 20 },
+  bus:      { url: BUBBLE_ICONS.busStop,  size: 20 },
+  train:    { url: BUBBLE_ICONS.trainStop, size: 20 },
+};
+
+// Build the InfoWindow HTML for an INFRASTRUCTURE entry ("" -> no popup).
+function buildInfraContent(loc) {
+  const badge = loc.badge
+    ? `<div class="images"><span class="name-badge">${loc.badge}</span></div>`
+    : "";
+  const subtitle = loc.subtitle
+    ? `<div class="content-title-wrapper" style="margin-top: 0;"><h3 class="content-subtitle">${loc.subtitle}</h3></div>`
+    : "";
+  const link = loc.link
+    ? `<div class="lineup"><a href="${loc.link.href}" class="lineup-link">${loc.link.text}</a></div>`
+    : "";
+  const html = loc.html ? `<hr>${loc.html}` : "";
+  return badge + subtitle + link + html;
+}
+
+// Turn an INFRASTRUCTURE entry into the object shape createMarkers expects.
+// (Infrastructure markers stay visible at every zoom level.)
+function infraToMarker(loc) {
+  const icon = INFRA_ICONS[loc.type] || INFRA_ICONS.info;
+  const content = buildInfraContent(loc);
+  return {
+    position: { lat: loc.lat, lng: loc.lng },
+    map: map,
+    title: loc.name,
+    icon: {
+      url: icon.url,
+      scaledSize: new google.maps.Size(icon.size, icon.size),
+      optimized: false,
+    },
+    ...(content ? { infoWindowContent: content } : {}),
+  };
+}
+
 const button = document.getElementById("mapButton");
 const dialog = new mdc.dialog.MDCDialog(
   document.getElementById("settingsDialog")
@@ -158,207 +201,9 @@ function initMap() {
   // e.g. when arriving from the stamp card via ?bar=<id>.
   const mapMarkers = {};
 
-  // Restaurant-marker
-  const restaurants = [
-    [
-      "Restaurant Schmitta",
-      46.311236,
-      7.799061,
-      BUBBLE_ICONS.restaurant,
-      22,
-      22,
-      ' \
-      <div class="content-title-wrapper" style="margin-top: 0;">\
-      <h2 class="content-title">Restaurant Schmitta</h2>\
-      </div>\
-           ',
-    ],
-
-
-
-    [
-      "Kapitel 7",
-      46.309912201169375,
-      7.800265191478576,
-      BUBBLE_ICONS.restaurant,
-      22,
-      22,
-      ' \
-      <div class="content-title-wrapper" style="margin-top: 0;">\
-      <h2 class="content-title">Restaurant Kapitel 7</h2>\
-      </div>\
-           ',
-    ],
-  ];
-
-  // Parking-marker
-  const parking = [
-    ["Schulhausplatz", 46.308303, 7.80164, BUBBLE_ICONS.parking, 20, 20],
-  ];
-
-  // Sanitär-marker
-  const sanitaer = [
-    ["Kreisel Dorf", 46.31152, 7.799844, BUBBLE_ICONS.sanitaer, 20, 20],
-
-    ["Maxenhaus", 46.31159, 7.80053, BUBBLE_ICONS.sanitaer, 20, 20],
-
-    [
-      "Alte Post",
-      46.30978113328334,
-      7.800215312930417,
-      BUBBLE_ICONS.sanitaer,
-      20,
-      20,
-    ],
-    [
-      "Parking Schmitta",
-      46.31126252625926,
-      7.799326719832625,
-      BUBBLE_ICONS.sanitaer,
-      20,
-      20,
-    ],
-  ];
-
-  // Bühne-marker
-  const stage = [
-    {
-      position: { lat: 46.31154857855296, lng: 7.799623317488572},
-      map: map,
-      icon: {
-        url: "icons/stage.png",
-        scaledSize: new google.maps.Size(35, 35),
-        optimized: false,
-      },
-      infoWindowContent: `
-        <div class="lineup">\
-          <a href="lineup.html" class="lineup-link">z ganz Line Up alüägu →</a>\
-        </div>\
-`,
-    },
-  ];
-
-  const busStops = [
-    {
-      position: { lat: 46.30616248915186, lng: 7.801530337347227 },
-      map: map,
-      title: "Bahnhof Raron",
-      icon: {
-        url: BUBBLE_ICONS.trainStop,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-      infoWindowContent:
-        '      \
-        <div class="images">\
-        <span class="name-badge">zug</span>\
-        </div>\
-        <hr>\
-        <p>An- und Abreise mit dem Regio stündlich ab Brig und St. Maurice.  </p> \
-        <p>  <strong> Fahrplan Abreise</strong> </p> \
-        <p> Richtung Susten  </p>\
-        <ul> \
-        <li>23:48 Uhr lezter Zug </li> \
-        <li>4:48 Uhr erster Zug </li> \
-        </ul> \
-        <p> Richtung Brig </br></p>\
-        <ul> \
-        <li>00:41 Uhr lezter Zug </li> \
-        <li>5:40 Uhr erster Zug </li> \
-        </ul> </p> \
-       ',
-    },
-    {
-      position: { lat: 46.30356892349157, lng: 7.8014837184476145 },
-      map: map,
-      title: "Busstation Bergheim",
-      icon: {
-        url: BUBBLE_ICONS.busStop,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-      infoWindowContent: ` \
-      <div class="images">\
-      <span class="name-badge">bus</span>\
-      </div>\
-      <hr>\
-     <p><strong>Fahrplan </strong></p>  \
-      <p>Richtung Susten</p>
-      <ul>
-        <li> ca. 02:00 Uhr (Bettmobil)</li>
-        <li> ca. 03:30 Uhr (Steiner Reisen)</li>
-          </ul>
-          <p>Richtung Brig</ul> </p>
-<ul>
-          <li> ca. 02:30 Uhr (Steiner Reisen)</li>
-                  <li> ca. 03:45 Uhr (Bettmobil)</li>
-                </ul>`,
-    },
-  ];
-
-  const sanitaet = [
-    {
-      position: { lat: 46.311635, lng: 7.800258 },
-      map: map,
-      icon: {
-        url: BUBBLE_ICONS.sanitaet,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-    },
-  ];
-
-  const info = [
-    {
-      position: { lat: 46.31079761450369, lng: 7.800021996320716 },
-      map: map,
-      icon: {
-        url: BUBBLE_ICONS.info,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-      infoWindowContent: `
-      <span class="name-badge">Tickets und Info</span>\
-      `,
-    },
-  ];
-
-  const atms = [
-    {
-      position: { lat: 46.30914985360714, lng: 7.799721723633649 },
-      map: map,
-      title: "Bankautomat Raiffeisen",
-      icon: {
-        url: BUBBLE_ICONS.atm,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-      infoWindowContent:
-        '<div class="images">\
-        <span class="name-badge">bank</span>\
-        </div>\
-         <div class="content-title-wrapper" style="margin-top: 0 "> \
-      <h3 class="content-subtitle">Raiffeisen</h3> \
-        </div>  ',
-    },
-    {
-      position: { lat: 46.307804743765814, lng: 7.800516896599212 },
-      map: map,
-      title: "Bankautomat WKB",
-      icon: {
-        url: BUBBLE_ICONS.atm,
-        scaledSize: new google.maps.Size(20, 20),
-        optimized: false,
-      },
-      infoWindowContent:
-        '<div class="images">\
-        <span class="name-badge">bank</span>\
-        </div>\
-         <div class="content-title-wrapper" style="margin-top : 0;"> \
-      <h3 class="content-subtitle"> WKB</h3> \
-         </div>  ',
-    },
-  ];
+  // Infrastructure markers (Bühne, WC, Sanität, Parkplatz, Info, Bankomat,
+  // Bus/Zug) come from the INFRASTRUCTURE list in locations-data.js.
+  const infraMarkers = INFRASTRUCTURE.map(infraToMarker);
 
   // use API to add markers
   function createMarkers(locationArray) {
@@ -481,14 +326,7 @@ function initMap() {
   }
 
   createMarkers(locationMarkers);
-  createMarkers(stage);
-  createMarkers(sanitaer);
-  createMarkers(sanitaet);
-  createMarkers(busStops);
-  createMarkers(restaurants);
-  createMarkers(parking);
-  createMarkers(atms);
-  createMarkers(info);
+  createMarkers(infraMarkers);
 
   // Arriving from the stamp card (?bar=<id>) → open that bar's popup.
   const requestedBar = new URLSearchParams(location.search).get("bar");
