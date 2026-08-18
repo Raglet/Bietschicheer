@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/png" href="./images/favicon.svg" />
 
     <!-- Add Material Design -->
@@ -41,11 +41,29 @@
     </a>
 
     <div id="map"></div>
-    <img
+
+    <!-- Info card overlay: opened when a marker with a `card` (LOCATIONS) is tapped -->
+    <div id="cardOverlay" class="card-overlay" hidden>
+      <div class="card-overlay__panel" role="dialog" aria-modal="true" aria-label="Infokarte">
+        <button type="button" class="card-overlay__close" id="cardOverlayClose" aria-label="Schliessen">
+          <span class="material-icons">close</span>
+        </button>
+        <img id="cardOverlayImg" class="card-overlay__img" alt="" />
+        <div id="cardOverlayStamp" class="stamp-collected-badge card-overlay__stamp" hidden>✓ Stempel gesammelt</div>
+      </div>
+    </div>
+    <a
       class="brand-logo"
-      src="images/bietschicheer/Bietschicheer_26_logo_sekundär.png"
-      alt="Bietschicheer"
-    />
+      href="https://www.bietschicheer.ch"
+      target="_blank"
+      rel="noopener"
+      aria-label="bietschicheer.ch öffnen"
+    >
+      <img
+        src="images/bietschicheer/Bietschicheer_26_logo_sekundär.png"
+        alt="Bietschicheer"
+      />
+    </a>
     <button
       id="mapButton"
       aria-label="question_mark"
