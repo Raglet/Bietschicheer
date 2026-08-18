@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/png" href="./images/favicon.svg" />
 
     <!-- Google Fonts -->
@@ -93,6 +93,23 @@
         border-left: 5px solid transparent;
       }
 
+      .act__img {
+        width: 56px;
+        height: 70px; /* 4:5 like the posters */
+        object-fit: cover;
+        border-radius: var(--btn-radius);
+        background-color: var(--hintergrund-neutral);
+        flex-shrink: 0;
+      }
+      .act--has-image {
+        cursor: pointer;
+      }
+      .act--has-image:hover,
+      .act--has-image:focus-visible {
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        outline: none;
+      }
+
       .act__time {
         font-weight: 700;
         color: var(--sekundär-dunkel);
@@ -170,6 +187,16 @@
 
     <div class="content">
       <div id="lineup"></div>
+    </div>
+
+    <!-- Poster overlay: opened when an act with a poster is tapped (styles in style.css) -->
+    <div id="cardOverlay" class="card-overlay" hidden>
+      <div class="card-overlay__panel" role="dialog" aria-modal="true" aria-label="Poster">
+        <button type="button" class="card-overlay__close" id="cardOverlayClose" aria-label="Schliessen">
+          <span class="material-icons">close</span>
+        </button>
+        <img id="cardOverlayImg" class="card-overlay__img" alt="" />
+      </div>
     </div>
 
     <script src="lineup-data.js"></script>

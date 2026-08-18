@@ -111,9 +111,13 @@ function buildInfoContent(loc) {
     infoField("Getränke", loc.getraenke) +
     infoField("Musik", loc.musik) +
     infoField("Essen", loc.essen) +
+    infoField("Special", loc.special) +
     infoField("Nachmittag", loc.nachmittag);
   const description = loc.description ? `<p>${loc.description}</p>` : "";
   const body = details || description ? `<hr>${details}${description}` : "";
+
+  // Nothing to show -> no popup (icon-only marker).
+  if (!logos && !badge && !by && !body) return "";
 
   return `<div class="images">${logos}${badge}</div>${by}${body}`;
 }
@@ -128,12 +132,61 @@ function locationToMarker(loc) {
     22,
     22,
     buildInfoContent(loc),
+    loc.card || null, // designed info card -> opened as overlay instead of the popup
   ];
+}
+
+// ---- Info card overlay ----------------------------------------------------
+// Markers with a `card` open the designed card image full-screen; the text
+// InfoWindow is only used for entries without a card.
+const cardOverlay = document.getElementById("cardOverlay");
+const cardOverlayImg = document.getElementById("cardOverlayImg");
+const cardOverlayStamp = document.getElementById("cardOverlayStamp");
+
+function openCard(url, name, stampCollected) {
+  if (currentInfoWindow != null) currentInfoWindow.close();
+  cardOverlayImg.src = url;
+  cardOverlayImg.alt = name;
+  cardOverlayStamp.hidden = !stampCollected;
+  cardOverlay.hidden = false;
+}
+
+function closeCard() {
+  cardOverlay.hidden = true;
+  cardOverlayImg.removeAttribute("src"); // stop loading / free memory
+}
+
+document.getElementById("cardOverlayClose").addEventListener("click", closeCard);
+cardOverlay.addEventListener("click", (e) => {
+  if (e.target === cardOverlay) closeCard(); // tap on the backdrop
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !cardOverlay.hidden) closeCard();
+});
+
+// Stage bubble: the inverse of makeBubbleIcon – white circle, glyph in the
+// brand colour (vector re-drawing of icons/stage.png).
+function makeStageBubble(color) {
+  const g = `<g fill="${color}" stroke="${color}">
+<path stroke="none" d="M8 84 Q258 -46 509 84 V108 Q509 118 499 118 H18 Q8 118 8 108 Z"/>
+<rect stroke="none" x="8" y="143" width="30" height="270"/><rect stroke="none" x="60" y="143" width="30" height="270"/>
+<rect stroke="none" x="427" y="143" width="30" height="270"/><rect stroke="none" x="479" y="143" width="30" height="270"/>
+<path fill="none" stroke-width="16" stroke-linejoin="round" d="M38 165 L60 187 L38 209 L60 231 L38 253 L60 275 L38 297 L60 319 L38 341 L60 363 L38 385"/>
+<path fill="none" stroke-width="16" stroke-linejoin="round" d="M479 165 L457 187 L479 209 L457 231 L479 253 L457 275 L479 297 L457 319 L479 341 L457 363 L479 385"/>
+<rect stroke="none" x="140" y="143" width="20" height="36"/><path stroke="none" d="M118 207 A32 32 0 0 1 182 207 Z"/>
+<rect stroke="none" x="248" y="143" width="20" height="36"/><path stroke="none" d="M226 207 A32 32 0 0 1 290 207 Z"/>
+<rect stroke="none" x="356" y="143" width="20" height="36"/><path stroke="none" d="M334 207 A32 32 0 0 1 398 207 Z"/>
+<circle stroke="none" cx="214" cy="303" r="28"/><path fill="none" stroke-width="22" stroke-linecap="round" d="M232 320 L288 340"/>
+<rect stroke="none" x="250" y="335" width="22" height="78"/>
+<rect stroke="none" x="8" y="437" width="152" height="72" rx="6"/><rect stroke="none" x="187" y="437" width="145" height="72" rx="6"/><rect stroke="none" x="357" y="437" width="152" height="72" rx="6"/>
+</g>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="white"/><svg x="8" y="8" width="24" height="24" viewBox="0 0 517 517">${g}</svg></svg>`;
+  return "data:image/svg+xml," + encodeURIComponent(svg);
 }
 
 // Icon + size per INFRASTRUCTURE type (see locations-data.js).
 const INFRA_ICONS = {
-  stage:    { url: "icons/stage.png",     size: 35 },
+  stage:    { url: makeStageBubble(C.primärHell), size: 50 },
   info:     { url: BUBBLE_ICONS.info,     size: 20 },
   sanitaet: { url: BUBBLE_ICONS.sanitaet, size: 20 },
   wc:       { url: BUBBLE_ICONS.sanitaer, size: 20 },
@@ -190,6 +243,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 46.31093284838397, lng: 7.800514723358967}, // Startplatz
     zoom: 17.45, // 18 für Fest
+    maxZoom: 20, // no closer than this – tiles only get blurry beyond
     disableDefaultUI: true,
     styles: MAP_STYLE,
   });
@@ -292,8 +346,17 @@ function initMap() {
 
             // Reflect the Bietschimeile stamp status (read fresh on each open).
             const stampId = BAR_NAME_TO_STAMP[currMarker[0]];
+            const stampCollected =
+              !!stampId && getCollectedStamps().includes(stampId);
+
+            // Designed info card available -> show it as an overlay instead.
+            if (currMarker[7]) {
+              openCard(currMarker[7], currMarker[0], stampCollected);
+              return;
+            }
+
             let content = currMarker[6];
-            if (stampId && getCollectedStamps().includes(stampId)) {
+            if (stampCollected) {
               content +=
                 '<div class="stamp-collected-badge">✓ Stempel gesammelt</div>';
             }

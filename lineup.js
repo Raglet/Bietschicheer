@@ -24,6 +24,11 @@ function render() {
     if (i === upNext) row.classList.add("act--next");
 
     row.innerHTML = `
+      ${
+        item.image
+          ? `<img class="act__img" src="${item.image}" alt="${item.act}" loading="lazy" />`
+          : ""
+      }
       <div class="act__time">${item.start}<span>–</span>${item.end}</div>
       <div class="act__main">
         <span class="act__name">${item.act}</span>
@@ -31,11 +36,50 @@ function render() {
         ${i === upNext ? `<span class="act__badge act__badge--next">Next</span>` : ""}
       </div>
     `;
+
+    // Tap a row with a poster -> show it full-screen.
+    if (item.image) {
+      row.classList.add("act--has-image");
+      row.setAttribute("role", "button");
+      row.setAttribute("tabindex", "0");
+      row.setAttribute("aria-label", `${item.act} – Poster anzeigen`);
+      const open = () => openPoster(item.image, item.act);
+      row.addEventListener("click", open);
+      row.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          open();
+        }
+      });
+    }
     container.appendChild(row);
   });
 }
 
+// ---- Poster overlay (same look as the info cards on the map) ----
+const posterOverlay = document.getElementById("cardOverlay");
+const posterOverlayImg = document.getElementById("cardOverlayImg");
+
+function openPoster(url, name) {
+  posterOverlayImg.src = url;
+  posterOverlayImg.alt = name;
+  posterOverlay.hidden = false;
+}
+
+function closePoster() {
+  posterOverlay.hidden = true;
+  posterOverlayImg.removeAttribute("src");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("cardOverlayClose").addEventListener("click", closePoster);
+  posterOverlay.addEventListener("click", (e) => {
+    if (e.target === posterOverlay) closePoster();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !posterOverlay.hidden) closePoster();
+  });
+
   render();
   // Keep the live/next highlight current.
   setInterval(render, 30000);
