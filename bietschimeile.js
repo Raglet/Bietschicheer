@@ -1,35 +1,29 @@
 // Bietschimeile – digital stamp card
 // State is stored client-side in localStorage (per device, no backend).
 
-// Recommended order = array order. Order is only a suggestion; any bar can be
-// collected at any time.
-// `name` must match the bar's `name` in LOCATIONS (locations-data.js) – the
-// logo and the tutorial-route coordinates are taken from there.
-const BARS = [
-  { id: "diebar",           name: "DIE BAR" },
-  { id: "fc-raron",         name: "FC Raron" },
-  { id: "ehc",              name: "EHC Raron" },
-  { id: "bietschicheer",    name: "Verein Bietschicheer" },
-  { id: "bietschichlepfer", name: "Bietschichlepfer" },
-  { id: "jugendverein",     name: "Jugendverein Raron" },
-  { id: "proraronia",       name: "Pro Raronia Historica und Kulturstiftung" },
-  { id: "hockeyladies",     name: "Hockeyladies" },
-  { id: "echo-raronia",     name: "Musikgesellschaft ECHO Raronia" },
-  { id: "vbc-raron",        name: "VBC Raron" },
-  { id: "jodlerverein",     name: "Jodlerverein Raron" },
-  { id: "stigma",           name: "Stigma" },
-];
+// Every LOCATIONS entry with type "bar" gets a stamp slot + QR code
+// automatically (see admin/tabs/qrcodes.js) – populated after the Firestore
+// fetch in bootstrapData(). Sorted by an optional `order` field (set via the
+// admin Karte tab), falling back to alphabetical for entries without one.
+let BARS = [];
 
-// Logo for a stamp = the (first) `image` of the matching LOCATIONS entry.
-// Same resolution rule as the map: plain filename -> LOGO_DIR, "a/b.png" -> images/.
+function sortBars(list) {
+  return list.slice().sort((a, b) => {
+    const ao = a.order ?? Infinity;
+    const bo = b.order ?? Infinity;
+    return ao - bo || a.name.localeCompare(b.name);
+  });
+}
+
+// Logo for a stamp = the (first) `image` of the bar's own LOCATIONS entry.
+// resolveLogo() (locations-data.js) applies the same resolution rule as the map.
 function barLogo(bar) {
-  const loc = LOCATIONS.find((l) => l.name === bar.name);
-  const image = [].concat(loc?.image || [])[0];
-  if (!image) return null;
-  return image.includes("/") ? "images/" + image : LOGO_DIR + image;
+  const image = [].concat(bar.image || [])[0];
+  return image ? resolveLogo(image) : null;
 }
 
 const STORAGE_KEY = "bietschimeile.stamps";
+const REDEEMED_KEY = "bietschimeile.redeemed";
 
 function loadStamps() {
   try {
@@ -45,38 +39,7 @@ function saveStamps(stamps) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(stamps));
 }
 
-// Handle an incoming scan (?b=<id>). Returns a feedback object for the toast.
-function handleScan(stamps) {
-  const params = new URLSearchParams(window.location.search);
-  const scanned = params.get("b");
-  if (!scanned) return null;
-
-  // Strip the query so a refresh doesn't re-process and the URL stays clean.
-  history.replaceState(null, "", window.location.pathname);
-
-  const bar = BARS.find((b) => b.id === scanned);
-  if (!bar) return { type: "error", text: "?? was das für 1 code?" };
-
-  if (stamps.includes(bar.id)) {
-    return { type: "info", text: `${bar.name} hesch scho gsammlut` };
-  }
-
-  stamps.push(bar.id);
-  saveStamps(stamps);
-  return { type: "success", text: `Stämpl fa ${bar.name} gsammlut!`, justId: bar.id }; 
-}
-
-function showToast(feedback) {
-  if (!feedback) return;
-  const toast = document.getElementById("toast");
-  toast.textContent = feedback.text;
-  toast.className = "toast toast--" + feedback.type + " toast--visible";
-  setTimeout(() => {
-    toast.className = "toast toast--" + feedback.type;
-  }, 3200);
-}
-
-function render(stamps, justId) {
+function render(stamps) {
   const grid = document.getElementById("stampGrid");
   grid.innerHTML = "";
 
@@ -84,7 +47,6 @@ function render(stamps, justId) {
     const collected = stamps.includes(bar.id);
     const card = document.createElement("div");
     card.className = "stamp" + (collected ? " stamp--collected" : "");
-    if (bar.id === justId) card.classList.add("stamp--just");
 
     // Not collected yet → tapping the stamp jumps to the bar on the map.
     if (!collected) {
@@ -123,11 +85,36 @@ function render(stamps, justId) {
   return complete;
 }
 
-function openCelebration() {
-  document.getElementById("celebration").classList.add("celebration--visible");
+// ---------------------------------------------------------------------------
+// Drink-redemption reward modal (replaces the old "Geile Laffer!" trophy
+// screen). Opened repeatably from #doneBanner; only "Getränk einlösen"
+// (pressed by bar staff) permanently marks the card redeemed.
+// ---------------------------------------------------------------------------
+function openRewardModal() {
+  document.getElementById("rewardModal").classList.add("reward-modal--visible");
 }
-function closeCelebration() {
-  document.getElementById("celebration").classList.remove("celebration--visible");
+function closeRewardModal() {
+  document.getElementById("rewardModal").classList.remove("reward-modal--visible");
+}
+
+function isRedeemed() {
+  return !!localStorage.getItem(REDEEMED_KEY);
+}
+
+// Once redeemed, the stamp card (progress + grid) is gone for good on this
+// device – replaced by a small thank-you block. Toggled via inline styles,
+// not the `hidden` attribute, since `.content`/`.redeemed-state` don't need
+// a `[hidden]` CSS guard this way.
+function showRedeemedState() {
+  document.getElementById("mainContent").style.display = "none";
+  document.getElementById("redeemedState").style.display = "flex";
+  document.getElementById("tutorialOpen").style.display = "none";
+}
+
+function redeemDrink() {
+  localStorage.setItem(REDEEMED_KEY, "1");
+  closeRewardModal();
+  showRedeemedState();
 }
 
 // ---------------------------------------------------------------------------
@@ -157,12 +144,9 @@ function loadGoogleMaps() {
   return mapsPromise;
 }
 
-// Route points in the recommended (BARS) order, coords from LOCATIONS.
+// Route points in the recommended (BARS) order.
 function routeLatLngs() {
-  return BARS.map((bar) => {
-    const loc = LOCATIONS.find((l) => l.name === bar.name);
-    return loc ? new google.maps.LatLng(loc.lat, loc.lng) : null;
-  }).filter(Boolean);
+  return BARS.map((bar) => new google.maps.LatLng(bar.lat, bar.lng));
 }
 
 function buildTutorialMap() {
@@ -278,29 +262,38 @@ function closeTutorial() {
   localStorage.setItem(TUTORIAL_KEY, "1");
 }
 
+async function bootstrapData() {
+  try {
+    if (isRedeemed()) {
+      showRedeemedState();
+      window.Fb.hideLoadingOverlay();
+      return;
+    }
+
+    const { LOCATIONS: locs } = await window.Fb.fetchLocationsSplit();
+    window.LOCATIONS = locs;
+    BARS = sortBars(locs.filter((l) => l.type === "bar"));
+    window.Fb.hideLoadingOverlay();
+
+    const stamps = loadStamps();
+    render(stamps);
+
+    document.getElementById("doneBanner").addEventListener("click", openRewardModal);
+    document.getElementById("rewardModalClose").addEventListener("click", closeRewardModal);
+    document.getElementById("redeemButton").addEventListener("click", redeemDrink);
+
+    // Tutorial: replay button + auto-show on first visit.
+    document.getElementById("tutorialOpen").addEventListener("click", openTutorial);
+    document.getElementById("tutorialClose").addEventListener("click", closeTutorial);
+    if (!localStorage.getItem(TUTORIAL_KEY)) {
+      openTutorial();
+    }
+  } catch (err) {
+    console.error("Datenladung fehlgeschlagen:", err);
+    window.Fb.showLoadingError(bootstrapData);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  const stamps = loadStamps();
-  const feedback = handleScan(stamps);
-  const justId = feedback && feedback.type === "success" ? feedback.justId : null;
-
-  const complete = render(stamps, justId);
-  showToast(feedback);
-
-  // Auto-celebrate only when this scan completed the card.
-  if (complete && justId) {
-    setTimeout(openCelebration, 600);
-  }
-
-  document.getElementById("doneBanner").addEventListener("click", openCelebration);
-  document
-    .getElementById("celebrationClose")
-    .addEventListener("click", closeCelebration);
-
-  // Tutorial: replay button + auto-show on first visit.
-  document.getElementById("tutorialOpen").addEventListener("click", openTutorial);
-  document.getElementById("tutorialClose").addEventListener("click", closeTutorial);
-  // Auto-show on first visit, but not when the user just scanned a bar QR.
-  if (!feedback && !localStorage.getItem(TUTORIAL_KEY)) {
-    openTutorial();
-  }
+  bootstrapData();
 });

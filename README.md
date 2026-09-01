@@ -16,7 +16,7 @@ The website for this project can be found at [https://raglet.github.io/Bietschic
 
 - **Map markers & InfoWindows** — each location has a marker; clicking it opens an InfoWindow with the name, logo and details (music, food, etc.).
 - **"Du bist hier" location** — a button (bottom of the top-right stack) shows the visitor's live GPS position on the map. Requires HTTPS and location permission.
-- **Bietschimeile stamp card** — a digital pub-crawl stamp card. Each bar has a printed QR code linking to `bietschimeile.html?b=<id>`; scanning it with the phone's camera collects that stamp. Progress is stored per-device in `localStorage` (no backend), the order is only a recommendation, and collecting every stamp triggers a celebration screen.
+- **Bietschimeile stamp card** — a digital pub-crawl stamp card. Every bar gets a QR code automatically (generated/downloaded from the admin tool) linking to `/bar-<id>`; scanning it collects that stamp and lands on a short confirmation page. Progress is stored per-device in `localStorage` (no backend), the order is only a recommendation, and collecting every stamp offers a free drink at the Bietschicheer bar (redeemed once by staff, after which the stamp card is gone for that device).
 - **Live lineup** — `lineup.html` lists the full Friday/Saturday programme and highlights the act currently on stage. A matching floating banner appears on the map while a band is playing. The live state is matched by weekday + time, so it works regardless of the year.
 - **Brand styling** — a custom Google Maps style and a shared colour palette (CSS variables) keep the look consistent across pages.
 
@@ -44,7 +44,7 @@ The website for this project can be found at [https://raglet.github.io/Bietschic
 Most updates are done by editing one of these data lists — no HTML required:
 
 - **Bars / food / Programm on the map** → the `LOCATIONS` array in `locations-data.js`. Each entry has `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant`) and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `nachmittag`, `description`. The InfoWindow popup is generated automatically. Logo `image` is just the filename (from `images/mitwirkende_logos_26/`).
-- **Stamp-card bars** → the `BARS` array in `bietschimeile.js`.
+- **Stamp-card bars** → automatic (any `LOCATIONS` entry with `type: "bar"`); content itself is now managed via the admin tool, see `CLAUDE.md`.
 - **Stage lineup** → the `LINEUP` array in `lineup-data.js`.
 - **Map start position / zoom** → the `center` and `zoom` options in `initMap` (`script.js`).
 - **Colours** → the `:root` CSS variables in `style.css`.

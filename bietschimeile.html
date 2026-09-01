@@ -146,6 +146,9 @@
         justify-content: center;
         gap: 8px;
       }
+      .done-banner[hidden] {
+        display: none;
+      }
 
       /* Stamp grid */
       .stamp-grid {
@@ -240,49 +243,15 @@
         color: var(--primär-dunkel);
       }
 
-      /* "Just collected" pop animation */
+      /* Pop-in animation, also used by .reward-modal__card */
       @keyframes stampPop {
         0% { transform: scale(0.8); }
         50% { transform: scale(1.08); }
         100% { transform: scale(1); }
       }
-      .stamp--just {
-        animation: stampPop 0.6s ease;
-      }
 
-      /* Toast */
-      .toast {
-        position: fixed;
-        left: 50%;
-        bottom: 24px;
-        transform: translate(-50%, 120%);
-        opacity: 0;
-        visibility: hidden;
-        background-color: var(--hintergrund-dunkel);
-        color: white;
-        padding: 12px 18px;
-        border-radius: 24px;
-        font-weight: 600;
-        font-size: 0.9rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        transition: transform 0.35s ease, opacity 0.35s ease,
-          visibility 0s linear 0.35s;
-        z-index: 50;
-        max-width: 90%;
-        text-align: center;
-      }
-      .toast--visible {
-        transform: translate(-50%, 0);
-        opacity: 1;
-        visibility: visible;
-        transition: transform 0.35s ease, opacity 0.35s ease;
-      }
-      .toast--success { background-color: var(--primär-dunkel); }
-      .toast--info { background-color: var(--sekundär-dunkel); }
-      .toast--error { background-color: var(--hintergrund-dunkel); }
-
-      /* Celebration overlay */
-      .celebration {
+      /* Reward modal (drink redemption) – opened from #doneBanner */
+      .reward-modal {
         position: fixed;
         inset: 0;
         background-color: rgba(64, 64, 64, 0.85);
@@ -292,9 +261,10 @@
         z-index: 100;
         padding: 24px;
       }
-      .celebration--visible { display: flex; }
+      .reward-modal--visible { display: flex; }
 
-      .celebration__card {
+      .reward-modal__card {
+        position: relative;
         background-color: white;
         border-radius: 18px;
         padding: 32px 24px;
@@ -305,12 +275,30 @@
         animation: stampPop 0.5s ease;
       }
 
-      .celebration__icon {
+      .reward-modal__close {
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: white;
+        color: var(--primär-dunkel);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .reward-modal__icon {
         font-size: 64px;
         line-height: 1;
       }
 
-      .celebration__title {
+      .reward-modal__title {
         font-family: "Montserrat", sans-serif;
         font-weight: 800;
         font-size: 1.6rem;
@@ -318,13 +306,13 @@
         margin: 12px 0 6px;
       }
 
-      .celebration__text {
+      .reward-modal__text {
         color: #000;
         line-height: 1.5;
         margin: 0 0 22px;
       }
 
-      .celebration__close {
+      .reward-modal__redeem {
         background-color: var(--primär-dunkel);
         color: white;
         border: none;
@@ -334,6 +322,35 @@
         font-weight: 700;
         font-size: 1rem;
         cursor: pointer;
+        width: 100%;
+      }
+
+      /* Redeemed thank-you state – replaces #mainContent for good once the
+         drink has been redeemed (see bietschimeile.js: showRedeemedState). */
+      .redeemed-state {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 10px;
+        padding: 70px 20px;
+      }
+      .redeemed-state__icon {
+        font-size: 64px;
+        color: var(--primär-dunkel);
+      }
+      .redeemed-state__title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: var(--primär-dunkel);
+        margin: 0;
+      }
+      .redeemed-state__text {
+        color: #000;
+        line-height: 1.5;
+        margin: 0;
+        max-width: 320px;
       }
 
       /* Help / replay-tutorial button in the header */
@@ -425,6 +442,12 @@
   </head>
 
   <body>
+    <div id="loadingOverlay" class="data-loading">
+      <div class="data-loading__spinner"></div>
+      <p class="data-loading__text">Bietschimeile wird geladen…</p>
+      <button type="button" class="btn data-loading__retry" hidden>Erneut versuchen</button>
+    </div>
+
     <header class="page-header">
       <a href="index.html" class="back-button" aria-label="Zurück">
         <span class="material-icons">arrow_back</span>
@@ -436,10 +459,10 @@
       </button>
     </header>
 
-    <div class="content">
+    <div class="content" id="mainContent">
       <p class="intro">
         Gang an alli Bars am Bietschicheer und samml bi jeder än digitale
-        Stämpl! Eifach der QR Code ander Bar scannu. 
+        Stämpl! Eifach der QR Code ander Bar scannu.
       </p>
 
       <section class="progress">
@@ -459,16 +482,31 @@
       <div class="stamp-grid" id="stampGrid"></div>
     </div>
 
-    <div class="toast" id="toast"></div>
+    <!-- Shown instead of #mainContent once the drink has been redeemed (see
+         bietschimeile.js: showRedeemedState) -->
+    <div class="redeemed-state" id="redeemedState">
+      <span class="material-icons redeemed-state__icon">local_bar</span>
+      <h2 class="redeemed-state__title">Merci ferz Mitmachu!</h2>
+      <p class="redeemed-state__text">
+        Du hesch dis gratis Getränk scho abgholt. Gniäss z Fäst no! 
+      </p>
+    </div>
 
-    <div class="celebration" id="celebration">
-      <div class="celebration__card">
-        <div class="celebration__icon">🏆</div>
-        <h2 class="celebration__title">Geile Laffer!</h2>
-        <p class="celebration__text">
-          Du bisch an alle Bars am Bietschicheer verbi gsi! Chranke Hund!
+    <!-- Reward modal: opened from #doneBanner once the card is complete;
+         "Getränk einlösen" is pressed by staff at the Bietschicheer bar. -->
+    <div class="reward-modal" id="rewardModal">
+      <div class="reward-modal__card">
+        <button class="reward-modal__close" id="rewardModalClose" aria-label="Schliessen">
+          <span class="material-icons">close</span>
+        </button>
+        <div class="reward-modal__icon">🍹</div>
+        <h2 class="reward-modal__title">Fertig gsammlet!</h2>
+        <p class="reward-modal__text">
+          Du hast dir ein Getränk an der Bietschicheer-Bar verdient. Zeige
+          dieses Fenster an der Bietschicheer-Bar um dein gratis Getränk zu
+          erhalten.
         </p>
-        <button class="celebration__close" id="celebrationClose">Merci</button>
+        <button class="reward-modal__redeem" id="redeemButton">Getränk einlösen</button>
       </div>
     </div>
 
@@ -480,6 +518,7 @@
         </div>
         <p class="tutorial__text">
           Gang an jedi Bar und hol der du digital Stämpel – fer das eifach der QR Code Scannu.
+          Wennd alli Stämpel gsammlut hesch, chasch aner Bietschicheer-Bar es gratis Getränk abholu.
         </p>
         <div class="tutorial__map" id="tutorialMap"></div>
         <button class="tutorial__close" id="tutorialClose">Allez, lets go!</button>
@@ -487,6 +526,10 @@
     </div>
 
     <script src="locations-data.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="firebase-init.js"></script>
     <script src="bietschimeile.js"></script>
   </body>
 </html>

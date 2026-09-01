@@ -26,7 +26,7 @@ function render() {
     row.innerHTML = `
       ${
         item.image
-          ? `<img class="act__img" src="${item.image}" alt="${item.act}" loading="lazy" />`
+          ? `<img class="act__img" src="${resolveLineupImage(item.image)}" alt="${item.act}" loading="lazy" />`
           : ""
       }
       <div class="act__time">${item.start}<span>–</span>${item.end}</div>
@@ -43,7 +43,7 @@ function render() {
       row.setAttribute("role", "button");
       row.setAttribute("tabindex", "0");
       row.setAttribute("aria-label", `${item.act} – Poster anzeigen`);
-      const open = () => openPoster(item.image, item.act);
+      const open = () => openPoster(resolveLineupImage(item.image), item.act);
       row.addEventListener("click", open);
       row.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -59,8 +59,18 @@ function render() {
 // ---- Poster overlay (same look as the info cards on the map) ----
 const posterOverlay = document.getElementById("cardOverlay");
 const posterOverlayImg = document.getElementById("cardOverlayImg");
+const posterOverlaySpinner = document.getElementById("cardOverlaySpinner");
 
 function openPoster(url, name) {
+  // The poster image (Firebase Storage) can take a moment to load – show a
+  // spinner in its place until it (or a broken load) resolves.
+  posterOverlayImg.classList.add("card-overlay__img--loading");
+  posterOverlaySpinner.hidden = false;
+  posterOverlayImg.onload = posterOverlayImg.onerror = () => {
+    posterOverlayImg.classList.remove("card-overlay__img--loading");
+    posterOverlaySpinner.hidden = true;
+  };
+
   posterOverlayImg.src = url;
   posterOverlayImg.alt = name;
   posterOverlay.hidden = false;
@@ -69,6 +79,19 @@ function openPoster(url, name) {
 function closePoster() {
   posterOverlay.hidden = true;
   posterOverlayImg.removeAttribute("src");
+}
+
+async function bootstrapData() {
+  try {
+    window.LINEUP = await window.Fb.fetchLineup();
+    window.Fb.hideLoadingOverlay();
+    render();
+    // Keep the live/next highlight current.
+    setInterval(render, 30000);
+  } catch (err) {
+    console.error("Datenladung fehlgeschlagen:", err);
+    window.Fb.showLoadingError(bootstrapData);
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -80,7 +103,5 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape" && !posterOverlay.hidden) closePoster();
   });
 
-  render();
-  // Keep the live/next highlight current.
-  setInterval(render, 30000);
+  bootstrapData();
 });

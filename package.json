@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "description": "Dev-only tooling for the Bietschicheer static site (scripts/seed-firestore.js, scripts/dev-server.js). The deployed site itself loads Firebase via CDN <script> tags, not this package.json.",
+  "scripts": {
+    "dev": "node scripts/dev-server.js"
+  },
+  "devDependencies": {
+    "firebase": "^12.18.0"
+  }
+}

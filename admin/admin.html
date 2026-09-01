@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/png" href="../images/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Admin – Bietschicheer</title>
+
+    <style>
+      /* Several elements below toggle visibility via the `hidden` attribute
+         (login screen, app shell, logout button, error text, modal, ...).
+         Several of this page's own classes set `display` on those same
+         elements (e.g. `.login-screen { display: flex }`), which – being
+         author CSS – outranks the browser default `[hidden] { display: none }`
+         at equal specificity. This guard makes `hidden` always win. */
+      [hidden] {
+        display: none !important;
+      }
+
+      body {
+        background-color: var(--hintergrund-neutral);
+        min-height: 100vh;
+      }
+
+      .page-header {
+        background-color: var(--primär-dunkel);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .back-button,
+      .header-icon-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.2s;
+      }
+      .back-button:hover,
+      .header-icon-button:hover {
+        background-color: var(--primär-hell);
+      }
+      .header-icon-button {
+        margin-left: auto;
+      }
+      .page-title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        margin: 0;
+        color: white;
+      }
+
+      .content {
+        max-width: 680px;
+        margin: 20px auto;
+        padding: 0 16px 60px;
+      }
+
+      /* ---- Buttons (corporate design: almost-square rounding) ---- */
+      .btn {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border: none;
+        border-radius: var(--btn-radius);
+        padding: 10px 18px;
+        cursor: pointer;
+        background-color: var(--primär-dunkel);
+        color: white;
+      }
+      .btn:hover {
+        background-color: var(--primär-hell);
+      }
+      .btn--outline {
+        background-color: white;
+        color: var(--primär-dunkel);
+        border: 2px solid var(--primär-dunkel);
+        padding: 8px 16px;
+      }
+      .btn--outline:hover {
+        background-color: var(--hintergrund-neutral);
+      }
+      .btn--small {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+      }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .icon-btn {
+        background: var(--hintergrund-neutral);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--sekundär-dunkel);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .icon-btn:hover {
+        background: var(--hintergrund-hell);
+      }
+      .icon-btn--edit:hover {
+        background: var(--sekundär-hell);
+        color: white;
+      }
+      .icon-btn--delete:hover {
+        background: #c0392b;
+        color: white;
+      }
+      .icon-btn--disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .icon-btn--help {
+        background: none;
+        color: var(--sekundär-hell);
+      }
+
+      /* ---- Login screen ---- */
+      .login-screen {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 76px);
+        padding: 20px;
+      }
+      .login-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        padding: 28px 24px;
+        width: 100%;
+        max-width: 360px;
+      }
+      .login-card h2 {
+        margin-top: 0;
+        text-align: center;
+      }
+      .login-card .field {
+        margin-bottom: 14px;
+      }
+      .login-card .btn {
+        width: 100%;
+        margin-top: 6px;
+      }
+      .login-error {
+        color: #c0392b;
+        font-size: 0.85rem;
+        margin: -6px 0 14px;
+        text-align: center;
+      }
+      .login-hint {
+        font-size: 0.8rem;
+        color: var(--hintergrund-hell);
+        text-align: center;
+        margin-top: 16px;
+        line-height: 1.4;
+      }
+
+      /* ---- Tabs: centered row, vertical + centered on mobile ---- */
+      .admin-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+      }
+      .admin-tab {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: white;
+        border: 2px solid transparent;
+        border-radius: var(--btn-radius);
+        padding: 10px 18px;
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--primär-dunkel);
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+      .admin-tab .material-icons {
+        font-size: 20px;
+      }
+      .admin-tab--active {
+        background: var(--primär-dunkel);
+        color: white;
+        border-color: var(--primär-dunkel);
+      }
+      @media (max-width: 600px) {
+        .admin-tabs {
+          flex-direction: column;
+          align-items: center;
+        }
+        .admin-tab {
+          width: 100%;
+          max-width: 320px;
+          justify-content: center;
+        }
+      }
+
+      /* ---- Tab toolbar ---- */
+      .tab-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .tab-hint {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--hintergrund-dunkel);
+        max-width: 420px;
+      }
+      .tab-toolbar__actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      /* ---- Entry list (Konzerte / Karte / Admins rows) ---- */
+      .day-heading {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: var(--primär-dunkel);
+        margin: 20px 0 8px;
+      }
+      .entry-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .entry {
+        background-color: white;
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        flex-wrap: wrap;
+      }
+      .entry__img {
+        width: 48px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: var(--btn-radius);
+        background-color: var(--hintergrund-neutral);
+        flex-shrink: 0;
+      }
+      .entry__img--square {
+        height: 48px;
+      }
+      .entry__img-placeholder {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--hintergrund-hell);
+        font-size: 28px;
+        flex-shrink: 0;
+      }
+      .entry__card-preview {
+        width: 40px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: var(--btn-radius);
+        background-color: var(--hintergrund-neutral);
+        flex-shrink: 0;
+      }
+      .entry__time {
+        font-weight: 700;
+        color: var(--sekundär-dunkel);
+        font-size: 0.9rem;
+        white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.25;
+        flex-shrink: 0;
+      }
+      .entry__time span {
+        color: var(--hintergrund-hell);
+        font-weight: 500;
+      }
+      .entry__main {
+        flex: 1;
+        min-width: 120px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .entry__main--column {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+      .entry__name {
+        font-weight: 600;
+        color: #000;
+        font-size: 1rem;
+      }
+      .entry__sub {
+        font-size: 0.78rem;
+        color: var(--hintergrund-hell);
+      }
+      .entry__actions {
+        display: flex;
+        gap: 6px;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+
+      .entry--add {
+        border: 2px dashed var(--hintergrund-hell);
+        box-shadow: none;
+        justify-content: center;
+        color: var(--hintergrund-hell);
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .entry--add:hover {
+        border-color: var(--primär-hell);
+        color: var(--primär-hell);
+      }
+      .entry-add__icon {
+        font-size: 20px;
+      }
+
+      /* ---- Modal ---- */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        background-color: rgba(0, 0, 0, 0.55);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .modal-overlay[hidden] {
+        display: none;
+      }
+      .modal-panel {
+        background: white;
+        border-radius: 14px;
+        width: 100%;
+        max-width: 480px;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+      .modal-panel__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--hintergrund-neutral);
+      }
+      .modal-panel__header h2 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+      .modal-panel__body {
+        padding: 16px 18px;
+        overflow-y: auto;
+      }
+      .modal-panel__footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 14px 18px;
+        border-top: 1px solid var(--hintergrund-neutral);
+      }
+      .modal-footer-buttons {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        justify-content: flex-end;
+      }
+
+      /* ---- Forms ---- */
+      .entry-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .field__label {
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--primär-dunkel);
+      }
+      .field__input,
+      select.field__input,
+      input[type="time"].field__input {
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.95rem;
+        padding: 9px 10px;
+        border: 1px solid var(--hintergrund-hell);
+        border-radius: var(--btn-radius);
+        background: white;
+        color: #000;
+        width: 100%;
+      }
+      .field__input:focus {
+        outline: 2px solid var(--sekundär-hell);
+      }
+      .coords-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .field__input--coords {
+        flex: 1;
+      }
+      .coords-preview {
+        margin: -4px 0 4px;
+      }
+      .coords-preview[hidden] {
+        display: none;
+      }
+      .coords-preview__img {
+        width: 100%;
+        max-width: 320px;
+        border-radius: var(--btn-radius);
+        display: block;
+      }
+      .coords-preview__link {
+        color: var(--sekundär-hell);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+
+      .form-preview {
+        max-width: 140px;
+        max-height: 140px;
+        object-fit: contain;
+        border-radius: var(--btn-radius);
+        background: var(--hintergrund-neutral);
+        margin-top: -4px;
+      }
+      .form-preview--small {
+        max-width: 80px;
+        max-height: 80px;
+      }
+      .form-preview[hidden] {
+        display: none;
+      }
+
+      .json-details {
+        margin-top: 4px;
+      }
+      .json-details summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--sekundär-dunkel);
+        font-size: 0.85rem;
+      }
+      .json-textarea {
+        width: 100%;
+        min-height: 110px;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.78rem;
+        margin-top: 8px;
+        padding: 8px;
+        border: 1px solid var(--hintergrund-hell);
+        border-radius: var(--btn-radius);
+        box-sizing: border-box;
+      }
+
+      .export-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .export-note {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--hintergrund-dunkel);
+      }
+      .export-textarea {
+        width: 100%;
+        min-height: 280px;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 0.78rem;
+        padding: 10px;
+        border: 1px solid var(--hintergrund-hell);
+        border-radius: var(--btn-radius);
+        box-sizing: border-box;
+        white-space: pre;
+      }
+
+      .reveal-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .reveal-panel__password {
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+        font-size: 1.05rem;
+        text-align: center;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        background: var(--hintergrund-neutral);
+      }
+
+      /* ---- Toast (same pattern as bietschimeile.html) ---- */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 120%);
+        opacity: 0;
+        visibility: hidden;
+        background-color: var(--hintergrund-dunkel);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s linear 0.35s;
+        z-index: 50;
+        max-width: 90%;
+        text-align: center;
+      }
+      .toast--visible {
+        transform: translate(-50%, 0);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+      }
+      .toast--success { background-color: var(--primär-dunkel); }
+      .toast--info { background-color: var(--sekundär-dunkel); }
+      .toast--error { background-color: #c0392b; }
+    </style>
+  </head>
+
+  <body>
+    <header class="page-header">
+      <a href="../index.html" class="back-button" aria-label="Zurück">
+        <span class="material-icons">arrow_back</span>
+      </a>
+      <h1 class="page-title">Admin</h1>
+      <button id="logoutButton" class="header-icon-button" aria-label="Abmelden" hidden>
+        <span class="material-icons">logout</span>
+      </button>
+    </header>
+
+    <!-- ---- Login ---- -->
+    <div id="loginScreen" class="login-screen">
+      <div class="login-card">
+        <h2>Anmeldung</h2>
+        <button id="googleSignIn" class="btn btn--google" type="button">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.85 2.09-1.81 2.73v2.27h2.92c1.71-1.57 2.69-3.88 2.69-6.64z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.92-2.27c-.81.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.71H.96v2.34C2.44 15.98 5.48 18 9 18z"/>
+            <path fill="#FBBC05" d="M3.97 10.71c-.18-.54-.28-1.11-.28-1.71s.1-1.17.28-1.71V4.96H.96A8.996 8.996 0 0 0 0 9c0 1.45.35 2.83.96 4.04l3.01-2.33z"/>
+            <path fill="#EA4335" d="M9 3.58c1.32 0 2.51.46 3.44 1.35l2.59-2.59C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58z"/>
+          </svg>
+          Mit Google anmelden
+        </button>
+        <p id="loginError" class="login-error" hidden></p>
+        <p class="login-hint">
+          Nur für registrierte Bietschicheer-Admins. Änderungen werden sofort
+          live gespeichert.
+        </p>
+      </div>
+    </div>
+
+    <!-- ---- App ---- -->
+    <div id="adminApp" class="content" hidden>
+      <nav id="adminTabs" class="admin-tabs"></nav>
+      <div id="tabContent"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- ---- Generic modal, used by every tab for edit/add/export/reveal panels ---- -->
+    <div id="modalOverlay" class="modal-overlay" hidden>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-panel__header">
+          <h2 id="modalTitle"></h2>
+          <button id="modalClose" class="header-icon-button" style="color: var(--primär-dunkel);" aria-label="Schliessen">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div id="modalBody" class="modal-panel__body"></div>
+        <div id="modalFooter" class="modal-panel__footer"></div>
+      </div>
+    </div>
+
+    <script src="../locations-data.js"></script>
+    <script src="../lineup-data.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="../firebase-init.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/4.2.1/jspdf.umd.min.js"></script>
+    <script src="admin-core.js"></script>
+    <script src="tabs/concerts.js"></script>
+    <script src="tabs/map.js"></script>
+    <script src="tabs/admins.js"></script>
+    <script src="tabs/qrcodes.js"></script>
+    <script src="admin.js"></script>
+  </body>
+</html>

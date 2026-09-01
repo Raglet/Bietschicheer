@@ -178,6 +178,12 @@
   </head>
 
   <body>
+    <div id="loadingOverlay" class="data-loading">
+      <div class="data-loading__spinner"></div>
+      <p class="data-loading__text">Lineup wird geladen…</p>
+      <button type="button" class="btn data-loading__retry" hidden>Erneut versuchen</button>
+    </div>
+
     <header class="page-header">
       <a href="index.html" class="back-button" aria-label="Zurück">
         <span class="material-icons">arrow_back</span>
@@ -195,11 +201,16 @@
         <button type="button" class="card-overlay__close" id="cardOverlayClose" aria-label="Schliessen">
           <span class="material-icons">close</span>
         </button>
+        <div class="card-overlay__spinner" id="cardOverlaySpinner" hidden></div>
         <img id="cardOverlayImg" class="card-overlay__img" alt="" />
       </div>
     </div>
 
     <script src="lineup-data.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="firebase-init.js"></script>
     <script src="lineup.js"></script>
   </body>
 </html>

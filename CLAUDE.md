@@ -54,44 +54,61 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 
 ## Stack
 
-- Vanilla HTML / CSS / JS (no framework)
+- Vanilla HTML / CSS / JS (no framework, no build step)
 - Google Maps JavaScript API (`script.js`)
 - Material Design Components Web (MDC) for dialogs and icons
 - Font: Montserrat (Google Fonts)
+- Firebase Firestore (content) + Firebase Auth Google Sign-In (admin login) via the "compat" CDN build (`firebase-*-compat.js`, classic `<script>` tags, not ES modules) – see "Data & admin (Firebase)" below.
 
 ## Pages
 
 - `index.html` — interactive Google Maps page with markers for bars, food, stage, parking, etc.
 - `bietschimeile.html` — "Bietschimeile" digital stamp card, accessible via the path-icon bubble (top-right of map). Logic in `bietschimeile.js`.
+- `404.html` — the QR-code scan landing page (GitHub Pages 404-fallback trick). See "Bietschimeile stamp card" below — not linked from anywhere in the UI, only reached via a printed QR code.
 - `lineup.html` — stage lineup with a live "Jetzt live" / "als Nächstes" highlight, accessible from the stage marker popup on the map. Page rendering in `lineup.js`; acts with an `image` show a poster thumbnail and open the poster full-screen on tap (reuses the `.card-overlay` styles from `style.css`).
-- `lineup-data.js` — shared lineup data (`LINEUP` array; each act: `weekday`, `day`, `start`, `end`, `act`, optional `image` = poster URL built from `LINEUP_IMG_DIR`) + "now playing" logic (`getLiveAct`, `isLive`, `getNow`, `nextIndex`). Loaded by both `lineup.html` and `index.html`. Live state is matched by weekday (Fr=5/Sa=6) + time, so it works regardless of year. Contains a `TEST_NOW` override for off-festival testing (set to `null` for production).
+- `lineup-data.js` — shared lineup helpers/constants (`LINEUP_IMG_DIR`, `resolveLineupImage`, "now playing" logic: `getLiveAct`, `isLive`, `getNow`, `nextIndex`, `toMin`). Loaded by both `lineup.html` and `index.html`. The `LINEUP` array itself is fetched from Firestore at runtime (see below) — this file no longer hardcodes it. Live state is matched by weekday (Fr=5/Sa=6) + time, so it works regardless of year. Contains a `TEST_NOW` override for off-festival testing (set to `null` for production).
 - `index.html` shows a fixed "Jetzt live" banner at the top while a band plays (driven by `lineup-data.js`); when visible it pushes the right-side floating buttons down by `--banner-h`.
 
 ## Bietschimeile stamp card
 
-- A digital stamp card for visiting every bar. State lives in `localStorage` (key `bietschimeile.stamps`) — per-device, no backend, intentionally cheatable (festival fun feature).
-- Bars + recommended order are defined in the `BARS` array in `bietschimeile.js` (`id` + `name` only). Each `name` must match a `LOCATIONS` entry — the stamp logo (`barLogo()`) and the tutorial-route coordinates are taken from there, so logos are edited only in `locations-data.js`.
-- Collecting a stamp: a printed QR code at each bar links to `bietschimeile.html?b=<id>`; the phone's native camera opens it, the `b` param is consumed, the stamp is saved, and the query string is stripped. Order is **not** enforced — the numbers are only a suggested route.
-- Collecting all bars shows a celebration overlay (placeholder for a future reward).
-- First visit shows a tutorial overlay: a mini Google Map that animates an arrow along the recommended route (the `BARS` order), using coordinates from `LOCATIONS` (matched by `name`). Shown once (localStorage key `bietschimeile.tutorialSeen`); the header "?" button replays it. The Maps API is lazy-loaded only when the tutorial opens (`loadGoogleMaps()` in `bietschimeile.js`).
-- The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected. The marker name → stamp id link is `BAR_NAME_TO_STAMP` in `script.js` — keep it in sync with `BARS` (bietschimeile.js) and the bar `name`s in `LOCATIONS`.
+- A digital stamp card for visiting every bar. State lives in `localStorage` — collected stamps under key `bietschimeile.stamps`, whether the drink reward was redeemed under `bietschimeile.redeemed` — per-device, no backend, intentionally cheatable (festival fun feature).
+- **Bars are data-driven, not a separate list**: `bietschimeile.js`'s `bootstrapData()` computes `BARS = LOCATIONS.filter(l => l.type === "bar")` after the Firestore fetch, sorted by an optional `order` field (set via the admin Karte tab; entries without it sort alphabetically after any explicitly ordered ones). A bar gets a stamp slot + QR code automatically the moment it's added in the admin tool — no separate array to keep in sync. The stamp id **is** the bar's Firestore `location` doc id (used identically for the QR-code URL, the `localStorage` entry, and the map's stamp-collected check) — one unified id space, replacing the old `BARS`/`BAR_NAME_TO_STAMP` slug system.
+- **Collecting a stamp (QR flow)**: each bar's QR code (admin "QR-Codes" tab, `admin/tabs/qrcodes.js`) encodes `https://raglet.github.io/Bietschicheer/bar-<id>`. GitHub Pages has no server-side routing, so this relies on the standard custom-`404.html` trick: **`404.html`** (repo root) is served by Pages for any path with no matching file, with the real requested URL still shown in the browser; it extracts the trailing `bar-<id>` segment, writes the stamp to `localStorage` (no Firebase dependency — kept fast/offline-safe), then redirects straight to `index.html?bar=<id>` — reusing the map's existing `?bar=` deep link (`script.js`), which pans to that marker and opens its card/InfoWindow, now showing "✓ Stempel gesammelt" since the stamp was just saved.
+- Completing the card shows `#doneBanner`, which opens a reward modal (`.reward-modal*` in `bietschimeile.html`, replacing the old "Geile Laffer!" trophy screen) offering a free drink at the Bietschicheer bar; **"Getränk einlösen"** is meant to be pressed by bar staff, not the customer. Pressing it sets `bietschimeile.redeemed` and permanently swaps the whole stamp-card UI (progress + grid) for a small thank-you block (`#redeemedState`) on every future visit — by design, there's no in-UI way back (clearing `localStorage` would reset it, but regular users won't know to).
+- First visit shows a tutorial overlay: a mini Google Map that animates an arrow along the (now data-driven) `BARS` route. Shown once (localStorage key `bietschimeile.tutorialSeen`); the header "?" button replays it. The Maps API is lazy-loaded only when the tutorial opens (`loadGoogleMaps()` in `bietschimeile.js`).
+- The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected, checked directly via the marker's own Firestore id (`locationToMarker()`/`createMarkers()` in `script.js` — no separate name→id mapping).
 
 ## Map markers (LOCATIONS)
 
-- Participant markers (bars, food, Programm) are data-driven from the `LOCATIONS` array in **`locations-data.js`** (shared: loaded by both `index.html` and `bietschimeile.html`). Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `special`, `nachmittag`, `description`, `logoStyle`. `buildInfoContent()` (in `script.js`) turns an entry into the InfoWindow HTML — never hand-write marker HTML.
+- Participant markers (bars, food, Programm) are data-driven from `window.LOCATIONS` — fetched from Firestore at runtime (see "Data & admin" below), split out of the single `location` collection via `MARKER_TYPES` in **`locations-data.js`**. Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `special`, `nachmittag`, `description`, `logoStyle`. `buildInfoContent()` (in `script.js`) turns an entry into the InfoWindow HTML — never hand-write marker HTML.
 - `image`: a plain filename resolves from `images/mitwirkende_logos_26/` (`LOGO_DIR`); a value with a `/` (e.g. `logos/foo.png`) resolves from `images/` directly; can be an array for multiple logos. `musik`/`essen` accept a string or an array (array → dash bullet list).
-- `card` (optional URL, built from `CARD_DIR` in `locations-data.js`): the designed 1080×1350 info card for that participant (hosted on Firebase). If set, tapping the marker opens the card in the full-screen `#cardOverlay` (`openCard()`/`closeCard()` in `script.js`, markup in `index.html`, styles `.card-overlay*` in `style.css`) instead of the text InfoWindow; the "✓ Stempel gesammelt" chip is shown under the card. Entries without `card` (e.g. Rilke, Nachmittagsprogramm) fall back to the text popup built from the other fields — so keep the text fields filled in as fallback.
-- Restaurants (e.g. Rilke) are `LOCATIONS` entries with `type: "restaurant"`.
-- Infrastructure markers (stage, WC, Sanität, parking, info, ATM, bus/train) are data-driven from the `INFRASTRUCTURE` array in `locations-data.js`. Each entry: `name`, `lat`, `lng`, `type` (`stage`/`wc`/`sanitaet`/`parking`/`info`/`atm`/`bus`/`train` → icon via `INFRA_ICONS` in `script.js`), and optional `badge`, `subtitle`, `link: {text, href}`, `html` (free HTML, e.g. a timetable). Entries with none of the optional fields are icon-only (no popup). `buildInfraContent()` / `infraToMarker()` in `script.js` render them; they stay visible at every zoom level and are not part of the stamp card.
+- `card` (optional URL, built from `CARD_DIR` in `locations-data.js`): the designed 1080×1350 info card for that participant (hosted on Firebase Storage). If set, tapping the marker opens the card in the full-screen `#cardOverlay` (`openCard()`/`closeCard()` in `script.js`, markup in `index.html`, styles `.card-overlay*` in `style.css`) instead of the text InfoWindow; the "✓ Stempel gesammelt" chip is shown under the card. Entries without `card` (e.g. Rilke, Nachmittagsprogramm) fall back to the text popup built from the other fields — so keep the text fields filled in as fallback.
+- Restaurants (e.g. Rilke) are `location` documents with `type: "restaurant"`.
+- Infrastructure markers (stage, WC, Sanität, parking, info, ATM, bus/train) are the other split of `window.INFRASTRUCTURE` from the same `location` collection (`MARKER_TYPES[type].kind === "infra"`). Each entry: `name`, `lat`, `lng`, `type` (`stage`/`wc`/`sanitaet`/`parking`/`info`/`atm`/`bus`/`train` → icon via `INFRA_ICONS` in `script.js`), and optional `badge`, `subtitle`, `link: {text, href}`, `html` (free HTML, e.g. a timetable). Entries with none of the optional fields are icon-only (no popup). `buildInfraContent()` / `infraToMarker()` in `script.js` render them; they stay visible at every zoom level and are not part of the stamp card.
 - Map start position + zoom: the `center` / `zoom` options in `initMap` (`script.js`).
+
+## Data & admin (Firebase)
+
+- All festival content is stored in **Firestore** (project `bietschicheer-39d5f`), fetched fresh on every page load — there is no build step and no caching layer, so a change is live for a visitor on their next page load/refresh.
+  - `lineup` collection — one document per lineup act (was the `LINEUP` array). Fields: `weekday`, `day`, `start`, `end`, `act`, optional `image`.
+  - `location` collection — one document per map point, **both** `LOCATIONS` and `INFRASTRUCTURE` together (was two separate arrays; `MARKER_TYPES` in `locations-data.js` says which `type` belongs to which "kind"). Same fields as before per entry.
+  - `admins` collection — the admin-login allowlist, doc ID = email, `{ email, fixed }`. Purely authorization — see below.
+- `firebase-init.js` (repo root) is the shared bridge: initializes the Firebase compat SDK and exposes `window.Fb` (`db`, `auth`, `googleProvider`, `fetchLocationsSplit()`, `fetchLineup()`, `fetchAdmins()`, plus `hideLoadingOverlay()`/`showLoadingError()` for the `#loadingOverlay` spinner every public page shows while its fetch is in flight). Loaded via the classic (non-module) `firebase-*-compat.js` CDN scripts, **not** the modular ESM SDK — mixing `type="module"` with this site's plain blocking `<script>` tags would run it in the wrong order (module scripts are deferred).
+- `index.html`/`script.js`: the Google Maps API script is no longer statically included — it's injected dynamically (`loadGoogleMapsScript()` in `script.js`) only after `window.Fb.fetchLocationsSplit()`/`fetchLineup()` resolve, so `initMap()`'s `callback=initMap` still fires with real data already in `window.LOCATIONS`/`INFRASTRUCTURE`/`LINEUP`.
+- **Admin tool** (`admin/admin.html`) edits Firestore directly — writes are live immediately, no export/copy/paste/commit step (that workflow from an earlier iteration is gone). Login is **Firebase Auth Google Sign-In**, not a password: after sign-in, the tool checks the `admins` collection for a doc matching the signed-in email (`AdminCore.checkAdminAccess`); if absent, it signs the account back out. There is no app-managed password anywhere in this tool anymore.
+  - `admin-core.js` — Firestore CRUD wrappers (`getAllDocs`/`addDoc`/`setDoc`/`updateDoc`/`deleteDoc`, all funnelled through `sanitizeWrite()` which strips `undefined` fields Firestore would reject and a stray `id` key), the tab registry, and shared DOM/modal/toast helpers.
+  - `admin/tabs/concerts.js` edits `lineup`, `admin/tabs/map.js` edits `location` (the Bühne/`type: "stage"` entry can't be deleted, enforced both in the UI and in `firestore.rules`), `admin/tabs/admins.js` edits the `admins` allowlist (no password fields — just email + whether it's one of the 4 fixed/permanent accounts), `admin/tabs/qrcodes.js` lists every `type: "bar"` entry's stamp QR code (copy URL/QR image, download a branded A4 PDF per bar or all at once — via the CDN libraries `qrcodejs`/`jsPDF` added in `admin.html`).
+- `firestore.rules` (repo root) — public read on `lineup`/`location`, writes restricted to signed-in emails present in `admins`; deploy with `firebase deploy --only firestore:rules --project bietschicheer-39d5f` after editing.
+- `scripts/seed-firestore.js` — one-off `firebase-admin` script that seeded the 3 collections from the original hardcoded arrays. Not part of the running site; only needed again for a from-scratch Firestore reset.
 
 ## Where to edit content
 
-- Bars/food/Programm on the map → `LOCATIONS` in `locations-data.js` (shared by the map and the stamp-card tutorial).
-- Stage, WC, Sanität, parking, info stand, ATMs, bus/train (incl. timetables) → `INFRASTRUCTURE` in `locations-data.js`.
-- Stamp-card bars + order → `BARS` in `bietschimeile.js`.
-- Stage lineup + set times → `LINEUP` in `lineup-data.js`.
-- Brand colours → `:root` variables in `style.css` (and the `C` object in `script.js` for the Google Maps style).
+- Bars/food/Programm/infrastructure on the map → the `location` collection in Firestore, via the admin tool's "Karte" tab (or directly in the Firebase Console).
+- Stamp-card bars → automatic, any `location` entry with `type: "bar"`; only the optional Bietschimeile route `order` is separately editable (same "Karte" tab).
+- Bar QR codes (copy URL/image, download PDF) → the admin tool's "QR-Codes" tab.
+- Stage lineup + set times → the `lineup` collection in Firestore, via the admin tool's "Konzerte" tab.
+- Admin allowlist → the `admins` collection in Firestore, via the admin tool's "Admins" tab.
+- Brand colours → `:root` variables in `style.css` (and the `C` object in `locations-data.js` for the Google Maps style).
 - `TEST_NOW` in `lineup-data.js` must be `null` in production.
 
 ## Assets & folders
@@ -115,9 +132,10 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 
 ## Running & deployment
 
-- No build step. Open `index.html` directly, or serve the folder (e.g. `python -m http.server`) for local testing.
-- Deployed as static files on GitHub Pages. Geolocation ("Du bist hier") and QR scanning need HTTPS, which Pages provides; they won't prompt on `file://`.
-- The Google Maps API key is inline in `index.html` (`maps.googleapis.com/...&key=`).
+- No build step. Open `index.html` directly, or serve the folder (e.g. `python -m http.server`) for local testing — Firestore reads work fine over `file://`/`http://localhost`, but Google Sign-In (`admin.html`) needs the origin listed under Firebase Console → Authentication → Settings → Authorized domains (`localhost` is allowed by default).
+- Deployed as static files on GitHub Pages. Geolocation ("Du bist hier") and QR scanning need HTTPS, which Pages provides; they won't prompt on `file://`. The deployed domain must also be added to Firebase's Authorized domains, or Google Sign-In will fail there.
+- The Google Maps API key is inline in `index.html` (`maps.googleapis.com/...&key=`) and in `bietschimeile.js`.
+- The Firebase config (project `bietschicheer-39d5f`) is inline in `firebase-init.js` — it's a public client key by design (Firestore/Auth access control is enforced by `firestore.rules` + the `admins` allowlist, not by hiding this config).
 
 ## UI Conventions
 

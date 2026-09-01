@@ -35,6 +35,12 @@
   </head>
 
   <body>
+    <div id="loadingOverlay" class="data-loading">
+      <div class="data-loading__spinner"></div>
+      <p class="data-loading__text">Karte wird geladen…</p>
+      <button type="button" class="btn data-loading__retry" hidden>Erneut versuchen</button>
+    </div>
+
     <a href="lineup.html" id="liveBanner" class="live-banner" hidden>
       <span class="live-banner__dot"></span>
       <span class="live-banner__text"></span>
@@ -48,8 +54,10 @@
         <button type="button" class="card-overlay__close" id="cardOverlayClose" aria-label="Schliessen">
           <span class="material-icons">close</span>
         </button>
+        <div class="card-overlay__spinner" id="cardOverlaySpinner" hidden></div>
         <img id="cardOverlayImg" class="card-overlay__img" alt="" />
-        <div id="cardOverlayStamp" class="stamp-collected-badge card-overlay__stamp" hidden>✓ Stempel gesammelt</div>
+        <!-- Text is always set by openCard() in script.js (only bars show this at all) -->
+        <div id="cardOverlayStamp" class="stamp-collected-badge card-overlay__stamp" hidden></div>
       </div>
     </div>
     <a
@@ -103,7 +111,7 @@
           <div class="mdc-dialog__content" id="dialog-content">
             <p style="display: flex; align-items: center;">
               <span class="mdc-icon-button material-icons">local_bar</span>
-              <span style="text-align: center; margin-left: 10px;">z'Laffu</span>
+              <span style="text-align: center; margin-left: 10px;">z'Trichu</span>
             </p>
           </div>  <div class="mdc-dialog__content">
             <p style="display: flex; align-items: center;">
@@ -187,8 +195,10 @@
 
     <script src="locations-data.js"></script>
     <script src="lineup-data.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="firebase-init.js"></script>
     <script src="script.js"></script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap"></script>
   </body>
 </html>

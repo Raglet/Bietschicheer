@@ -6,22 +6,10 @@ let userMarker = null;
 let accuracyCircle = null;
 let locationWatchId = null;
 
-// Bietschimeile stamp card – read collected stamps so the map can reflect them.
-// Maps a map marker's name to its stamp id (see BARS in bietschimeile.js).
-const BAR_NAME_TO_STAMP = {
-  "Bietschichlepfer": "bietschichlepfer",
-  "DIE BAR": "diebar",
-  "EHC Raron": "ehc",
-  "FC Raron": "fc-raron",
-  "Hockeyladies": "hockeyladies",
-  "Jodlerverein Raron": "jodlerverein",
-  "Jugendverein Raron": "jugendverein",
-  "Musikgesellschaft ECHO Raronia": "echo-raronia",
-  "Pro Raronia Historica und Kulturstiftung": "proraronia",
-  "Stigma": "stigma",
-  "VBC Raron": "vbc-raron",
-  "Verein Bietschicheer": "bietschicheer",
-};
+// Bietschimeile stamp card – read collected stamps so the map can reflect
+// them. Stamps are stored (and QR-coded) by a location doc's own Firestore
+// `id` (see bietschimeile.js / admin/tabs/qrcodes.js), so no separate
+// name->id mapping table is needed here anymore.
 
 function getCollectedStamps() {
   try {
@@ -75,11 +63,8 @@ const BUBBLE_ICONS = {
   info:       makeBubbleIcon(ICON_PATH_DATA.info,       C.sekundärDunkel),
 };
 
-// Resolve a logo value: a plain filename comes from LOGO_DIR; a value with a
-// slash is taken from images/ directly (for the older images/logos/ files).
-function resolveLogo(image) {
-  return image.includes("/") ? "images/" + image : LOGO_DIR + image;
-}
+// resolveLogo() / resolveCard() live in locations-data.js (loaded first),
+// shared with the Bietschimeile tutorial and the admin tool.
 
 // Render a "Musik:"/"Essen:" detail; an array becomes a dash bullet list.
 function infoField(label, value) {
@@ -132,7 +117,9 @@ function locationToMarker(loc) {
     22,
     22,
     buildInfoContent(loc),
-    loc.card || null, // designed info card -> opened as overlay instead of the popup
+    loc.card ? resolveCard(loc.card) : null, // designed info card -> opened as overlay instead of the popup
+    loc.id, // Firestore doc id -> used for the Bietschimeile stamp-collected check
+    loc.type, // only "bar" entries show a stamp-collected badge at all
   ];
 }
 
@@ -142,12 +129,30 @@ function locationToMarker(loc) {
 const cardOverlay = document.getElementById("cardOverlay");
 const cardOverlayImg = document.getElementById("cardOverlayImg");
 const cardOverlayStamp = document.getElementById("cardOverlayStamp");
+const cardOverlaySpinner = document.getElementById("cardOverlaySpinner");
 
-function openCard(url, name, stampCollected) {
+function openCard(url, name, isBar, stampCollected) {
   if (currentInfoWindow != null) currentInfoWindow.close();
+
+  // The card image (Firebase Storage) can take a moment to load – show a
+  // spinner in its place until it (or a broken load) resolves.
+  cardOverlayImg.classList.add("card-overlay__img--loading");
+  cardOverlaySpinner.hidden = false;
+  cardOverlayImg.onload = cardOverlayImg.onerror = () => {
+    cardOverlayImg.classList.remove("card-overlay__img--loading");
+    cardOverlaySpinner.hidden = true;
+  };
+
   cardOverlayImg.src = url;
   cardOverlayImg.alt = name;
-  cardOverlayStamp.hidden = !stampCollected;
+
+  // Only bars are part of the Bietschimeile stamp card – other entries get
+  // no badge at all, a bar always gets one (collected or not).
+  cardOverlayStamp.hidden = !isBar;
+  if (isBar) {
+    cardOverlayStamp.textContent = stampCollected ? "✓ Stempel gesammelt" : "Stempel noch nicht gesammelt";
+    cardOverlayStamp.classList.toggle("stamp-collected-badge--pending", !stampCollected);
+  }
   cardOverlay.hidden = false;
 }
 
@@ -164,10 +169,10 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !cardOverlay.hidden) closeCard();
 });
 
-// Stage bubble: the inverse of makeBubbleIcon – white circle, glyph in the
-// brand colour (vector re-drawing of icons/stage.png).
-function makeStageBubble(color) {
-  const g = `<g fill="${color}" stroke="${color}">
+// Stage bubble: white glyph on a coloured circle (vector re-drawing of
+// icons/stage.png), same shape as makeBubbleIcon but with its own colours.
+function makeStageBubble(glyphColor, bgColor) {
+  const g = `<g fill="${glyphColor}" stroke="${glyphColor}">
 <path stroke="none" d="M8 84 Q258 -46 509 84 V108 Q509 118 499 118 H18 Q8 118 8 108 Z"/>
 <rect stroke="none" x="8" y="143" width="30" height="270"/><rect stroke="none" x="60" y="143" width="30" height="270"/>
 <rect stroke="none" x="427" y="143" width="30" height="270"/><rect stroke="none" x="479" y="143" width="30" height="270"/>
@@ -180,13 +185,13 @@ function makeStageBubble(color) {
 <rect stroke="none" x="250" y="335" width="22" height="78"/>
 <rect stroke="none" x="8" y="437" width="152" height="72" rx="6"/><rect stroke="none" x="187" y="437" width="145" height="72" rx="6"/><rect stroke="none" x="357" y="437" width="152" height="72" rx="6"/>
 </g>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="white"/><svg x="8" y="8" width="24" height="24" viewBox="0 0 517 517">${g}</svg></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><circle cx="20" cy="20" r="19" fill="${bgColor}"/><svg x="8" y="8" width="24" height="24" viewBox="0 0 517 517">${g}</svg></svg>`;
   return "data:image/svg+xml," + encodeURIComponent(svg);
 }
 
 // Icon + size per INFRASTRUCTURE type (see locations-data.js).
 const INFRA_ICONS = {
-  stage:    { url: makeStageBubble(C.primärHell), size: 50 },
+  stage:    { url: makeStageBubble("white", C.buehneHintergrund), size: 50 },
   info:     { url: BUBBLE_ICONS.info,     size: 20 },
   sanitaet: { url: BUBBLE_ICONS.sanitaet, size: 20 },
   wc:       { url: BUBBLE_ICONS.sanitaer, size: 20 },
@@ -344,21 +349,22 @@ function initMap() {
               currentInfoWindow.close();
             }
 
-            // Reflect the Bietschimeile stamp status (read fresh on each open).
-            const stampId = BAR_NAME_TO_STAMP[currMarker[0]];
-            const stampCollected =
-              !!stampId && getCollectedStamps().includes(stampId);
+            // Reflect the Bietschimeile stamp status (read fresh on each
+            // open) – only bars are part of the stamp card at all.
+            const isBar = currMarker[9] === "bar";
+            const stampCollected = isBar && getCollectedStamps().includes(currMarker[8]);
 
             // Designed info card available -> show it as an overlay instead.
             if (currMarker[7]) {
-              openCard(currMarker[7], currMarker[0], stampCollected);
+              openCard(currMarker[7], currMarker[0], isBar, stampCollected);
               return;
             }
 
             let content = currMarker[6];
-            if (stampCollected) {
-              content +=
-                '<div class="stamp-collected-badge">✓ Stempel gesammelt</div>';
+            if (isBar) {
+              content += `<div class="stamp-collected-badge${stampCollected ? "" : " stamp-collected-badge--pending"}">${
+                stampCollected ? "✓ Stempel gesammelt" : "Stempel noch nicht gesammelt"
+              }</div>`;
             }
             infowindow.setContent(content);
 
@@ -370,7 +376,7 @@ function initMap() {
           };
 
           marker.addListener("click", openInfo);
-          mapMarkers[currMarker[0]] = { marker, openInfo };
+          mapMarkers[currMarker[8]] = { marker, openInfo };
 
           google.maps.event.addListener(map, "click", function () {
             infowindow.close(map, marker);
@@ -391,13 +397,11 @@ function initMap() {
   createMarkers(locationMarkers);
   createMarkers(infraMarkers);
 
-  // Arriving from the stamp card (?bar=<id>) → open that bar's popup.
+  // Arriving from the stamp card (?bar=<id>, id = the bar's Firestore doc
+  // id) → open that bar's popup.
   const requestedBar = new URLSearchParams(location.search).get("bar");
   if (requestedBar) {
-    const name = Object.keys(BAR_NAME_TO_STAMP).find(
-      (n) => BAR_NAME_TO_STAMP[n] === requestedBar
-    );
-    const entry = name && mapMarkers[name];
+    const entry = mapMarkers[requestedBar];
     if (entry) {
       map.panTo(entry.marker.getPosition());
       entry.openInfo();
@@ -408,6 +412,8 @@ function initMap() {
   document
     .getElementById("locateButton")
     .addEventListener("click", trackUserLocation);
+
+  window.Fb.hideLoadingOverlay();
 }
 
 // "Du bist hier" – live GPS position of the visitor (triggered by the button).
@@ -488,9 +494,40 @@ function updateLiveBanner() {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Data bootstrap: fetch LOCATIONS/INFRASTRUCTURE/LINEUP from Firestore, then
+// start the Google Maps script (its callback=initMap builds the markers) –
+// mirrors the lazy-load pattern bietschimeile.js already uses for its
+// tutorial map, so initMap() itself needs no changes at all.
+// ---------------------------------------------------------------------------
+function loadGoogleMapsScript() {
+  const s = document.createElement("script");
+  s.src =
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap";
+  s.onerror = () => window.Fb.showLoadingError(bootstrapData);
+  document.head.appendChild(s);
+}
+
+async function bootstrapData() {
+  try {
+    const [{ LOCATIONS: locs, INFRASTRUCTURE: infra }, lineup] = await Promise.all([
+      window.Fb.fetchLocationsSplit(),
+      window.Fb.fetchLineup(),
+    ]);
+    window.LOCATIONS = locs;
+    window.INFRASTRUCTURE = infra;
+    window.LINEUP = lineup;
+    loadGoogleMapsScript();
+    updateLiveBanner();
+    setInterval(updateLiveBanner, 30000);
+  } catch (err) {
+    console.error("Datenladung fehlgeschlagen:", err);
+    window.Fb.showLoadingError(bootstrapData);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  updateLiveBanner();
-  setInterval(updateLiveBanner, 30000);
+  bootstrapData();
 
   // After 5s on the map, slide in a hint about the Bietschimeile (stays until tapped).
   const meileHint = document.getElementById("meileHint");
