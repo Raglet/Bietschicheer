@@ -19,6 +19,12 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
+    <!-- For the "custom" location type's icon-name input live preview (script.js
+         renders the same font onto the actual map marker via <canvas>). -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
 
     <title>Admin – Bietschicheer</title>
 
@@ -489,6 +495,82 @@
       }
       .form-preview[hidden] {
         display: none;
+      }
+
+      /* ---- Checkbox toggles ("Titel anzeigen"/"Inhalt anzeigen") ---- */
+      .field--checkbox {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+      .field__checkbox {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--primär-dunkel);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+      .field__checkbox-label {
+        font-size: 0.9rem;
+        color: #000;
+        cursor: pointer;
+      }
+
+      /* ---- "Custom Pin" click-behaviour sub-fields ---- */
+      .custom-pin-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+        border-left: 3px solid var(--hintergrund-neutral);
+      }
+      .custom-pin-fields[hidden] {
+        display: none;
+      }
+      .content-textarea {
+        width: 100%;
+        min-height: 90px;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.9rem;
+        padding: 9px 10px;
+        border: 1px solid var(--hintergrund-hell);
+        border-radius: var(--btn-radius);
+        box-sizing: border-box;
+        resize: vertical;
+      }
+
+      /* ---- "custom" type: Material Symbols icon-name field + preview ---- */
+      .icon-name-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+        border-left: 3px solid var(--hintergrund-neutral);
+      }
+      .icon-name-wrap[hidden] {
+        display: none;
+      }
+      .icon-name-preview {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primär-dunkel);
+        color: white;
+        border-radius: 50%;
+        font-size: 24px;
+      }
+      .material-symbols-outlined {
+        font-family: "Material Symbols Outlined";
+        font-weight: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
       }
 
       .json-details {

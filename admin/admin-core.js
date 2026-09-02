@@ -184,6 +184,18 @@ const AdminCore = (() => {
     return input;
   }
 
+  // <label class="field field--checkbox"><input type="checkbox">labelText</label>
+  function checkbox(labelText, checked) {
+    const wrap = el("label", "field field--checkbox");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.className = "field__checkbox";
+    input.checked = !!checked;
+    wrap.appendChild(input);
+    wrap.appendChild(el("span", "field__checkbox-label", labelText));
+    return wrap; // wrap.querySelector("input") reads/sets the checked state
+  }
+
   // ---- Tab registry -------------------------------------------------------
   const tabs = [];
   let activeTabId = null;
@@ -242,5 +254,6 @@ const AdminCore = (() => {
     iconButton,
     field,
     textInput,
+    checkbox,
   };
 })();

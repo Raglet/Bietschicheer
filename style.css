@@ -474,6 +474,30 @@ body.banner-visible #locateButton {
   font-weight: 700;
 }
 
+/* Custom-pin `content` field (script.js: renderContent()) – same dash-bullet
+   look as .food-list, plus its own paragraph spacing. */
+.gm-style-iw .pin-content p {
+  margin: 6px 0;
+}
+.gm-style-iw .pin-content__list {
+  margin: 4px 0;
+  padding-left: 0;
+  list-style: none;
+}
+.gm-style-iw .pin-content__list li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.gm-style-iw .pin-content__list li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  color: var(--primär-dunkel);
+  font-weight: 700;
+}
+
 .flex-section {
   display: flex;
   align-items: center;

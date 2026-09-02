@@ -80,11 +80,15 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 
 ## Map markers (LOCATIONS)
 
-- Participant markers (bars, food, Programm) are data-driven from `window.LOCATIONS` — fetched from Firestore at runtime (see "Data & admin" below), split out of the single `location` collection via `MARKER_TYPES` in **`locations-data.js`**. Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `special`, `nachmittag`, `description`, `logoStyle`. `buildInfoContent()` (in `script.js`) turns an entry into the InfoWindow HTML — never hand-write marker HTML.
-- `image`: a plain filename resolves from `images/mitwirkende_logos_26/` (`LOGO_DIR`); a value with a `/` (e.g. `logos/foo.png`) resolves from `images/` directly; can be an array for multiple logos. `musik`/`essen` accept a string or an array (array → dash bullet list).
-- `card` (optional URL, built from `CARD_DIR` in `locations-data.js`): the designed 1080×1350 info card for that participant (hosted on Firebase Storage). If set, tapping the marker opens the card in the full-screen `#cardOverlay` (`openCard()`/`closeCard()` in `script.js`, markup in `index.html`, styles `.card-overlay*` in `style.css`) instead of the text InfoWindow; the "✓ Stempel gesammelt" chip is shown under the card. Entries without `card` (e.g. Rilke, Nachmittagsprogramm) fall back to the text popup built from the other fields — so keep the text fields filled in as fallback.
+- Participant markers (bars, food, Programm, custom) are data-driven from `window.LOCATIONS` — fetched from Firestore at runtime (see "Data & admin" below), split out of the single `location` collection via `MARKER_TYPES` in **`locations-data.js`**. Each entry: `name`, `lat`, `lng`, `type` (`bar`/`food`/`programm`/`restaurant`/`custom` → icon via `TYPE_ICONS`), and optional `image`, `badge`, `by`, `getraenke`, `musik`, `essen`, `special`, `description`, `logoStyle`, `order` (Bietschimeile route sort, bars only).
+- **`displayMode`** — `"image"` | `"none"` | `"custom"` — explicitly controls what tapping the marker does; set per-entry in the admin Karte tab ("Klick-Verhalten"). Missing on a doc (shouldn't happen after the one-time migration, but legacy/imported data might) → `inferDisplayMode()` (duplicated identically in `script.js` and `admin/tabs/map.js` — keep both in sync) falls back to: `card` set → `"image"`; any of `badge`/`content`/`subtitle`/`link`/`html`/`getraenke`/`musik`/`essen`/`special`/`description` set → `"custom"`; else → `"none"`.
+  - `"image"`: tapping opens the designed `card` (optional URL, built from `CARD_DIR` in `locations-data.js`, a 1080×1350 PNG on Firebase Storage) full-screen in `#cardOverlay` (`openCard()`/`closeCard()` in `script.js`, markup in `index.html`, styles `.card-overlay*` in `style.css`); the "✓ Stempel gesammelt" chip is shown under the card for bars. No `card` set → same as `"none"`.
+  - `"none"`: icon only, no popup, no click listener at all (e.g. WC/Sanität/Parkplatz by default).
+  - `"custom"`: tapping opens a popup built by `buildCustomPinContent()` (`script.js`) — logo(s)+`logoStyle`, `getraenke`/`musik`/`essen`/`special` (bars/food), `subtitle`/`link: {text, href}`/`html` (infra, e.g. Bühne's "zur Lineup" button or a train/bus timetable), and the generic `content` field (see below). `displayTitle`/`displayContent` (booleans, default `true` when absent) individually show/hide the badge/title and the `content` block.
+- **`content`** — string, only rendered when `displayMode` is `"custom"` and `displayContent` isn't `false`. Small authoring syntax via `renderContent()` (`script.js`): `**bold**` inline, lines starting with `"- "` become a bullet list. This replaced the old bar/food/programm-only `nachmittag` field (migrated once via `scripts/migrate-location-schema.js`, not part of the running site).
 - Restaurants (e.g. Rilke) are `location` documents with `type: "restaurant"`.
-- Infrastructure markers (stage, WC, Sanität, parking, info, ATM, bus/train) are the other split of `window.INFRASTRUCTURE` from the same `location` collection (`MARKER_TYPES[type].kind === "infra"`). Each entry: `name`, `lat`, `lng`, `type` (`stage`/`wc`/`sanitaet`/`parking`/`info`/`atm`/`bus`/`train` → icon via `INFRA_ICONS` in `script.js`), and optional `badge`, `subtitle`, `link: {text, href}`, `html` (free HTML, e.g. a timetable). Entries with none of the optional fields are icon-only (no popup). `buildInfraContent()` / `infraToMarker()` in `script.js` render them; they stay visible at every zoom level and are not part of the stamp card.
+- **`type: "custom"`** — a fully generic pin: `iconName` is a Material Symbols Outlined ligature name (e.g. `celebration`), rasterized onto the marker via `<canvas>` at runtime (`buildCustomIcon()`/`buildCustomIcons()` in `script.js`, pre-generated into `window.CUSTOM_ICONS` inside `bootstrapData()` before `initMap()` runs — a live font glyph can't be used directly as a Maps marker `icon`, which must be a static image URL; an SVG-data-URI approach like `ICON_PATH_DATA`'s baked paths doesn't work either, since that rendering context has no access to the page's loaded web fonts). Needs the `Material Symbols Outlined` Google Font, loaded in `index.html` and `admin/admin.html` (the latter for the admin form's live icon-name preview).
+- Infrastructure markers (stage, WC, Sanität, parking, info, ATM, bus/train) are the other split of `window.INFRASTRUCTURE` from the same `location` collection (`MARKER_TYPES[type].kind === "infra"`), icon via `INFRA_ICONS` in `script.js`, and go through the exact same `displayMode` system above (`infraToMarker()`/`createMarkers()` in `script.js`) — they stay visible at every zoom level and are not part of the stamp card, but otherwise behave identically (a WC defaults to `"none"`, Bühne/Info/ATM/Bus/Zug default to `"custom"`).
 - Map start position + zoom: the `center` / `zoom` options in `initMap` (`script.js`).
 
 ## Data & admin (Firebase)
@@ -96,14 +100,15 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 - `firebase-init.js` (repo root) is the shared bridge: initializes the Firebase compat SDK and exposes `window.Fb` (`db`, `auth`, `googleProvider`, `fetchLocationsSplit()`, `fetchLineup()`, `fetchAdmins()`, plus `hideLoadingOverlay()`/`showLoadingError()` for the `#loadingOverlay` spinner every public page shows while its fetch is in flight). Loaded via the classic (non-module) `firebase-*-compat.js` CDN scripts, **not** the modular ESM SDK — mixing `type="module"` with this site's plain blocking `<script>` tags would run it in the wrong order (module scripts are deferred).
 - `index.html`/`script.js`: the Google Maps API script is no longer statically included — it's injected dynamically (`loadGoogleMapsScript()` in `script.js`) only after `window.Fb.fetchLocationsSplit()`/`fetchLineup()` resolve, so `initMap()`'s `callback=initMap` still fires with real data already in `window.LOCATIONS`/`INFRASTRUCTURE`/`LINEUP`.
 - **Admin tool** (`admin/admin.html`) edits Firestore directly — writes are live immediately, no export/copy/paste/commit step (that workflow from an earlier iteration is gone). Login is **Firebase Auth Google Sign-In**, not a password: after sign-in, the tool checks the `admins` collection for a doc matching the signed-in email (`AdminCore.checkAdminAccess`); if absent, it signs the account back out. There is no app-managed password anywhere in this tool anymore.
-  - `admin-core.js` — Firestore CRUD wrappers (`getAllDocs`/`addDoc`/`setDoc`/`updateDoc`/`deleteDoc`, all funnelled through `sanitizeWrite()` which strips `undefined` fields Firestore would reject and a stray `id` key), the tab registry, and shared DOM/modal/toast helpers.
-  - `admin/tabs/concerts.js` edits `lineup`, `admin/tabs/map.js` edits `location` (the Bühne/`type: "stage"` entry can't be deleted, enforced both in the UI and in `firestore.rules`), `admin/tabs/admins.js` edits the `admins` allowlist (no password fields — just email + whether it's one of the 4 fixed/permanent accounts), `admin/tabs/qrcodes.js` lists every `type: "bar"` entry's stamp QR code (copy URL/QR image, download a branded A4 PDF per bar or all at once — via the CDN libraries `qrcodejs`/`jsPDF` added in `admin.html`).
+  - `admin-core.js` — Firestore CRUD wrappers (`getAllDocs`/`addDoc`/`setDoc`/`updateDoc`/`deleteDoc`, all funnelled through `sanitizeWrite()` which strips `undefined` fields Firestore would reject and a stray `id` key), the tab registry, shared DOM helpers (`el`/`button`/`iconButton`/`field`/`textInput`/`checkbox`), and shared modal/toast helpers.
+  - `admin/tabs/concerts.js` edits `lineup`, `admin/tabs/map.js` edits `location` (the Bühne/`type: "stage"` entry can't be deleted, enforced both in the UI and in `firestore.rules`; "Klick-Verhalten" + the Custom-Pin/Material-Symbols-icon fields described above live here), `admin/tabs/admins.js` edits the `admins` allowlist (no password fields — just email + whether it's one of the 4 fixed/permanent accounts), `admin/tabs/qrcodes.js` lists every `type: "bar"` entry's stamp QR code (copy URL/QR image, download a branded A4 PDF per bar or all at once — via the CDN libraries `qrcodejs`/`jsPDF` added in `admin.html`).
 - `firestore.rules` (repo root) — public read on `lineup`/`location`, writes restricted to signed-in emails present in `admins`; deploy with `firebase deploy --only firestore:rules --project bietschicheer-39d5f` after editing.
 - `scripts/seed-firestore.js` — one-off `firebase-admin` script that seeded the 3 collections from the original hardcoded arrays. Not part of the running site; only needed again for a from-scratch Firestore reset.
+- `scripts/migrate-location-schema.js` — one-off script that backfilled `displayMode` and converted `nachmittag`→`content` on every `location` doc when that system was introduced. Also not part of the running site; only needed again if a from-scratch reset re-seeds pre-`displayMode` data.
 
 ## Where to edit content
 
-- Bars/food/Programm/infrastructure on the map → the `location` collection in Firestore, via the admin tool's "Karte" tab (or directly in the Firebase Console).
+- Bars/food/Programm/infrastructure/custom pins on the map → the `location` collection in Firestore, via the admin tool's "Karte" tab (or directly in the Firebase Console). Includes "Klick-Verhalten" (Bild/Nichts/Custom Pin anzeigen) and, for Custom Pin, title/logo-style/content toggles.
 - Stamp-card bars → automatic, any `location` entry with `type: "bar"`; only the optional Bietschimeile route `order` is separately editable (same "Karte" tab).
 - Bar QR codes (copy URL/image, download PDF) → the admin tool's "QR-Codes" tab.
 - Stage lineup + set times → the `lineup` collection in Firestore, via the admin tool's "Konzerte" tab.
@@ -113,7 +118,7 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 
 ## Assets & folders
 
-- `icons/` — marker icons and UI SVGs (`bar.svg`, `food.svg`, `nachmittag.svg`, `restaurant.svg`, `parking.svg`, `sanitaer.svg`, `sanitaet.svg`, `atm.svg`, `info.svg`, `busStop.svg`, `trainStop.svg`, `path.svg`; `stage.png` is the original of the stage glyph, which is now drawn as a vector bubble in `makeStageBubble()` in `script.js` — white circle, glyph in `C.primärHell`).
+- `icons/` — marker icons and UI SVGs (`bar.svg`, `food.svg`, `nachmittag.svg`, `restaurant.svg`, `parking.svg`, `sanitaer.svg`, `sanitaet.svg`, `atm.svg`, `info.svg`, `busStop.svg`, `trainStop.svg`, `path.svg`; `stage.png` is the original of the stage glyph, which is now drawn as a vector bubble in `makeStageBubble()` in `script.js` — white glyph, `C.buehneHintergrund` background).
 - `images/mitwirkende_logos_26/` — current participant logos (2026). Default folder for `LOCATIONS` / `BARS` `image` filenames. Files are prefixed by their id, e.g. `02_diebar.png`, `22_Bietschicheer.png` (note: some filenames contain spaces / umlauts, which is why paths are run through `encodeURI`).
 - `images/logos/` — older logo set; referenced from `LOCATIONS` with a leading `logos/` (e.g. `logos/ehc.png`).
 - `images/` — other imagery (`favicon.svg`, etc.).
@@ -127,6 +132,20 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
   badge: "diebar",                        // purple name badge
   musik: "Blues and more",
   essen: ["Croque Monsieur", "Veganer Gurkendip"], // array -> bullet list
+  displayMode: "image",                   // no `card` set here -> degrades to no popup
+}
+```
+
+## Example custom-pin entry
+
+```js
+{
+  name: "Chindergarte-Spili", lat: 46.31160, lng: 7.79980, type: "custom",
+  iconName: "celebration",                // Material Symbols Outlined ligature name
+  displayMode: "custom",
+  displayTitle: true, badge: "Chindergarte-Spili",
+  displayContent: true,
+  content: "**Ab 14 Uhr geöffnet**\n- Hüpfburg\n- Kinderschminken",
 }
 ```
 

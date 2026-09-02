@@ -1,17 +1,55 @@
 // ============================================================================
 //  Admin tool – "Karte" tab: edit the Firestore "location" collection (one
-//  document per point – bars/food/programm/restaurant AND stage/wc/sanitaet/
-//  parking/info/atm/bus/train all live in this single collection; MARKER_TYPES
-//  in locations-data.js says which "kind" each `type` belongs to). Writes are
-//  live immediately – no export/paste step.
+//  document per point – bars/food/programm/restaurant/custom AND stage/wc/
+//  sanitaet/parking/info/atm/bus/train all live in this single collection;
+//  MARKER_TYPES in locations-data.js says which "kind" each `type` belongs
+//  to). Writes are live immediately – no export/paste step.
 //
 //  Every entry keeps whatever extra fields it already has (badge, getraenke,
-//  link, html, ...) – this tab only ever touches name/lat/lng/type/card/image,
+//  link, html, ...) – this tab only ever touches the fields it has UI for,
 //  so richer entries aren't stripped down when re-saved.
 // ============================================================================
 
 (function () {
-  const { el, button, iconButton, field, textInput } = AdminCore;
+  const { el, button, iconButton, field, textInput, checkbox } = AdminCore;
+
+  // "Most common" displayMode per type, used only as the *default* for a
+  // brand-new entry – admins can always override it (see openEntryForm).
+  const DEFAULT_DISPLAY_MODE_BY_TYPE = {
+    bar: "image",
+    food: "image",
+    restaurant: "image",
+    programm: "custom",
+    stage: "custom",
+    info: "custom",
+    atm: "custom",
+    bus: "custom",
+    train: "custom",
+    wc: "none",
+    sanitaet: "none",
+    parking: "none",
+    custom: "custom",
+  };
+  function defaultDisplayModeForType(type) {
+    return DEFAULT_DISPLAY_MODE_BY_TYPE[type] || "custom";
+  }
+
+  const CONTENTISH_FIELDS = ["badge", "content", "subtitle", "link", "html", "getraenke", "musik", "essen", "special", "description"];
+  // Legacy docs (or anything saved before this feature existed) have no
+  // stored displayMode – infer it the same way script.js does at render time,
+  // so the form's dropdown starts on whatever the entry already effectively does.
+  function inferDisplayMode(item) {
+    if (item.displayMode) return item.displayMode;
+    if (item.card) return "image";
+    if (CONTENTISH_FIELDS.some((k) => item[k])) return "custom";
+    return "none";
+  }
+
+  const DISPLAY_MODE_LABELS = {
+    image: "Bild anzeigen",
+    none: "Nichts anzeigen",
+    custom: "Custom Pin",
+  };
 
   function getLocation() {
     return AdminCore.getAllDocs("location");
@@ -43,7 +81,10 @@
 
     const main = el("div", "entry__main entry__main--column");
     main.appendChild(el("span", "entry__name", item.name));
-    const sub = `${typeLabel(item.type)} · ${item.lat.toFixed(5)}, ${item.lng.toFixed(5)}` + (item.order !== undefined ? ` · #${item.order}` : "");
+    const sub =
+      `${typeLabel(item.type)} · ${item.lat.toFixed(5)}, ${item.lng.toFixed(5)}` +
+      ` · ${DISPLAY_MODE_LABELS[inferDisplayMode(item)]}` +
+      (item.order !== undefined ? ` · #${item.order}` : "");
     main.appendChild(el("span", "entry__sub", sub));
     row.appendChild(main);
 
@@ -144,14 +185,87 @@
     imageInput.addEventListener("input", refreshPreviews);
     cardInput.addEventListener("input", refreshPreviews);
 
+    // ---- Klick-Verhalten (displayMode) -----------------------------------------
+    const displayModeSelect = document.createElement("select");
+    displayModeSelect.className = "field__input";
+    Object.keys(DISPLAY_MODE_LABELS).forEach((mode) => {
+      const opt = document.createElement("option");
+      opt.value = mode;
+      opt.textContent = DISPLAY_MODE_LABELS[mode];
+      displayModeSelect.appendChild(opt);
+    });
+    displayModeSelect.value = inferDisplayMode(draftItem);
+    let displayModeTouched = false;
+    displayModeSelect.addEventListener("change", () => {
+      displayModeTouched = true;
+      updateCustomPinVisibility();
+    });
+    // For a brand-new entry, changing "Typ" re-suggests its default
+    // Klick-Verhalten – unless the admin already picked one deliberately.
+    typeSelect.addEventListener("change", () => {
+      if (isNew && !displayModeTouched) {
+        displayModeSelect.value = defaultDisplayModeForType(typeSelect.value);
+      }
+      updateIconNameVisibility();
+      updateCustomPinVisibility();
+    });
+
+    // ---- Custom-Pin-only fields --------------------------------------------------
+    const displayTitleCheckbox = checkbox("Titel anzeigen", draftItem.displayTitle !== false);
+    const logoStyleInput = textInput(draftItem.logoStyle, "z.B. background-color: var(--sekundär-dunkel); padding: 8px;");
+    const contentTextarea = document.createElement("textarea");
+    contentTextarea.className = "content-textarea";
+    contentTextarea.placeholder = '**fett** für fett, Zeilen mit "- " für eine Liste';
+    contentTextarea.value = draftItem.content || "";
+    const displayContentCheckbox = checkbox("Inhalt anzeigen", draftItem.displayContent !== false);
+
+    const customPinFields = el("div", "custom-pin-fields");
+    customPinFields.appendChild(displayTitleCheckbox);
+    customPinFields.appendChild(field("Logo-Style", logoStyleInput));
+    customPinFields.appendChild(field("Inhalt", contentTextarea));
+    customPinFields.appendChild(displayContentCheckbox);
+
+    function updateCustomPinVisibility() {
+      customPinFields.hidden = displayModeSelect.value !== "custom";
+    }
+    updateCustomPinVisibility();
+
+    // ---- "custom" type only: Material Symbols icon name + live preview --------
+    const iconNameInput = textInput(draftItem.iconName, "z.B. celebration, local_bar, star");
+    const iconNamePreview = el("span", "material-symbols-outlined icon-name-preview");
+    const iconNameWrap = el("div", "icon-name-wrap");
+    iconNameWrap.appendChild(field("Icon (Material Symbols Name)", iconNameInput));
+    iconNameWrap.appendChild(iconNamePreview);
+    const iconPickerLink = document.createElement("a");
+    iconPickerLink.href = "https://fonts.google.com/icons?icon.set=Material+Symbols&icon.style=Outlined";
+    iconPickerLink.target = "_blank";
+    iconPickerLink.rel = "noopener";
+    iconPickerLink.className = "tab-hint";
+    iconPickerLink.textContent = "Icon-Namen durchsuchen ↗";
+    iconNameWrap.appendChild(iconPickerLink);
+
+    function refreshIconPreview() {
+      iconNamePreview.textContent = iconNameInput.value.trim() || "help";
+    }
+    refreshIconPreview();
+    iconNameInput.addEventListener("input", refreshIconPreview);
+
+    function updateIconNameVisibility() {
+      iconNameWrap.hidden = typeSelect.value !== "custom";
+    }
+    updateIconNameVisibility();
+
     body.appendChild(field("Name", nameInput));
     body.appendChild(field("Typ", typeSelect));
+    body.appendChild(iconNameWrap);
     body.appendChild(field("Koordinaten", coordsWrap));
     body.appendChild(coordsPreview);
     body.appendChild(field("Logo", imageInput));
     body.appendChild(logoPreview);
     body.appendChild(field("Card", cardInput));
     body.appendChild(cardPreview);
+    body.appendChild(field("Klick-Verhalten", displayModeSelect));
+    body.appendChild(customPinFields);
     body.appendChild(field("Reihenfolge (Bietschimeile)", orderInput));
 
     const footer = el("div", "modal-footer-buttons");
@@ -172,6 +286,7 @@
           type: typeSelect.value,
           lat: parsed.lat,
           lng: parsed.lng,
+          displayMode: displayModeSelect.value,
         });
         if (imageInput.value.trim()) merged.image = imageInput.value.trim();
         else delete merged.image;
@@ -186,6 +301,22 @@
           }
           merged.order = n;
         } else delete merged.order;
+
+        if (typeSelect.value === "custom" && iconNameInput.value.trim()) merged.iconName = iconNameInput.value.trim();
+        else delete merged.iconName;
+
+        if (displayModeSelect.value === "custom") {
+          merged.displayTitle = displayTitleCheckbox.querySelector("input").checked;
+          merged.displayContent = displayContentCheckbox.querySelector("input").checked;
+          if (logoStyleInput.value.trim()) merged.logoStyle = logoStyleInput.value.trim();
+          else delete merged.logoStyle;
+          if (contentTextarea.value.trim()) merged.content = contentTextarea.value.trim();
+          else delete merged.content;
+        } else {
+          delete merged.displayTitle;
+          delete merged.displayContent;
+        }
+
         onSave(merged);
         AdminCore.closeModal();
       })
@@ -228,7 +359,7 @@
       el(
         "p",
         "tab-hint",
-        "Karte (Bars/Food/Programm + Bühne/WC/Sanität/Parkplatz/Info/Bankomat/Bus/Zug) – Änderungen werden sofort live gespeichert. Andere Felder (Getränke, Link, Fahrplan, ...) bleiben beim Bearbeiten erhalten."
+        "Karte (Bars/Food/Programm/Custom-Pins + Bühne/WC/Sanität/Parkplatz/Info/Bankomat/Bus/Zug) – Änderungen werden sofort live gespeichert. Andere Felder (Getränke, Link, Fahrplan, ...) bleiben beim Bearbeiten erhalten."
       )
     );
     container.appendChild(toolbar);

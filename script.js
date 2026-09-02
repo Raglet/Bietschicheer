@@ -76,8 +76,56 @@ function infoField(label, value) {
   return `<p><span class="flex-section"><strong>${label}:</strong> ${value}</span></p>`;
 }
 
-// Build the InfoWindow HTML for a LOCATIONS entry.
-function buildInfoContent(loc) {
+// What tapping a marker does – "image" (open the designed `card` overlay),
+// "none" (icon only) or "custom" (a popup built by buildCustomPinContent()).
+// Legacy docs saved before this existed have no `displayMode` stored, so
+// this infers the same behaviour they already had (mirrors the identical
+// helper in admin/tabs/map.js, used there to preselect the admin dropdown).
+const CONTENTISH_FIELDS = ["badge", "content", "subtitle", "link", "html", "getraenke", "musik", "essen", "special", "description"];
+function inferDisplayMode(loc) {
+  if (loc.displayMode) return loc.displayMode;
+  if (loc.card) return "image";
+  if (CONTENTISH_FIELDS.some((k) => loc[k])) return "custom";
+  return "none";
+}
+
+// Small authoring syntax for the `content` field: "**bold**" inline, lines
+// starting with "- " become a bullet list, other non-blank lines are
+// paragraphs. Used only when displayMode is "custom".
+function renderContent(text) {
+  const bold = (s) => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  let html = "";
+  let listItems = [];
+  const flushList = () => {
+    if (listItems.length) {
+      html += `<ul class="pin-content__list">${listItems.join("")}</ul>`;
+      listItems = [];
+    }
+  };
+  String(text)
+    .split("\n")
+    .forEach((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        flushList();
+        return;
+      }
+      if (trimmed.startsWith("- ")) {
+        listItems.push(`<li>${bold(trimmed.slice(2))}</li>`);
+      } else {
+        flushList();
+        html += `<p>${bold(trimmed)}</p>`;
+      }
+    });
+  flushList();
+  return html;
+}
+
+// Build the popup HTML for displayMode: "custom" – unifies what used to be
+// two separate functions (participant-marker fields + infrastructure fields,
+// e.g. Bühne's `link` button or a train/bus `html` timetable both still work
+// here), plus the two new toggles and the generic `content` block.
+function buildCustomPinContent(loc) {
   const logoStyle = loc.logoStyle ? ` style="${loc.logoStyle}"` : "";
   const logos = []
     .concat(loc.image || [])
@@ -87,39 +135,51 @@ function buildInfoContent(loc) {
     )
     .join("");
 
-  const badge = loc.badge ? `<span class="name-badge">${loc.badge}</span>` : "";
-  const by = loc.by
+  const showTitle = loc.displayTitle !== false;
+  const badge = showTitle && (loc.badge || loc.name) ? `<span class="name-badge">${loc.badge || loc.name}</span>` : "";
+  const by = showTitle && loc.by
     ? `<div class="content-title-wrapper"><h3 class="content-subtitle">by ${loc.by}</h3></div>`
+    : "";
+  const subtitle = showTitle && loc.subtitle
+    ? `<div class="content-title-wrapper" style="margin-top: 0;"><h3 class="content-subtitle">${loc.subtitle}</h3></div>`
+    : "";
+  const link = loc.link
+    ? `<div class="lineup"><a href="${loc.link.href}" class="lineup-link">${loc.link.text}</a></div>`
     : "";
 
   const details =
     infoField("Getränke", loc.getraenke) +
     infoField("Musik", loc.musik) +
     infoField("Essen", loc.essen) +
-    infoField("Special", loc.special) +
-    infoField("Nachmittag", loc.nachmittag);
+    infoField("Special", loc.special);
   const description = loc.description ? `<p>${loc.description}</p>` : "";
-  const body = details || description ? `<hr>${details}${description}` : "";
+  const showContent = loc.displayContent !== false;
+  const content = showContent && loc.content ? `<div class="pin-content">${renderContent(loc.content)}</div>` : "";
+  const html = loc.html || "";
+  const body = details + description + content + html;
 
   // Nothing to show -> no popup (icon-only marker).
-  if (!logos && !badge && !by && !body) return "";
+  if (!logos && !badge && !by && !subtitle && !link && !body) return "";
 
-  return `<div class="images">${logos}${badge}</div>${by}${body}`;
+  return `<div class="images">${logos}${badge}</div>${by}${subtitle}${link}${body ? `<hr>${body}` : ""}`;
 }
 
 // Turn a LOCATIONS entry into the array shape createMarkers expects.
 function locationToMarker(loc) {
+  const mode = inferDisplayMode(loc);
+  const customIcon = loc.type === "custom" && window.CUSTOM_ICONS && window.CUSTOM_ICONS[loc.id];
   return [
     loc.name,
     loc.lat,
     loc.lng,
-    BUBBLE_ICONS[loc.type] || BUBBLE_ICONS.bar,
+    customIcon || BUBBLE_ICONS[loc.type] || BUBBLE_ICONS.bar,
     22,
     22,
-    buildInfoContent(loc),
-    loc.card ? resolveCard(loc.card) : null, // designed info card -> opened as overlay instead of the popup
+    mode === "custom" ? buildCustomPinContent(loc) : "",
+    mode === "image" && loc.card ? resolveCard(loc.card) : null, // designed info card -> opened as overlay instead of the popup
     loc.id, // Firestore doc id -> used for the Bietschimeile stamp-collected check
     loc.type, // only "bar" entries show a stamp-collected badge at all
+    mode, // "image" | "none" | "custom" -> what tapping the marker does
   ];
 }
 
@@ -213,26 +273,61 @@ const INFRA_ICONS = {
   train:    { url: BUBBLE_ICONS.trainStop, size: 20 },
 };
 
-// Build the InfoWindow HTML for an INFRASTRUCTURE entry ("" -> no popup).
-function buildInfraContent(loc) {
-  const badge = loc.badge
-    ? `<div class="images"><span class="name-badge">${loc.badge}</span></div>`
-    : "";
-  const subtitle = loc.subtitle
-    ? `<div class="content-title-wrapper" style="margin-top: 0;"><h3 class="content-subtitle">${loc.subtitle}</h3></div>`
-    : "";
-  const link = loc.link
-    ? `<div class="lineup"><a href="${loc.link.href}" class="lineup-link">${loc.link.text}</a></div>`
-    : "";
-  const html = loc.html ? `<hr>${loc.html}` : "";
-  return badge + subtitle + link + html;
+// ---- "custom" location type: an admin-chosen Material Symbols icon --------
+// A Maps marker `icon` must be a static image URL, and an SVG data-URI used
+// that way is decoded in an isolated context with no access to the page's
+// loaded web fonts (unlike ICON_PATH_DATA's baked-in paths above, a
+// <text font-family="Material Symbols Outlined"> inside such an SVG would
+// just silently fall back to a system font). Rasterizing with <canvas> in
+// the *document* context – which does have the font – sidesteps that: by
+// the time it's exported to a data URI it's already pixels.
+const CUSTOM_ICON_BG = C.primärDunkel;
+
+function drawCustomIcon(iconName) {
+  const size = 40;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  ctx.arc(size / 2, size / 2, size / 2 - 1, 0, Math.PI * 2);
+  ctx.fillStyle = CUSTOM_ICON_BG;
+  ctx.fill();
+  ctx.fillStyle = "white";
+  ctx.font = '22px "Material Symbols Outlined"';
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(iconName || "place", size / 2, size / 2 + 1);
+  return canvas.toDataURL("image/png");
+}
+
+// Pre-generates every "custom"-type icon up front (called once from
+// bootstrapData(), before initMap() runs) so locationToMarker() can do a
+// plain synchronous lookup afterwards instead of every marker needing to
+// await its own icon.
+async function buildCustomIcons(entries) {
+  const customEntries = entries.filter((loc) => loc.type === "custom");
+  if (!customEntries.length) return {};
+  try {
+    await document.fonts.load('22px "Material Symbols Outlined"');
+  } catch {
+    /* draw anyway – worst case the glyph falls back to a system font */
+  }
+  const icons = {};
+  customEntries.forEach((loc) => {
+    icons[loc.id] = drawCustomIcon(loc.iconName);
+  });
+  return icons;
 }
 
 // Turn an INFRASTRUCTURE entry into the object shape createMarkers expects.
-// (Infrastructure markers stay visible at every zoom level.)
+// (Infrastructure markers stay visible at every zoom level. `type: "custom"`
+// is a "location"-kind MARKER_TYPES entry, so it never ends up here – no
+// custom-icon lookup needed on this path.)
 function infraToMarker(loc) {
   const icon = INFRA_ICONS[loc.type] || INFRA_ICONS.info;
-  const content = buildInfraContent(loc);
+  const mode = inferDisplayMode(loc);
+  const content = mode === "custom" ? buildCustomPinContent(loc) : "";
   return {
     position: { lat: loc.lat, lng: loc.lng },
     map: map,
@@ -242,6 +337,12 @@ function infraToMarker(loc) {
       scaledSize: new google.maps.Size(icon.size, icon.size),
       optimized: false,
     },
+    // Consumed by createMarkers()'s object-branch below; underscore-prefixed
+    // so they read clearly as "not a real google.maps.Marker option" (Maps
+    // silently ignores unknown keys, same as the existing infoWindowContent).
+    _displayMode: mode,
+    _cardUrl: mode === "image" && loc.card ? resolveCard(loc.card) : null,
+    _name: loc.name,
     ...(content ? { infoWindowContent: content } : {}),
   };
 }
@@ -304,9 +405,17 @@ function initMap() {
       !Array.isArray(locationArray[0]);
 
     if (isArrayOfObjects) {
-      // Code to create markers from an array of objects
+      // Code to create markers from an array of objects (INFRASTRUCTURE)
       locationArray.forEach((object) => {
         const marker = new google.maps.Marker(object);
+
+        // displayMode: "image" -> the card overlay, same as participant markers.
+        if (object._displayMode === "image" && object._cardUrl) {
+          marker.addListener("click", () => {
+            openCard(object._cardUrl, object._name, false, false, marker.getPosition());
+          });
+          return;
+        }
 
         if (object?.infoWindowContent) {
           const infoWindow = new google.maps.InfoWindow({
@@ -333,6 +442,7 @@ function initMap() {
             infoWindow.close(map, marker);
           });
         }
+        // else displayMode "none" (or "image" with no card set) -> icon only.
       });
     } else {
       // Code to create markers from an array of arrays (normal array)
@@ -351,7 +461,14 @@ function initMap() {
           },
         });
 
-        if (currMarker[6]) {
+        // displayMode drives everything below: "image" only ever reads
+        // currMarker[7] (the card URL), "custom" only ever reads currMarker[6]
+        // (the popup HTML) – "none" (or "image" with no card set) gets no
+        // listener at all, same as a genuinely empty marker used to.
+        const mode = currMarker[10];
+        const hasContent = mode === "image" ? !!currMarker[7] : mode === "custom" ? !!currMarker[6] : false;
+
+        if (hasContent) {
           const infowindow = new google.maps.InfoWindow({
             content: currMarker[6],
           });
@@ -366,8 +483,8 @@ function initMap() {
             const isBar = currMarker[9] === "bar";
             const stampCollected = isBar && getCollectedStamps().includes(currMarker[8]);
 
-            // Designed info card available -> show it as an overlay instead.
-            if (currMarker[7]) {
+            // Designed info card -> show it as an overlay instead.
+            if (mode === "image") {
               openCard(currMarker[7], currMarker[0], isBar, stampCollected, marker.getPosition());
               return;
             }
@@ -529,6 +646,11 @@ async function bootstrapData() {
     window.LOCATIONS = locs;
     window.INFRASTRUCTURE = infra;
     window.LINEUP = lineup;
+    // type: "custom" is always "location"-kind (MARKER_TYPES), never in
+    // INFRASTRUCTURE – see buildCustomIcons() for why this must finish
+    // before locationToMarker() runs (a Maps marker icon can't be a live
+    // font glyph, only a static image, so it's rasterized up front here).
+    window.CUSTOM_ICONS = await buildCustomIcons(locs);
     loadGoogleMapsScript();
     updateLiveBanner();
     setInterval(updateLiveBanner, 30000);

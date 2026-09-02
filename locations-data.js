@@ -21,7 +21,6 @@
 //    musik       string or array (array -> bullet list). Optional.
 //    essen       string or array (array -> bullet list). Optional.
 //    special     string or array (array -> bullet list), e.g. Darts, Bierpong. Optional.
-//    nachmittag  string or array (array -> bullet list). Optional.
 //    description free text paragraph. Optional.
 //    logoStyle   extra inline CSS for the logo(s), e.g. "height: 30px". Optional.
 //    order       number, bar-type entries only – Bietschimeile stamp-grid /
@@ -29,13 +28,28 @@
 //                alphabetically by name. Optional.
 //    card        Filename (+ optional query string) of the designed info card
 //                (1080x1350 PNG), resolved against CARD_DIR – same rule as
-//                `image` (a value containing "://" is used as-is). If set,
-//                tapping the marker opens this card full-screen instead of
-//                the text popup; the text fields then only serve as fallback.
-//                Optional. Resolve with resolveCard().
+//                `image` (a value containing "://" is used as-is). Used when
+//                displayMode is "image". Resolve with resolveCard().
 //    subtitle, link{text,href}, html   infrastructure-only fields (Bühne,
-//                WC, Sanität, Parkplatz, Info, Bankomat, Bus/Zug). An entry
-//                without badge/subtitle/link/html has no popup (icon only).
+//                WC, Sanität, Parkplatz, Info, Bankomat, Bus/Zug), still
+//                shown (alongside `content`) whenever displayMode is "custom".
+//    displayMode  "image" | "none" | "custom" – what tapping the marker does:
+//                open the `card` full-screen, do nothing (icon only), or open
+//                a popup built from badge/logo/content/(getraenke etc.)/
+//                subtitle/link/html. Missing on legacy docs -> script.js
+//                infers it the same way the admin form does (card set ->
+//                "image"; any content-ish field set -> "custom"; else "none").
+//    displayTitle, displayContent   booleans, only meaningful when
+//                displayMode is "custom" – show/hide the badge/title and the
+//                `content` block respectively. Default true when absent.
+//    content     string, only rendered when displayMode is "custom" and
+//                displayContent isn't false. Small syntax: "**bold**" inline,
+//                lines starting with "- " become a bullet list. Replaces the
+//                old bar/food/programm-only `nachmittag` field.
+//    iconName    Material Symbols Outlined ligature name (e.g. "celebration"),
+//                type: "custom" only – rendered onto the marker at runtime
+//                (see buildCustomIcon() in script.js) since it can't be one
+//                of the pre-baked icons in ICON_PATH_DATA.
 // ============================================================================
 const LOGO_DIR = "images/mitwirkende_logos_26/";
 // Base URL of the designed info cards (Firebase storage).
@@ -66,6 +80,7 @@ const MARKER_TYPES = {
   atm:        { name: "Bankomat",            emoji: "🏧", kind: "infra" },
   bus:        { name: "Bus",                 emoji: "🚌", kind: "infra" },
   train:      { name: "Zug / Bahnhof",       emoji: "🚆", kind: "infra" },
+  custom:     { name: "Benutzerdefiniert",   emoji: "📍", kind: "location" },
 };
 
 // Resolve a logo value: a plain filename comes from LOGO_DIR; a value with a
