@@ -130,9 +130,12 @@ const cardOverlay = document.getElementById("cardOverlay");
 const cardOverlayImg = document.getElementById("cardOverlayImg");
 const cardOverlayStamp = document.getElementById("cardOverlayStamp");
 const cardOverlaySpinner = document.getElementById("cardOverlaySpinner");
+const CLOSE_ZOOM = 19; // "zoomed in" level closeCard() settles on (maxZoom is 20, blurry beyond)
+let cardMarkerPosition = null; // where to pan/zoom to once the card is closed
 
-function openCard(url, name, isBar, stampCollected) {
+function openCard(url, name, isBar, stampCollected, position) {
   if (currentInfoWindow != null) currentInfoWindow.close();
+  cardMarkerPosition = position || null;
 
   // The card image (Firebase Storage) can take a moment to load – show a
   // spinner in its place until it (or a broken load) resolves.
@@ -159,6 +162,15 @@ function openCard(url, name, isBar, stampCollected) {
 function closeCard() {
   cardOverlay.hidden = true;
   cardOverlayImg.removeAttribute("src"); // stop loading / free memory
+
+  // Centre + zoom in on the bar the card belonged to, so closing it (e.g.
+  // after tapping an uncollected stamp from the Bietschimeile grid) leaves
+  // you looking right at that spot on the map.
+  if (cardMarkerPosition) {
+    map.panTo(cardMarkerPosition);
+    if (map.getZoom() < CLOSE_ZOOM) map.setZoom(CLOSE_ZOOM);
+    cardMarkerPosition = null;
+  }
 }
 
 document.getElementById("cardOverlayClose").addEventListener("click", closeCard);
@@ -356,7 +368,7 @@ function initMap() {
 
             // Designed info card available -> show it as an overlay instead.
             if (currMarker[7]) {
-              openCard(currMarker[7], currMarker[0], isBar, stampCollected);
+              openCard(currMarker[7], currMarker[0], isBar, stampCollected, marker.getPosition());
               return;
             }
 
