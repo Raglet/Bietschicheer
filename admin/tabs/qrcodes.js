@@ -74,34 +74,65 @@
     });
   }
 
-  // ---- PDF (one A4 page per bar) ---------------------------------------------
+  // ---- PDF (one full A4 page per bar) ----------------------------------------
+  const PRIMAER_DUNKEL = [102, 63, 94];
+  const SEKUNDAER_DUNKEL = [54, 73, 84];
+
   async function drawBarPdfPage(doc, bar) {
     const pageWidth = 210; // A4, mm
+    const pageHeight = 297;
+    const centerX = pageWidth / 2;
+
+    // Decorative frame so the page reads as one designed poster, not a
+    // small block floating in a lot of empty margin.
+    doc.setDrawColor(...PRIMAER_DUNKEL);
+    doc.setLineWidth(1.2);
+    doc.roundedRect(8, 8, pageWidth - 16, pageHeight - 16, 4, 4, "S");
 
     try {
       const logo = await imageUrlToDataUrl("../icons/bietschimeile.png");
-      doc.addImage(logo, "PNG", pageWidth / 2 - 12, 18, 24, 24);
+      doc.addImage(logo, "PNG", centerX - 21, 20, 42, 42);
     } catch {
       /* logo is a nice-to-have, skip silently if it fails to load */
     }
 
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(102, 63, 94); // --primär-dunkel
-    doc.setFontSize(28);
-    doc.text("Bietschimeile", pageWidth / 2, 58, { align: "center" });
-
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(18);
-    doc.text(bar.name, pageWidth / 2, 72, { align: "center" });
-
-    const qrSize = 100;
-    const qrDataUrl = await renderQrDataUrl(barUrl(bar), 512);
-    doc.addImage(qrDataUrl, "PNG", pageWidth / 2 - qrSize / 2, 90, qrSize, qrSize);
+    doc.setTextColor(...PRIMAER_DUNKEL);
+    doc.setFontSize(32);
+    doc.text("Bietschimeile", centerX, 82, { align: "center" });
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
-    doc.setTextColor(54, 73, 84); // --sekundär-dunkel
-    doc.text("Scan mit em Handy für din digitale Stämpel", pageWidth / 2, 90 + qrSize + 14, { align: "center" });
+    doc.setTextColor(...SEKUNDAER_DUNKEL);
+    doc.text("Sammle alli Stämpel für es Gratis-Getränk", centerX, 92, { align: "center" });
+
+    // Bar name as a purple name-badge pill, matching the in-app popup style.
+    doc.setFont("helvetica", "bolditalic");
+    doc.setFontSize(22);
+    const label = bar.name.toUpperCase();
+    const textWidth = doc.getTextWidth(label);
+    const pillWidth = Math.max(textWidth + 28, 90);
+    const pillHeight = 20;
+    const pillX = centerX - pillWidth / 2;
+    const pillY = 104;
+    doc.setFillColor(...PRIMAER_DUNKEL);
+    doc.rect(pillX, pillY, pillWidth, pillHeight, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.text(label, centerX, pillY + pillHeight / 2 + 3, { align: "center" });
+
+    const qrSize = 124;
+    const qrTop = 138;
+    const qrDataUrl = await renderQrDataUrl(barUrl(bar), 1024);
+    doc.addImage(qrDataUrl, "PNG", centerX - qrSize / 2, qrTop, qrSize, qrSize);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(13);
+    doc.setTextColor(...SEKUNDAER_DUNKEL);
+    doc.text("Scan mit em Handy für din digitale Stämpel", centerX, qrTop + qrSize + 12, { align: "center" });
+
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    doc.text("bietschicheer.ch", centerX, pageHeight - 14, { align: "center" });
   }
 
   async function downloadBarPdf(bar) {

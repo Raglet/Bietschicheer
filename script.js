@@ -536,6 +536,18 @@ function initMap() {
       entry.openInfo();
     }
     history.replaceState(null, "", location.pathname);
+
+    // Arriving here straight from a QR scan (404.html) – if that was the
+    // last missing stamp, head to the Bietschimeile page after a moment so
+    // the visitor sees the "Fertig!" banner and can claim their drink.
+    const bars = (window.LOCATIONS || []).filter((loc) => loc.type === "bar");
+    const collected = getCollectedStamps();
+    const allCollected = bars.length > 0 && bars.every((bar) => collected.includes(bar.id));
+    if (allCollected) {
+      setTimeout(() => {
+        location.href = "bietschimeile.html";
+      }, 1600);
+    }
   }
 
   document
