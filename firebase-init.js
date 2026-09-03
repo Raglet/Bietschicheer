@@ -1,6 +1,6 @@
-// ============================================================================
+﻿// ============================================================================
 //  Firebase bridge – shared by the public pages (index.html, lineup.html,
-//  bietschimeile.html) and the admin tool (admin/admin.html).
+//  bietschimeile.html) and the admin tool (admin/index.html).
 //
 //  Loaded as a classic (non-module) script, right after the 3 Firebase
 //  "compat" CDN scripts (firebase-app-compat.js / firestore-compat.js /
@@ -49,6 +49,19 @@ async function fetchLineup() {
   return list;
 }
 
+// Fetches the Fotowand config (config/fotowand: { url } – the guest
+// photo-sharing link promoted on the map, see initFotowand() in script.js).
+// A missing doc, empty url, or failed read just means "feature hidden", so
+// errors are swallowed – this must never block the map from loading.
+async function fetchFotowand() {
+  try {
+    const doc = await db.collection("config").doc("fotowand").get();
+    return doc.exists ? doc.data() : null;
+  } catch {
+    return null;
+  }
+}
+
 // Fetches the "admins" collection (admin tool only).
 async function fetchAdmins() {
   const snap = await db.collection("admins").get();
@@ -84,6 +97,7 @@ window.Fb = {
   googleProvider,
   fetchLocationsSplit,
   fetchLineup,
+  fetchFotowand,
   fetchAdmins,
   hideLoadingOverlay,
   showLoadingError,

@@ -1,4 +1,4 @@
-// ============================================================================
+﻿// ============================================================================
 //  Admin tool – shared plumbing.
 //
 //  All content (Konzerte, Karte, Admins) lives in Firestore (collections
@@ -136,7 +136,7 @@ const AdminCore = (() => {
   // ---- Logo resolution -------------------------------------------------------
   // resolveLogo() (locations-data.js) returns a path relative to the SITE
   // ROOT (e.g. "images/mitwirkende_logos_26/x.png") – correct from index.html
-  // / bietschimeile.html, which live there, but admin.html lives one folder
+  // / bietschimeile.html, which live there, but admin/index.html lives one folder
   // down. resolveCard()/resolveLineupImage() are unaffected: they resolve
   // against an absolute Firebase URL. Tabs must use this wrapper, not the
   // bare global resolveLogo(), for any <img> shown on the admin page.

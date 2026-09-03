@@ -1,4 +1,4 @@
-// Shared stage lineup data + "now playing" logic.
+﻿// Shared stage lineup data + "now playing" logic.
 // Used by lineup.html (full page) and index.html (live banner on the map).
 // "Live" is matched by weekday (Fr/Sa) + time, so it works regardless of year.
 // weekday: 5 = Friday, 6 = Saturday (Date.getDay()).
@@ -23,7 +23,7 @@ function resolveLineupImage(image) {
 // collection (one document per act) and is fetched at runtime via
 // window.Fb.fetchLineup() (firebase-init.js), which also sorts it into
 // chronological (weekday, then start time) order. Edit the data through the
-// admin tool (admin/admin.html).
+// admin tool (admin/index.html).
 
 function getNow() {
   return TEST_NOW || new Date();

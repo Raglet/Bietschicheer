@@ -1,10 +1,10 @@
-// ============================================================================
+﻿// ============================================================================
 //  Admin tool – "QR-Codes" tab: every "location" doc with type "bar" gets a
 //  stamp QR code automatically (see bietschimeile.js / 404.html for the scan
 //  flow). This tab lists them and lets you copy the URL/QR image or download
 //  a branded A4 PDF (single bar, or all bars as one multi-page PDF).
 //
-//  Uses two CDN libraries loaded in admin.html: qrcodejs (global `QRCode`)
+//  Uses two CDN libraries loaded in admin/index.html: qrcodejs (global `QRCode`)
 //  to render the QR image, and jsPDF (global `window.jspdf.jsPDF`) to build
 //  the PDF.
 // ============================================================================
@@ -12,8 +12,8 @@
 (function () {
   const { el, button, iconButton } = AdminCore;
 
-  // Derived from wherever admin.html is actually being served (".." from
-  // admin/admin.html is the site root, where index.html/404.html/bar-<id>
+  // Derived from wherever admin/index.html is actually being served (".." from
+  // admin/index.html is the site root, where index.html/404.html/bar-<id>
   // live) – so QR codes always match the current deployment, whatever
   // domain that is. Note: if this admin page is opened on localhost, the
   // encoded URL is localhost too and won't be scannable by a phone – open

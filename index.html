@@ -104,6 +104,35 @@
       <span class="material-icons" style="font-size:24px;">my_location</span>
     </button>
 
+    <!-- Fotowand (guest photo sharing, external Crowpyx album): promo bar at
+         the bottom of the map; its × swaps it for the camera button in the
+         right-hand stack until the next reload (not persisted – the bar is
+         the feature's promotion). Everything stays hidden unless a URL is
+         configured in config/fotowand – see initFotowand() in script.js. -->
+    <button id="fotowandButton" aria-label="Fotowand" hidden>
+      <span class="material-icons" style="font-size:24px;">photo_camera</span>
+    </button>
+
+    <div id="fotowandBar" class="fotowand-bar" role="button" tabindex="0" hidden>
+      <span class="material-icons fotowand-bar__icon">photo_camera</span>
+      <span class="fotowand-bar__text">Fotowand – zeig nisch dinu Pics!</span>
+      <span class="fotowand-bar__close" id="fotowandBarClose" role="button" aria-label="Hinweis schliessen">×</span>
+    </div>
+
+    <div id="fotowandOverlay" class="fotowand-overlay" hidden>
+      <div class="fotowand-modal" role="dialog" aria-modal="true" aria-labelledby="fotowandTitle">
+        <button type="button" class="fotowand-modal__close" id="fotowandClose" aria-label="Schliessen">
+          <span class="material-icons">close</span>
+        </button>
+        <span class="material-icons fotowand-modal__icon">photo_camera</span>
+        <h2 id="fotowandTitle">Fotowand</h2>
+        <p>
+          Zeig nisch dinu Fotos - Lad schi jetzt hie hoch!
+        </p>
+        <a id="fotowandOpenLink" class="fotowand-modal__btn" href="#" target="_blank" rel="noopener">Los geht's!</a>
+      </div>
+    </div>
+
     <div
       class="mdc-dialog"
       id="settingsDialog"

@@ -618,6 +618,48 @@ function trackUserLocation() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Fotowand – guest photo sharing (external Crowpyx album; the link lives in
+// config/fotowand in Firestore, editable via the admin "Fotowand" tab; no
+// url configured → everything stays hidden). The bottom promo bar and the
+// camera FAB both open a small branded intro modal whose button opens the
+// album in a new tab. Dismissing the bar (×) swaps it for the FAB only for
+// the current page view – deliberately NOT persisted, the bar reappears on
+// every reload as the feature's promotion.
+// ---------------------------------------------------------------------------
+function initFotowand(cfg) {
+  const url = cfg && cfg.url;
+  if (!url) return;
+  const bar = document.getElementById("fotowandBar");
+  const fab = document.getElementById("fotowandButton");
+  const overlay = document.getElementById("fotowandOverlay");
+  if (!bar || !fab || !overlay) return;
+
+  document.getElementById("fotowandOpenLink").href = url;
+
+  bar.hidden = false;
+
+  const openModal = () => {
+    overlay.hidden = false;
+  };
+  bar.addEventListener("click", openModal);
+  fab.addEventListener("click", openModal);
+
+  document.getElementById("fotowandBarClose").addEventListener("click", (e) => {
+    e.stopPropagation(); // the × must not also open the modal
+    bar.hidden = true;
+    fab.hidden = false;
+  });
+
+  const closeModal = () => {
+    overlay.hidden = true;
+  };
+  document.getElementById("fotowandClose").addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) closeModal();
+  });
+}
+
 // Live banner – shown at the top of the map while a band is playing.
 function updateLiveBanner() {
   const banner = document.getElementById("liveBanner");
@@ -651,9 +693,10 @@ function loadGoogleMapsScript() {
 
 async function bootstrapData() {
   try {
-    const [{ LOCATIONS: locs, INFRASTRUCTURE: infra }, lineup] = await Promise.all([
+    const [{ LOCATIONS: locs, INFRASTRUCTURE: infra }, lineup, fotowand] = await Promise.all([
       window.Fb.fetchLocationsSplit(),
       window.Fb.fetchLineup(),
+      window.Fb.fetchFotowand(), // never throws – null just hides the feature
     ]);
     window.LOCATIONS = locs;
     window.INFRASTRUCTURE = infra;
@@ -666,6 +709,7 @@ async function bootstrapData() {
     loadGoogleMapsScript();
     updateLiveBanner();
     setInterval(updateLiveBanner, 30000);
+    initFotowand(fotowand);
   } catch (err) {
     console.error("Datenladung fehlgeschlagen:", err);
     window.Fb.showLoadingError(bootstrapData);

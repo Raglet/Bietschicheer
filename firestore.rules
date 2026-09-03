@@ -20,5 +20,41 @@ service cloud.firestore {
     match /admins/{email} {
       allow read, write: if isAdmin();
     }
+
+    // Small feature-config docs (e.g. config/fotowand – the guest photo-
+    // sharing link promoted on the map). Public read, admin-managed.
+    match /config/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Guest counter (counter/index.html): the parent document ID *is* the
+    // shared entry-staff password – reading it (or the days below it) needs
+    // the exact ID and `list`ing the collection is admin-only, so the
+    // password appears nowhere in code or rules; admins "set" it by creating
+    // the doc (admin "Gäste" tab).
+    //
+    // The actual counts live in named sub-counters ("Tage", e.g. Fritag/
+    // Samstag) in the days/ subcollection: { name, active, count, hours,
+    // created }. Exactly one is `active` (toggled manually by admins – never
+    // by the clock, the festival runs past midnight); staff taps update the
+    // active day's `count`/`hours` and may touch nothing else.
+    match /counter/{secret} {
+      allow get: if true;
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+
+      match /days/{day} {
+        allow read: if true;
+        allow create, delete: if isAdmin();
+        allow update: if isAdmin() || (
+          request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['count', 'hours']) &&
+          request.resource.data.count is int &&
+          request.resource.data.count >= 0 &&
+          (!('hours' in request.resource.data) || request.resource.data.hours is map)
+        );
+      }
+    }
   }
 }

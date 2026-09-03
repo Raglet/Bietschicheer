@@ -1,11 +1,11 @@
-// ============================================================================
+﻿// ============================================================================
 //  Shared location data – used by the map (script.js) and the Bietschimeile
 //  tutorial (bietschimeile.js).
 //
 //  LOCATIONS/INFRASTRUCTURE themselves are no longer hardcoded here – they
 //  live in the Firestore "location" collection (one document per point,
 //  fetched via window.Fb.fetchLocationsSplit() in firebase-init.js) and are
-//  edited through the admin tool (admin/admin.html). This file only keeps
+//  edited through the admin tool (admin/index.html). This file only keeps
 //  the shared constants/helpers every page needs synchronously.
 // ----------------------------------------------------------------------------
 //  Fields per "location" document:
@@ -100,7 +100,7 @@ function resolveCard(card) {
 // the Firestore "location" collection (one document per point) and are
 // fetched at runtime via window.Fb.fetchLocationsSplit() (firebase-init.js),
 // which splits the collection back into these two names using MARKER_TYPES
-// above. Edit the data through the admin tool (admin/admin.html).
+// above. Edit the data through the admin tool (admin/index.html).
 
 
 // Brand colours for Google Maps JS styling (CSS variables can't be used here).

@@ -630,6 +630,53 @@
         background: var(--hintergrund-neutral);
       }
 
+      /* ---- "Gäste pro Stunde" chart (Gäste tab modal) ---- */
+      .hour-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .hour-chart__day {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: var(--primär-dunkel);
+        margin: 10px 0 2px;
+      }
+      .hour-chart__day:first-child {
+        margin-top: 0;
+      }
+      .hour-chart__row {
+        display: grid;
+        grid-template-columns: 74px 1fr 44px;
+        align-items: center;
+        gap: 8px;
+      }
+      .hour-chart__label {
+        font-size: 0.8rem;
+        color: var(--hintergrund-dunkel);
+        white-space: nowrap;
+      }
+      .hour-chart__track {
+        height: 14px;
+        background: var(--hintergrund-neutral);
+        border-radius: var(--btn-radius);
+        overflow: hidden;
+      }
+      .hour-chart__bar {
+        height: 100%;
+        background: var(--primär-hell);
+        border-radius: var(--btn-radius);
+        min-width: 2px;
+      }
+      .hour-chart__value {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #000;
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+
       /* ---- Toast (same pattern as bietschimeile.html) ---- */
       .toast {
         position: fixed;
@@ -729,6 +776,8 @@
     <script src="tabs/map.js"></script>
     <script src="tabs/admins.js"></script>
     <script src="tabs/qrcodes.js"></script>
+    <script src="tabs/counter.js"></script>
+    <script src="tabs/fotowand.js"></script>
     <script src="admin.js"></script>
   </body>
 </html>

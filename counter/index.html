@@ -1,0 +1,330 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/png" href="../images/favicon.svg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <title>Gästezähler</title>
+
+    <style>
+      [hidden] {
+        display: none !important;
+      }
+
+      body {
+        background-color: var(--hintergrund-neutral);
+        min-height: 100vh;
+        /* Staff will tap fast and repeatedly – no accidental text selection
+           or double-tap zoom on the buttons. */
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      .page-header {
+        background-color: var(--primär-dunkel);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+      .page-title {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 1.4rem;
+        margin: 0;
+        color: white;
+      }
+      .header-icon-button {
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        border-radius: 50%;
+        color: white;
+      }
+      .header-icon-button:hover {
+        background-color: var(--primär-hell);
+      }
+
+      .content {
+        max-width: 480px;
+        margin: 20px auto;
+        padding: 0 16px 40px;
+      }
+
+      /* ---- Password screen ---- */
+      .login-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        padding: 28px 24px;
+        margin-top: 40px;
+      }
+      .login-card h2 {
+        margin-top: 0;
+        text-align: center;
+      }
+      .login-card p {
+        font-size: 0.9rem;
+        text-align: center;
+      }
+      .pw-input {
+        font-family: "Montserrat", sans-serif;
+        font-size: 1.05rem;
+        padding: 12px;
+        border: 1px solid var(--hintergrund-hell);
+        border-radius: var(--btn-radius);
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        margin: 10px 0 4px;
+      }
+      .pw-input:focus {
+        outline: 2px solid var(--sekundär-hell);
+      }
+      .login-error {
+        color: #c0392b;
+        font-size: 0.85rem;
+        text-align: center;
+        margin: 8px 0 0;
+        min-height: 1.2em;
+      }
+      .btn {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        border: none;
+        border-radius: var(--btn-radius);
+        cursor: pointer;
+        background-color: var(--primär-dunkel);
+        color: white;
+      }
+      .btn--login {
+        width: 100%;
+        font-size: 1rem;
+        padding: 12px;
+        margin-top: 12px;
+      }
+
+      /* ---- Counter screen ---- */
+      .count-card {
+        background: white;
+        border-radius: 14px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        padding: 24px 16px 20px;
+        text-align: center;
+      }
+      .count-label {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 1rem;
+        color: var(--hintergrund-dunkel);
+        margin: 0;
+      }
+      .count-value {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        font-size: 5.2rem;
+        line-height: 1.1;
+        color: var(--primär-dunkel);
+        margin: 4px 0 0;
+        font-variant-numeric: tabular-nums;
+      }
+      .count-value--bump {
+        animation: count-bump 0.25s ease;
+      }
+      .count-inactive-hint {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-size: 0.85rem;
+        color: #c0392b;
+        margin: 10px 0 0;
+      }
+      .count-btn:disabled {
+        opacity: 0.35;
+        cursor: default;
+        box-shadow: none;
+      }
+      .count-btn:disabled:active {
+        transform: none;
+      }
+      @keyframes count-bump {
+        50% { transform: scale(1.1); }
+      }
+
+      .btn-grid {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .count-btn {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 800;
+        border: none;
+        border-radius: var(--btn-radius);
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
+      .count-btn:active {
+        transform: scale(0.97);
+      }
+      .count-btn--main {
+        background-color: var(--primär-dunkel);
+        color: white;
+        font-size: 2.4rem;
+        padding: 26px 0;
+      }
+      .btn-row {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        gap: 12px;
+      }
+      .count-btn--plus {
+        background-color: var(--primär-hell);
+        color: white;
+        font-size: 1.5rem;
+        padding: 18px 0;
+      }
+      .count-btn--minus {
+        background-color: white;
+        color: var(--sekundär-dunkel);
+        border: 2px solid var(--sekundär-dunkel);
+        font-size: 1.05rem;
+        padding: 12px 0;
+        font-weight: 600;
+        box-shadow: none;
+      }
+      .minus-hint {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 300;
+        font-size: 0.8rem;
+        color: var(--hintergrund-dunkel);
+        text-align: center;
+        margin: 16px 0 6px;
+      }
+
+      /* ---- Toast (same pattern as bietschimeile.html / admin/index.html) ---- */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 120%);
+        opacity: 0;
+        visibility: hidden;
+        background-color: var(--hintergrund-dunkel);
+        color: white;
+        padding: 12px 18px;
+        border-radius: 24px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        transition: transform 0.35s ease, opacity 0.35s ease, visibility 0s linear 0.35s;
+        z-index: 50;
+        max-width: 90%;
+        text-align: center;
+      }
+      .toast--visible {
+        transform: translate(-50%, 0);
+        opacity: 1;
+        visibility: visible;
+        transition: transform 0.35s ease, opacity 0.35s ease;
+      }
+      .toast--error { background-color: #c0392b; }
+    </style>
+  </head>
+
+  <body>
+    <div id="loadingOverlay" class="data-loading">
+      <div class="data-loading__spinner"></div>
+      <p class="data-loading__text">Gästezähler wird geladen…</p>
+      <button type="button" class="btn data-loading__retry" hidden>Erneut versuchen</button>
+    </div>
+
+    <header class="page-header">
+      <h1 class="page-title">Gästezähler</h1>
+      <button id="logoutButton" class="header-icon-button" aria-label="Abmelden" hidden>
+        <span class="material-icons">logout</span>
+      </button>
+    </header>
+
+    <div class="content">
+      <!-- ---- Password screen ---- -->
+      <div id="loginScreen" class="login-card" hidden>
+        <h2>Zugang</h2>
+        <p>Gib das Passwort ein, das du vom OK erhalten hast.</p>
+        <form id="loginForm">
+          <input
+            id="pwInput"
+            class="pw-input"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Passwort"
+          />
+          <p id="loginError" class="login-error"></p>
+          <button type="submit" class="btn btn--login">Loslegen</button>
+        </form>
+      </div>
+
+      <!-- ---- Counter screen ---- -->
+      <div id="counterScreen" hidden>
+        <div class="count-card">
+          <p id="countLabel" class="count-label">Gäste bisher</p>
+          <p id="countValue" class="count-value">0</p>
+          <p id="inactiveHint" class="count-inactive-hint" hidden>
+            Im Moment wird nicht gezählt – das OK muss zuerst einen Tag aktivieren.
+          </p>
+        </div>
+
+        <div class="btn-grid">
+          <button type="button" class="count-btn count-btn--main" data-delta="1">+1</button>
+          <div class="btn-row">
+            <button type="button" class="count-btn count-btn--plus" data-delta="3">+3</button>
+            <button type="button" class="count-btn count-btn--plus" data-delta="5">+5</button>
+            <button type="button" class="count-btn count-btn--plus" data-delta="10">+10</button>
+          </div>
+          <p class="minus-hint">Verzählt? Hier korrigieren:</p>
+          <div class="btn-row">
+            <button type="button" class="count-btn count-btn--minus" data-delta="-1">−1</button>
+            <button type="button" class="count-btn count-btn--minus" data-delta="-3">−3</button>
+            <button type="button" class="count-btn count-btn--minus" data-delta="-5">−5</button>
+            <button type="button" class="count-btn count-btn--minus" data-delta="-10">−10</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../locations-data.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+    <script src="../firebase-init.js"></script>
+    <script src="counter.js"></script>
+  </body>
+</html>

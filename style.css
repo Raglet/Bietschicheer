@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --primär-hell:        #996f91;
   --primär-dunkel:      #663f5e;
   --hintergrund-dunkel: #404040;
@@ -198,7 +198,8 @@ body.banner-visible .brand-logo {
 
 #bietschimeileButton,
 #mapButton,
-#locateButton {
+#locateButton,
+#fotowandButton {
   position: absolute;
   right: 10px;
   z-index: 1;
@@ -218,7 +219,8 @@ body.banner-visible .brand-logo {
 }
 
 #mapButton .material-icons,
-#locateButton .material-icons {
+#locateButton .material-icons,
+#fotowandButton .material-icons {
   filter: brightness(0) invert(1);
 }
 
@@ -239,6 +241,15 @@ body.banner-visible .brand-logo {
 
 #locateButton {
   top: 126px;
+}
+
+/* Camera FAB (Fotowand): only shown after the promo bar was dismissed –
+   the [hidden] guard must beat the group rule's display: flex above. */
+#fotowandButton {
+  top: 184px;
+}
+#fotowandButton[hidden] {
+  display: none;
 }
 
 /* Hint bubble next to the Bietschimeile button (appears after a few seconds) */
@@ -298,6 +309,125 @@ body.banner-visible .brand-logo {
 
 body.banner-visible .meile-hint {
   top: calc(22px + var(--banner-h));
+}
+
+/* ============================================================
+   Fotowand – guest photo sharing (promo bar + intro modal).
+   Shown only when config/fotowand has a url (initFotowand, script.js).
+   ============================================================ */
+
+/* Bottom promo bar: centered pill above the map's Google attribution line
+   (hence bottom: 34px), never full-width so the attribution stays visible. */
+.fotowand-bar {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 34px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  max-width: 480px;
+  background-color: var(--primär-dunkel);
+  color: white;
+  padding: 12px 14px;
+  border-radius: var(--btn-radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  user-select: none;
+}
+.fotowand-bar[hidden] {
+  display: none;
+}
+.fotowand-bar__icon {
+  font-size: 20px;
+  flex: none;
+}
+.fotowand-bar__text {
+  flex: 1;
+  text-align: center;
+}
+.fotowand-bar__close {
+  flex: none;
+  margin-left: 4px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.85;
+  cursor: pointer;
+  padding: 0 2px;
+}
+.fotowand-bar__close:hover {
+  opacity: 1;
+}
+
+/* Intro modal */
+.fotowand-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.fotowand-overlay[hidden] {
+  display: none;
+}
+.fotowand-modal {
+  position: relative;
+  background: white;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 320px;
+  padding: 28px 22px 22px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+.fotowand-modal__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  color: var(--hintergrund-hell);
+  display: flex;
+}
+.fotowand-modal__close:hover {
+  color: var(--hintergrund-dunkel);
+}
+.fotowand-modal__icon {
+  font-size: 42px;
+  color: var(--primär-hell);
+}
+.fotowand-modal h2 {
+  margin: 8px 0 6px;
+}
+.fotowand-modal p {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.fotowand-modal__btn {
+  display: block;
+  background-color: var(--primär-dunkel);
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px;
+  border-radius: var(--btn-radius);
+  text-decoration: none;
+}
+.fotowand-modal__btn:hover {
+  background-color: var(--primär-hell);
 }
 
 /* Live banner – floating bar with sharp edges; pushes the right-side buttons down */
@@ -364,6 +494,9 @@ body.banner-visible #mapButton {
 }
 body.banner-visible #locateButton {
   top: calc(136px + var(--banner-h));
+}
+body.banner-visible #fotowandButton {
+  top: calc(194px + var(--banner-h));
 }
 
 
@@ -647,7 +780,7 @@ body.banner-visible #locateButton {
 }
 
 /* ---- Google Sign-In button (admin login) ---- */
-/* .btn.btn--google (not just .btn--google): admin.html's own <style> block
+/* .btn.btn--google (not just .btn--google): admin/index.html's own <style> block
    loads after this stylesheet and redeclares .btn's background, so this
    needs the extra specificity to still win. */
 .btn.btn--google {

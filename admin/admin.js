@@ -1,8 +1,8 @@
-// ============================================================================
+﻿// ============================================================================
 //  Admin tool – bootstrap: Google Sign-In gate + starts the tab framework.
 //  Tabs (concerts.js / map.js / admins.js) have already self-registered via
 //  AdminCore.registerTab() by the time this file runs (script order in
-//  admin.html), so this file only needs to wire up sign-in/sign-out and call
+//  admin/index.html), so this file only needs to wire up sign-in/sign-out and call
 //  AdminCore.initTabs() once the signed-in Google account is a registered
 //  admin (Firestore "admins" collection).
 // ============================================================================
