@@ -91,7 +91,7 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 
 - The guests' photo-sharing app is **external** (Crowpyx, e.g. `https://app.crowpyx.com/join/<code>`; it sends `X-Frame-Options: DENY`, so embedding is impossible by design) — the map page promotes it as its own "Fotowand" feature and links out.
 - The link lives in Firestore doc **`config/fotowand`** `{ url }` (rules: `config/*` public read, admin write), fetched in `bootstrapData()` via `Fb.fetchFotowand()` (swallows all errors → never blocks the map). **Empty/missing url = the whole feature is hidden** — that's the on/off switch, editable in the admin "Fotowand" tab (`admin/tabs/fotowand.js`).
-- UI on `index.html` (`initFotowand()` in `script.js`, styles `.fotowand-*` in `style.css`): a bottom promo bar (centered pill at `bottom: 34px`, deliberately not full-width so Google's map attribution stays visible) and a camera FAB in the right-hand button stack. Both open a small branded intro modal whose "Los geht's!" button opens the album in a new tab. The bar's × swaps it for the FAB only for the current page view — deliberately not persisted, so the bar reappears on every reload as the feature's promotion.
+- UI on `index.html` (`initFotowand()` in `script.js`, styles `.fotowand-*` in `style.css`): a bottom promo bar (centered, capped at 480px so Google's map attribution stays visible) and an always-visible camera FAB in the right-hand button stack. Both open a small branded intro modal whose "Los geht's!" button opens the album in a new tab. The bar's × hides only the bar, and only for the current page view — deliberately not persisted, so the bar reappears on every reload as the feature's promotion.
 
 ## Map markers (LOCATIONS)
 

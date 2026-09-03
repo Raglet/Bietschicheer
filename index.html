@@ -105,10 +105,11 @@
     </button>
 
     <!-- Fotowand (guest photo sharing, external Crowpyx album): promo bar at
-         the bottom of the map; its × swaps it for the camera button in the
-         right-hand stack until the next reload (not persisted – the bar is
-         the feature's promotion). Everything stays hidden unless a URL is
-         configured in config/fotowand – see initFotowand() in script.js. -->
+         the bottom of the map plus an always-visible camera button in the
+         right-hand stack; the bar's × hides only the bar, until the next
+         reload (not persisted – the bar is the feature's promotion).
+         Everything stays hidden unless a URL is configured in
+         config/fotowand – see initFotowand() in script.js. -->
     <button id="fotowandButton" aria-label="Fotowand" hidden>
       <span class="material-icons" style="font-size:24px;">photo_camera</span>
     </button>

@@ -623,9 +623,9 @@ function trackUserLocation() {
 // config/fotowand in Firestore, editable via the admin "Fotowand" tab; no
 // url configured → everything stays hidden). The bottom promo bar and the
 // camera FAB both open a small branded intro modal whose button opens the
-// album in a new tab. Dismissing the bar (×) swaps it for the FAB only for
-// the current page view – deliberately NOT persisted, the bar reappears on
-// every reload as the feature's promotion.
+// album in a new tab. The FAB is always visible; the bar's × hides only the
+// bar, and only for the current page view – deliberately NOT persisted, the
+// bar reappears on every reload as the feature's promotion.
 // ---------------------------------------------------------------------------
 function initFotowand(cfg) {
   const url = cfg && cfg.url;
@@ -638,6 +638,7 @@ function initFotowand(cfg) {
   document.getElementById("fotowandOpenLink").href = url;
 
   bar.hidden = false;
+  fab.hidden = false;
 
   const openModal = () => {
     overlay.hidden = false;
@@ -648,7 +649,6 @@ function initFotowand(cfg) {
   document.getElementById("fotowandBarClose").addEventListener("click", (e) => {
     e.stopPropagation(); // the × must not also open the modal
     bar.hidden = true;
-    fab.hidden = false;
   });
 
   const closeModal = () => {
