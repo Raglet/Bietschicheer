@@ -190,7 +190,7 @@ const cardOverlay = document.getElementById("cardOverlay");
 const cardOverlayImg = document.getElementById("cardOverlayImg");
 const cardOverlayStamp = document.getElementById("cardOverlayStamp");
 const cardOverlaySpinner = document.getElementById("cardOverlaySpinner");
-const CLOSE_ZOOM = 19; // "zoomed in" level closeCard() settles on (maxZoom is 20, blurry beyond)
+const CLOSE_ZOOM = 20; // "zoomed in" level closeCard() settles on (= maxZoom, blurry beyond)
 let cardMarkerPosition = null; // where to pan/zoom to once the card is closed
 
 function openCard(url, name, isBar, stampCollected, position) {
