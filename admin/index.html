@@ -630,7 +630,39 @@
         background: var(--hintergrund-neutral);
       }
 
-      /* ---- "Gäste pro Stunde" chart (Gäste tab modal) ---- */
+      /* ---- Stempel tab: per-bar scan count bar + summary line ---- */
+      .stamp-summary {
+        margin: 0 0 12px;
+        font-weight: 600;
+        color: var(--primär-dunkel);
+        font-variant-numeric: tabular-nums;
+      }
+      .entry--stat {
+        border-left: 4px solid var(--primär-hell);
+      }
+      .entry--stat .entry__sub {
+        color: var(--primär-dunkel);
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
+      .stamp-track {
+        width: 100%;
+        max-width: 320px;
+        height: 8px;
+        margin-top: 4px;
+        background: var(--hintergrund-neutral);
+        border-radius: var(--btn-radius);
+        overflow: hidden;
+      }
+      .stamp-track__bar {
+        height: 100%;
+        width: 0;
+        background: var(--primär-hell);
+        border-radius: var(--btn-radius);
+        transition: width 0.4s ease;
+      }
+
+      /* ---- Hourly chart (Gäste / Stempel tab modals, AdminCore.hoursChart) ---- */
       .hour-chart {
         display: flex;
         flex-direction: column;
@@ -776,6 +808,7 @@
     <script src="tabs/map.js"></script>
     <script src="tabs/admins.js"></script>
     <script src="tabs/qrcodes.js"></script>
+    <script src="tabs/stamps.js"></script>
     <script src="tabs/counter.js"></script>
     <script src="tabs/fotowand.js"></script>
     <script src="admin.js"></script>

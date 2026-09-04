@@ -78,6 +78,15 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 - First visit shows a tutorial overlay: a mini Google Map that animates an arrow along the (now data-driven) `BARS` route. Shown once (localStorage key `bietschimeile.tutorialSeen`); the header "?" button replays it. The Maps API is lazy-loaded only when the tutorial opens (`loadGoogleMaps()` in `bietschimeile.js`).
 - The map (`index.html`) reflects collected stamps: clicking a bar marker appends a "✓ Stempel gesammelt" badge to the bottom of its InfoWindow if that bar's stamp is collected, checked directly via the marker's own Firestore id (`locationToMarker()`/`createMarkers()` in `script.js` — no separate name→id mapping).
 
+## Stamp scan tracker (admin "Stempel" tab)
+
+- Stamps themselves stay in `localStorage` (no backend), but **how often each bar's stamp was collected** is tracked anonymously in Firestore collection **`stampstats/{barId}`** (doc id = the bar's `location` id) `{ scans, hours: {"YYYY-MM-DD_HH": n} }` — same hour-bucket scheme as the guest counter, so the admin tool reuses one chart (`AdminCore.hoursChart()` in `admin-core.js`).
+- Flow: `404.html` stays Firebase-free — when a stamp is collected **for the first time on that device** it appends `{ barId, hour }` to localStorage key `bietschimeile.pendingScans` and redirects as before; the map page (`bootstrapData()` in `script.js`) then calls `Fb.flushPendingScans()` (`firebase-init.js`), which writes each entry as a `FieldValue.increment(1)` via `set(…, {merge: true})` and drops it from the queue. Fire-and-forget: it never delays or breaks the map; a failed write stays queued for the next page load. Re-scanning an already collected stamp is **not** counted, so `scans` ≈ distinct phones per bar.
+- Two **event docs with the same shape** track the whole card, reported by `bietschimeile.js` through the same queue (`Fb.queueScanEvent()` + flush): `stampstats/_completed` when a device first shows all stamps collected (once per device, localStorage key `bietschimeile.completedReported`) and `stampstats/_redeemed` when "Getränk einlösen" is pressed. Ids exported as `Fb.STAMP_EVENT_COMPLETED`/`STAMP_EVENT_REDEEMED`; `bietschimeile.js` also flushes the queue on load.
+- `firestore.rules`: public may only create with `scans == 1` or update with `scans == resource.scans + 1` (plus `hours`), nothing else; read/delete is admin-only. Deploy rules after editing.
+- Admin **"Stempel" tab** (`admin/tabs/stamps.js`): two highlighted rows for the whole-card events (`EVENTS`: volle Karten / eingelöste Getränke), then every `type: "bar"` location (Bietschimeile `order` sort) with its live count, a relative bar, an hourly chart, per-row and global reset (= delete the `stampstats` doc). Summary line shows the total bar scans and the bar(s) with the fewest.
+- Local testing without the Pages 404 fallback: open `404.html?bar=<id>` (same flow as a scan).
+
 ## Guest counter (Gästezähler)
 
 - **`counter/index.html`** + **`counter/counter.js`** — a hidden, unlinked page for entry staff to count guests: big live total, `+1` / `+3` / `+5` / `+10` buttons and a `−1`/`−3`/`−5`/`−10` correction row. Staff reach it only via the short URL `…/counter` (a folder with `index.html`, so GitHub Pages serves `/counter` → `/counter/`; copyable in the admin "Gäste" tab). Asset/script paths inside are `../`-relative.
@@ -128,6 +137,7 @@ Only a very small rounding, almost square — use `border-radius: var(--btn-radi
 - Bar QR codes (copy URL/image, download PDF) → the admin tool's "QR-Codes" tab.
 - Stage lineup + set times → the `lineup` collection in Firestore, via the admin tool's "Konzerte" tab.
 - Admin allowlist → the `admins` collection in Firestore, via the admin tool's "Admins" tab.
+- Stamp scan counts per bar → admin tool's "Stempel" tab (live, read-only apart from reset; data in `stampstats`).
 - Fotowand link (Crowpyx photo sharing) → `config/fotowand` in Firestore, via the admin tool's "Fotowand" tab; empty = feature hidden on the map.
 - Brand colours → `:root` variables in `style.css` (and the `C` object in `locations-data.js` for the Google Maps style).
 - `TEST_NOW` in `lineup-data.js` must be `null` in production.

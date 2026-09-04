@@ -26,7 +26,9 @@
          with no matching real file (in particular /bar-<id>, the QR-code
          scan target) is served this content with the real URL still shown
          in the browser. Kept dependency-free (no Firebase) so a stamp scan
-         is instant and works even with a weak connection at the festival. */
+         is instant and works even with a weak connection at the festival –
+         the scan counter for the admin tool is only queued here (see
+         queueScan below) and written by the map page afterwards. */
       body {
         background-color: var(--hintergrund-neutral);
         min-height: 100vh;
@@ -94,13 +96,45 @@
       const segments = location.pathname.split("/").filter(Boolean);
       const last = segments[segments.length - 1] || "";
       const match = /^bar-(.+)$/.exec(last);
+      // Local testing (no Pages 404 fallback, e.g. Live Server): open
+      // 404.html?bar=<id> directly – same flow as a real scan.
+      const queryBar = new URLSearchParams(location.search).get("bar");
+      const barId = match ? decodeURIComponent(match[1]) : queryBar;
 
-      if (match) {
-        const barId = decodeURIComponent(match[1]);
+      // Scan tracker: a stamp collected for the FIRST time on this device is
+      // queued here and reported to Firestore (stampstats/<barId>) by the map
+      // page right after the redirect – index.html already loads Firebase,
+      // so this page stays dependency-free and the count survives a weak
+      // connection (the queue is retried on every later page load). Admins
+      // see the numbers in the "Stempel" tab.
+      const PENDING_KEY = "bietschimeile.pendingScans";
+
+      function queueScan(barId) {
+        try {
+          const raw = localStorage.getItem(PENDING_KEY);
+          const parsed = raw ? JSON.parse(raw) : [];
+          const queue = Array.isArray(parsed) ? parsed : [];
+          queue.push({ barId, hour: hourKey() });
+          localStorage.setItem(PENDING_KEY, JSON.stringify(queue));
+        } catch {
+          /* localStorage unavailable – no tracking, stamp still works */
+        }
+      }
+
+      // Same "YYYY-MM-DD_HH" bucket scheme as the guest counter
+      // (counter/counter.js), so the admin tool can reuse its hourly chart.
+      function hourKey() {
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, "0");
+        return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}`;
+      }
+
+      if (barId) {
         const stamps = loadStamps();
         if (!stamps.includes(barId)) {
           stamps.push(barId);
           saveStamps(stamps);
+          queueScan(barId);
         }
         // Straight back to the map – its existing ?bar=<id> deep link
         // (script.js) already pans to that marker and opens its card/popup,

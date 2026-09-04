@@ -28,6 +28,28 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Bietschimeile scan tracker (admin "Stempel" tab): stampstats/<barId>
+    // { scans, hours: {"YYYY-MM-DD_HH": n} }. The map page reports every
+    // first-time stamp a device collects (queued by 404.html, written by
+    // flushPendingScans() in firebase-init.js) as an anonymous increment –
+    // the public may only bump `scans` by exactly 1 per write (and touch
+    // `hours`), nothing else; reading/resetting is admin-only.
+    match /stampstats/{barId} {
+      allow read, delete: if isAdmin();
+      allow create: if isAdmin() || (
+        request.resource.data.keys().hasOnly(['scans', 'hours']) &&
+        request.resource.data.scans == 1 &&
+        (!('hours' in request.resource.data) || request.resource.data.hours is map)
+      );
+      allow update: if isAdmin() || (
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['scans', 'hours']) &&
+        request.resource.data.scans is int &&
+        request.resource.data.scans == resource.data.scans + 1 &&
+        (!('hours' in request.resource.data) || request.resource.data.hours is map)
+      );
+    }
+
     // Guest counter (counter/index.html): the parent document ID *is* the
     // shared entry-staff password – reading it (or the days below it) needs
     // the exact ID and `list`ing the collection is admin-only, so the

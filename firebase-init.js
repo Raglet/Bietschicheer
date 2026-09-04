@@ -62,6 +62,81 @@ async function fetchFotowand() {
   }
 }
 
+// Stamp scan tracker: 404.html queues every FIRST-time stamp collected on a
+// device under localStorage "bietschimeile.pendingScans" ([{ barId, hour }])
+// and redirects to the map, which calls this to report the queue to
+// Firestore – stampstats/<barId>: { scans, hours: {"YYYY-MM-DD_HH": n} },
+// shown in the admin "Stempel" tab. Purely fire-and-forget: a failed write
+// (offline, rules) leaves the entry queued for the next page load, and the
+// map never waits for or fails because of it. firestore.rules only allows
+// the public to increment `scans` by exactly 1 per write.
+const PENDING_SCANS_KEY = "bietschimeile.pendingScans";
+
+// Besides the per-bar docs, two "event" docs share the exact same shape,
+// queue and rules: stampstats/_completed (a device collected every stamp)
+// and stampstats/_redeemed (bar staff pressed "Getränk einlösen"). Queued by
+// bietschimeile.js via queueScanEvent().
+const STAMP_EVENT_COMPLETED = "_completed";
+const STAMP_EVENT_REDEEMED = "_redeemed";
+
+// Same "YYYY-MM-DD_HH" bucket scheme as 404.html / counter/counter.js.
+function scanHourKey() {
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}_${pad(now.getHours())}`;
+}
+
+function queueScanEvent(id) {
+  const queue = readPendingScans();
+  queue.push({ barId: id, hour: scanHourKey() });
+  writePendingScans(queue);
+}
+
+function readPendingScans() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PENDING_SCANS_KEY) || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writePendingScans(list) {
+  try {
+    if (list.length) localStorage.setItem(PENDING_SCANS_KEY, JSON.stringify(list));
+    else localStorage.removeItem(PENDING_SCANS_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+async function flushPendingScans() {
+  const queue = readPendingScans();
+  if (!queue.length) return;
+  const inc = firebase.firestore.FieldValue.increment(1);
+  const remaining = [];
+  let unprocessed = queue.slice();
+  for (const item of queue) {
+    // Drop the item from storage BEFORE its write so a request that succeeds
+    // server-side but errors client-side (e.g. page navigated away) can't be
+    // double-counted; a genuine failure is re-queued below.
+    unprocessed = unprocessed.filter((q) => q !== item);
+    writePendingScans(unprocessed.concat(remaining));
+    if (!item || typeof item.barId !== "string" || !item.barId) continue;
+    try {
+      const data = { scans: inc };
+      if (typeof item.hour === "string" && /^\d{4}-\d{2}-\d{2}_\d{2}$/.test(item.hour)) {
+        data.hours = { [item.hour]: inc };
+      }
+      await db.collection("stampstats").doc(item.barId).set(data, { merge: true });
+    } catch (err) {
+      console.warn("Stempel-Scan konnte nicht gemeldet werden:", err);
+      remaining.push(item);
+    }
+  }
+  writePendingScans(remaining);
+}
+
 // Fetches the "admins" collection (admin tool only).
 async function fetchAdmins() {
   const snap = await db.collection("admins").get();
@@ -99,6 +174,10 @@ window.Fb = {
   fetchLineup,
   fetchFotowand,
   fetchAdmins,
+  flushPendingScans,
+  queueScanEvent,
+  STAMP_EVENT_COMPLETED,
+  STAMP_EVENT_REDEEMED,
   hideLoadingOverlay,
   showLoadingError,
 };

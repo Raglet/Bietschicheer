@@ -710,6 +710,9 @@ async function bootstrapData() {
     updateLiveBanner();
     setInterval(updateLiveBanner, 30000);
     initFotowand(fotowand);
+    // Report stamp scans queued by 404.html (admin "Stempel" tab). Not
+    // awaited – must never delay or break the map.
+    window.Fb.flushPendingScans().catch(() => {});
   } catch (err) {
     console.error("Datenladung fehlgeschlagen:", err);
     window.Fb.showLoadingError(bootstrapData);

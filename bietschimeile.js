@@ -24,6 +24,20 @@ function barLogo(bar) {
 
 const STORAGE_KEY = "bietschimeile.stamps";
 const REDEEMED_KEY = "bietschimeile.redeemed";
+// Set once the "all stamps collected" event has been reported to the admin
+// tracker (stampstats/_completed) – so it counts each device only once.
+const COMPLETED_REPORTED_KEY = "bietschimeile.completedReported";
+
+// Admin tracker (admin "Stempel" tab): queue an event and report it right
+// away; never awaited, never fatal (see flushPendingScans in firebase-init.js).
+function reportStampEvent(id) {
+  try {
+    window.Fb.queueScanEvent(id);
+    window.Fb.flushPendingScans().catch(() => {});
+  } catch {
+    /* tracking is best-effort */
+  }
+}
 
 function loadStamps() {
   try {
@@ -80,8 +94,12 @@ function render(stamps) {
   document.getElementById("progressFill").style.width =
     (count / total) * 100 + "%";
 
-  const complete = count === total;
+  const complete = total > 0 && count === total;
   document.getElementById("doneBanner").hidden = !complete;
+  if (complete && !localStorage.getItem(COMPLETED_REPORTED_KEY)) {
+    localStorage.setItem(COMPLETED_REPORTED_KEY, "1");
+    reportStampEvent(window.Fb.STAMP_EVENT_COMPLETED);
+  }
   return complete;
 }
 
@@ -113,6 +131,7 @@ function showRedeemedState() {
 
 function redeemDrink() {
   localStorage.setItem(REDEEMED_KEY, "1");
+  reportStampEvent(window.Fb.STAMP_EVENT_REDEEMED);
   closeRewardModal();
   showRedeemedState();
 }
@@ -264,6 +283,9 @@ function closeTutorial() {
 
 async function bootstrapData() {
   try {
+    // Retry any scan/event still queued from an earlier, failed report.
+    window.Fb.flushPendingScans().catch(() => {});
+
     if (isRedeemed()) {
       showRedeemedState();
       window.Fb.hideLoadingOverlay();

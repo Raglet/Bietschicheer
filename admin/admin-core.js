@@ -196,6 +196,47 @@ const AdminCore = (() => {
     return wrap; // wrap.querySelector("input") reads/sets the checked state
   }
 
+  // ---- Hourly bar chart ---------------------------------------------------
+  // Renders a { "YYYY-MM-DD_HH": n } map (the bucket scheme shared by the
+  // guest counter and the stamp scan tracker) as a per-day list of bars.
+  // Styles: .hour-chart* in admin/index.html.
+  const WEEKDAYS_DE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Fritag", "Samstag"];
+
+  function hoursChart(hours, { emptyText, footText } = {}) {
+    hours = hours || {};
+    // Keys are zero-padded, so a string sort is chronological.
+    const keys = Object.keys(hours).sort();
+    const body = el("div", "hour-chart");
+    if (!keys.length) {
+      body.appendChild(el("p", "tab-hint", emptyText || "Noch keine Daten."));
+      return body;
+    }
+    const max = Math.max(...keys.map((k) => hours[k]), 1);
+    let currentDay = "";
+    keys.forEach((k) => {
+      const m = k.match(/^(\d{4})-(\d{2})-(\d{2})_(\d{2})$/);
+      if (!m) return;
+      const dayKey = `${m[1]}-${m[2]}-${m[3]}`;
+      if (dayKey !== currentDay) {
+        currentDay = dayKey;
+        const weekday = WEEKDAYS_DE[new Date(+m[1], +m[2] - 1, +m[3]).getDay()];
+        body.appendChild(el("p", "hour-chart__day", `${weekday}, ${+m[3]}.${+m[2]}.`));
+      }
+      const value = hours[k];
+      const rowEl = el("div", "hour-chart__row");
+      rowEl.appendChild(el("span", "hour-chart__label", `${+m[4]}–${+m[4] + 1} Uhr`));
+      const track = el("div", "hour-chart__track");
+      const bar = el("div", "hour-chart__bar");
+      bar.style.width = `${(Math.max(0, value) / max) * 100}%`;
+      track.appendChild(bar);
+      rowEl.appendChild(track);
+      rowEl.appendChild(el("span", "hour-chart__value", String(value)));
+      body.appendChild(rowEl);
+    });
+    if (footText) body.appendChild(el("p", "tab-hint", footText));
+    return body;
+  }
+
   // ---- Tab registry -------------------------------------------------------
   const tabs = [];
   let activeTabId = null;
@@ -249,6 +290,7 @@ const AdminCore = (() => {
     initTabs,
     activateTab,
     resolveLogo,
+    hoursChart,
     el,
     button,
     iconButton,

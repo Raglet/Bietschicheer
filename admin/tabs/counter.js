@@ -84,47 +84,14 @@
     AdminCore.openModal({ title, body, footer });
   }
 
-  // ---- "Gäste pro Stunde" chart (single series – hourly net arrivals) ------
-  const WEEKDAYS_DE = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Fritag", "Samstag"];
-
+  // ---- "Gäste pro Stunde" chart (shared AdminCore.hoursChart) ---------------
   async function openHoursChart(secret, day) {
     const snap = await daysCol(secret).doc(day.id).get();
     const hours = (snap.exists && snap.data().hours) || {};
-    // Keys are "YYYY-MM-DD_HH" – zero-padded, so a string sort is chronological.
-    const keys = Object.keys(hours).sort();
-
-    const body = el("div", "hour-chart");
-    if (!keys.length) {
-      body.appendChild(
-        el("p", "tab-hint", "Noch keine Daten – der Verlauf füllt sich, sobald am Eingang gezählt wird.")
-      );
-    } else {
-      const max = Math.max(...keys.map((k) => hours[k]), 1);
-      let currentDay = "";
-      keys.forEach((k) => {
-        const m = k.match(/^(\d{4})-(\d{2})-(\d{2})_(\d{2})$/);
-        if (!m) return;
-        const dayKey = `${m[1]}-${m[2]}-${m[3]}`;
-        if (dayKey !== currentDay) {
-          currentDay = dayKey;
-          const weekday = WEEKDAYS_DE[new Date(+m[1], +m[2] - 1, +m[3]).getDay()];
-          body.appendChild(el("p", "hour-chart__day", `${weekday}, ${+m[3]}.${+m[2]}.`));
-        }
-        const value = hours[k];
-        const rowEl = el("div", "hour-chart__row");
-        rowEl.appendChild(el("span", "hour-chart__label", `${+m[4]}–${+m[4] + 1} Uhr`));
-        const track = el("div", "hour-chart__track");
-        const bar = el("div", "hour-chart__bar");
-        bar.style.width = `${Math.max(0, value) / max * 100}%`;
-        track.appendChild(bar);
-        rowEl.appendChild(track);
-        rowEl.appendChild(el("span", "hour-chart__value", String(value)));
-        body.appendChild(rowEl);
-      });
-      body.appendChild(
-        el("p", "tab-hint", "Netto pro Stunde (inkl. −Korrekturen), Uhrzeit der zählenden Handys.")
-      );
-    }
+    const body = AdminCore.hoursChart(hours, {
+      emptyText: "Noch keine Daten – der Verlauf füllt sich, sobald am Eingang gezählt wird.",
+      footText: "Netto pro Stunde (inkl. −Korrekturen), Uhrzeit der zählenden Handys.",
+    });
 
     const footer = el("div", "modal-footer-buttons");
     footer.appendChild(button("Schliessen", "btn btn--outline", AdminCore.closeModal));
