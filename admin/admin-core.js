@@ -20,7 +20,7 @@ const LINEUP_WEEKDAYS = [
 
 // Same Google Maps key already inlined in index.html / bietschimeile.js –
 // used here for a small Static Maps coordinate-preview image only.
-const GOOGLE_STATIC_MAPS_KEY = "AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ";
+const GOOGLE_STATIC_MAPS_KEY = "AIzaSyAwb0JtFzzQV7eb1lAycnZHUNkcxRNNynQ";
 
 const AdminCore = (() => {
   function deepClone(value) {

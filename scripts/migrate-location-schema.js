@@ -29,7 +29,7 @@ const { initializeApp } = require("firebase/app");
 const { getFirestore, collection, doc, getDocs, writeBatch, deleteField } = require("firebase/firestore");
 
 const app = initializeApp({
-  apiKey: "AIzaSyCqFuiJ3p4Qs7Q0ZZX9gj9ozB01QoRPcUI",
+  apiKey: "AIzaSyAwb0JtFzzQV7eb1lAycnZHUNkcxRNNynQ",
   authDomain: "bietschicheer-39d5f.firebaseapp.com",
   projectId: "bietschicheer-39d5f",
 });

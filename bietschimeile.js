@@ -140,7 +140,7 @@ function redeemDrink() {
 // First-visit tutorial: a mini map that animates the recommended route.
 // ---------------------------------------------------------------------------
 const TUTORIAL_KEY = "bietschimeile.tutorialSeen";
-const GOOGLE_MAPS_KEY = "AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ";
+const GOOGLE_MAPS_KEY = "AIzaSyAwb0JtFzzQV7eb1lAycnZHUNkcxRNNynQ";
 
 let mapsPromise = null;
 

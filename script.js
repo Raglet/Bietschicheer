@@ -686,7 +686,7 @@ function updateLiveBanner() {
 function loadGoogleMapsScript() {
   const s = document.createElement("script");
   s.src =
-    "https://maps.googleapis.com/maps/api/js?key=AIzaSyCXJdwDBQfk1lCSww2v3pM9ApCxynbKMoQ&v=beta&callback=initMap";
+    "https://maps.googleapis.com/maps/api/js?key=AIzaSyAwb0JtFzzQV7eb1lAycnZHUNkcxRNNynQ&v=beta&callback=initMap";
   s.onerror = () => window.Fb.showLoadingError(bootstrapData);
   document.head.appendChild(s);
 }
